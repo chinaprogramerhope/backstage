@@ -6,12 +6,6 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/views/layout/Layout'
 
-/* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
-
 /** note: Submenu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  **/
@@ -52,16 +46,6 @@ export const constantRouterMap = [
     component: () => import('@/views/login/authredirect'),
     hidden: true
   },
-  {
-    path: '/404',
-    component: () => import('@/views/errorPage/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/errorPage/401'),
-    hidden: true
-  },
 
   // 首页
   {
@@ -73,25 +57,25 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: '首页', icon: 'dashboard', noCache: true }
+        meta: { title: '首页', icon: 'home', noCache: true }
       }
     ]
   },
 
   // 会员管理
   {
-    path: '/permission',
+    path: '/vipManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '会员管理',
-      icon: 'lock',
+      icon: 'person-stalker',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [
       {
-        path: 'page',
+        path: 'vipTag',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -100,7 +84,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'vipList',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -109,7 +93,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'vipLoginLog',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -117,7 +101,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'vipLv',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -129,17 +113,17 @@ export const constantRouterMap = [
 
   // 游戏管理
   {
-    path: '/permission',
+    path: '/game',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/game/index',
     alwaysShow: true,
     meta: {
       title: '游戏管理',
-      icon: 'lock'
+      icon: 'poker'
     },
     children: [
       {
-        path: 'page',
+        path: 'gameGroup',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -147,7 +131,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'gameList',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -155,7 +139,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'betRecord',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -167,17 +151,17 @@ export const constantRouterMap = [
 
   // 财务管理
   {
-    path: '/permission',
+    path: '/financeManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true,
     meta: {
       title: '财务管理',
-      icon: 'lock'
+      icon: 'money'
     },
     children: [
       {
-        path: 'page',
+        path: 'manualStorage',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -185,7 +169,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'officialPayment',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -193,7 +177,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'onlinePayment',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -201,7 +185,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'alipayAudit',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -209,7 +193,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'bankCardAudit',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -217,7 +201,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'autopayTransactionRecord',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -225,7 +209,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'inOutFundConfig',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -237,17 +221,17 @@ export const constantRouterMap = [
 
   // 公告管理
   {
-    path: '/permission',
+    path: '/announceManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '公告管理',
-      icon: 'lock'
+      icon: 'horn'
     },
     children: [
       {
-        path: 'page',
+        path: 'announceList',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -255,7 +239,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'stationNews',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -267,17 +251,17 @@ export const constantRouterMap = [
 
   // 推广管理
   {
-    path: '/permission',
+    path: '/promotionManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true,
     meta: {
       title: '推广管理',
-      icon: 'lock'
+      icon: 'promotion'
     },
     children: [
       {
-        path: 'page',
+        path: 'promitionPlayer',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -285,7 +269,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'promotionRebate',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -293,7 +277,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'page',
+        path: 'promotionReport',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -301,7 +285,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'page',
+        path: 'rebateSettings',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -313,17 +297,17 @@ export const constantRouterMap = [
 
   // 系统设置
   {
-    path: '/permission',
+    path: '/systemSettings',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true,
     meta: {
       title: '系统设置',
-      icon: 'lock'
+      icon: 'set'
     },
     children: [
       {
-        path: 'page',
+        path: 'subAccountManage',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -331,7 +315,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'downloadSettings',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -339,7 +323,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'page',
+        path: 'roleManage',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -347,7 +331,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'page',
+        path: 'globalParam',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -355,7 +339,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'page',
+        path: 'personalDataSettings',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -363,7 +347,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'page',
+        path: 'operationLog',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -375,17 +359,17 @@ export const constantRouterMap = [
 
   // 运营管理
   {
-    path: '/permission',
+    path: '/operationManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true,
     meta: {
       title: '运营管理',
-      icon: 'lock'
+      icon: 'mouse'
     },
     children: [
       {
-        path: 'page',
+        path: 'gameReport',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -393,7 +377,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'moneyChange',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -405,17 +389,17 @@ export const constantRouterMap = [
 
   // 活动管理
   {
-    path: '/permission',
+    path: '/activityManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true,
     meta: {
       title: '活动管理',
-      icon: 'lock'
+      icon: 'gift'
     },
     children: [
       {
-        path: 'page',
+        path: 'activityReport',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -423,7 +407,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'activityList',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -431,7 +415,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'commonActivity',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
@@ -443,17 +427,17 @@ export const constantRouterMap = [
 
   // 网站管理
   {
-    path: '/permission',
+    path: '/websiteManage',
     component: Layout,
     redirect: '/permission/index',
     alwaysShow: true,
     meta: {
       title: '网站管理',
-      icon: 'lock'
+      icon: 'web'
     },
     children: [
       {
-        path: 'page',
+        path: 'adMapSettings',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
@@ -461,7 +445,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
+        path: 'rotationMapSettings',
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
