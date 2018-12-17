@@ -1,0 +1,23 @@
+<script>
+// table数据
+  data() {
+    return {
+      tableData: [{
+        date: '2018-11-11',
+        personNum: 11
+      }, {
+        date: '2018-11-12',
+        personNum: 12
+      }, {
+        date: '2018-11-11',
+        personNum: 11
+      }, {
+        date: '2018-11-11',
+        personNum: 11
+      }, {
+        date: '2018-11-11',
+        personNum: 11
+      }]
+    }
+  }
+  </script>
