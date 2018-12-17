@@ -66,7 +66,7 @@
 
         <!-- 分页 -->
         <el-row gutter="20">
-          <el-col :span="10">
+          <el-col :span="10" style="text-align: center">
             <el-pagination
               :current-page="currentPage"
               :page-sizes="[10, 20, 30, 40]"
@@ -79,10 +79,10 @@
           </el-col>
 
           <el-col :span="10" style="text-align: right">
-            总下注金额<span>11.11</span>元
-            总中奖金额<span>11.11</span>元
-            总盈亏金额<span>11.11</span>元
-            总税收金额<span>11.11</span>元
+            总下注金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+            总中奖金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+            总盈亏金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+            总税收金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>
           </el-col>
         </el-row>
       </el-main>
