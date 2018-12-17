@@ -124,24 +124,24 @@ export const constantRouterMap = [
     children: [
       {
         path: 'gameGroup',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/game/gameGroup'),
+        name: 'gameGroup',
         meta: {
           title: '游戏分组'
         }
       },
       {
         path: 'gameList',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        component: () => import('@/views/game/gameList'),
+        name: 'gameList',
         meta: {
           title: '游戏列表'
         }
       },
       {
         path: 'betRecord',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        component: () => import('@/views/game/betRecord'),
+        name: 'betRecord',
         meta: {
           title: '投注记录'
         }

@@ -3,7 +3,7 @@
     <el-container direction="vertical">
 
       <el-header style="text-align: left">
-        选择时间区间
+        选择时间区间:
         <el-date-picker
           v-model="value1"
           type="daterange"
@@ -329,6 +329,8 @@ export default {
   data() {
     return {
       lineChartData: lineChartData.newVisitis,
+
+      // 日期(不在这里返回会不显示选择的时间)
       value1: '',
       value2: '',
       value3: '',
