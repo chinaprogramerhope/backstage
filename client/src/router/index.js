@@ -251,9 +251,9 @@ export const constantRouterMap = [
 
   // 推广管理
   {
-    path: '/promotionManage',
+    path: '/promotion',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/promotion/index',
     alwaysShow: true,
     meta: {
       title: '推广管理',
@@ -261,33 +261,33 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'promitionPlayer',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        path: 'promitionUser',
+        component: () => import('@/views/promotion/promitionUser'),
+        name: 'promitionUser',
         meta: {
           title: '推广玩家'
         }
       },
       {
-        path: 'promotionRebate',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: '推广返利'
-        }
-      },
-      {
         path: 'promotionReport',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/promotion/promotionReport'),
+        name: 'promotionReport',
         meta: {
           title: '推广报表'
         }
       },
       {
+        path: 'promotionRebate',
+        component: () => import('@/views/promotion/promotionRebate'),
+        name: 'promotionRebate',
+        meta: {
+          title: '推广返利'
+        }
+      },
+      {
         path: 'rebateSettings',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/promotion/rebateSettings'),
+        name: 'rebateSettings',
         meta: {
           title: '返利设置'
         }
