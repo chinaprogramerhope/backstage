@@ -151,9 +151,9 @@ export const constantRouterMap = [
 
   // 财务管理
   {
-    path: '/financeManage',
+    path: '/finance',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/finance/index',
     alwaysShow: true,
     meta: {
       title: '财务管理',
@@ -161,57 +161,57 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'manualStorage',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        path: 'manualOperate',
+        component: () => import('@/views/finance/manualOperate'),
+        name: 'manualOperate',
         meta: {
           title: '人工存提'
         }
       },
       {
-        path: 'officialPayment',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'officialCharge',
+        component: () => import('@/views/finance/officialCharge'),
+        name: 'officialCharge',
         meta: {
           title: '官方支付'
         }
       },
       {
-        path: 'onlinePayment',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'onlinePay',
+        component: () => import('@/views/finance/onlinePay'),
+        name: 'onlinePay',
         meta: {
           title: '线上支付'
         }
       },
       {
         path: 'alipayAudit',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        component: () => import('@/views/finance/alipayAudit'),
+        name: 'alipayAudit',
         meta: {
           title: '支付宝出款审核'
         }
       },
       {
         path: 'bankCardAudit',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        component: () => import('@/views/finance/bankCardAudit'),
+        name: 'bankCardAudit',
         meta: {
           title: '银行卡出款审核'
         }
       },
       {
-        path: 'autopayTransactionRecord',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'autopayTradeRecord',
+        component: () => import('@/views/finance/autopayTradeRecord'),
+        name: 'autopayTradeRecord',
         meta: {
           title: '自动出款交易记录'
         }
       },
       {
-        path: 'inOutFundConfig',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'financeConfig',
+        component: () => import('@/views/finance/financeConfig'),
+        name: 'financeConfig',
         meta: {
           title: '出入款配置'
         }
@@ -221,9 +221,9 @@ export const constantRouterMap = [
 
   // 公告管理
   {
-    path: '/announceManage',
+    path: '/announce',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/announce/index',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '公告管理',
@@ -232,16 +232,16 @@ export const constantRouterMap = [
     children: [
       {
         path: 'announceList',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/announce/announceList'),
+        name: 'announceList',
         meta: {
           title: '公告列表'
         }
       },
       {
-        path: 'stationNews',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'stationMessage',
+        component: () => import('@/views/announce/stationMessage'),
+        name: 'stationMessage',
         meta: {
           title: '站内消息'
         }
