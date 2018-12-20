@@ -297,9 +297,9 @@ export const constantRouterMap = [
 
   // 系统设置
   {
-    path: '/systemSettings',
+    path: '/system',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/system/index',
     alwaysShow: true,
     meta: {
       title: '系统设置',
@@ -307,51 +307,51 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'subAccountManage',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        path: 'subAccount',
+        component: () => import('@/views/system/subAccount'),
+        name: 'subAccount',
         meta: {
           title: '厅主子账号管理'
         }
       },
       {
-        path: 'downloadSettings',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'userProfile',
+        component: () => import('@/views/system/userProfile'),
+        name: 'userProfile',
+        meta: {
+          title: '个人资料设置'
+        }
+      },
+      {
+        path: 'operateLog',
+        component: () => import('@/views/system/operateLog'),
+        name: 'operateLog',
+        meta: {
+          title: '操作日志'
+        }
+      },
+      {
+        path: 'downloadConf',
+        component: () => import('@/views/system/downloadConf'),
+        name: 'downloadConf',
         meta: {
           title: '下载设置'
         }
       },
       {
         path: 'roleManage',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/system/roleManage'),
+        name: 'roleManage',
         meta: {
           title: '角色管理'
         }
       },
       {
         path: 'globalParam',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/system/globalParam'),
+        name: 'globalParam',
         meta: {
           title: '全局参数'
-        }
-      },
-      {
-        path: 'personalDataSettings',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '个人资料设置'
-        }
-      },
-      {
-        path: 'operationLog',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '操作日志'
         }
       }
     ]
