@@ -20,7 +20,7 @@
       <el-table-column prop="expNeed" label="所需经验" align="center"/>
       <el-table-column prop="operation" label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" @click="handleEdit()">编辑</el-button>
+          <el-button type="primary" @click="dialogForm3Visible = true">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,25 +46,25 @@
         </el-form-item>
 
         <el-form-item :label-width="formLabel1Width" label="一级返点:" prop="oneLvRebatePoint">
-          <el-input v-model="ruleForm1.oneLvRebatePoint" autocomplete="off" placeholder="">
+          <el-input v-model.number="ruleForm1.oneLvRebatePoint" autocomplete="off" placeholder="">
             <template slot="append"> % </template>
           </el-input>
         </el-form-item>
 
         <el-form-item :label-width="formLabel1Width" label="二级返点:" prop="twoLvRebatePoint">
-          <el-input v-model="ruleForm1.twoLvRebatePoint" autocomplete="off" placeholder="">
+          <el-input v-model.number="ruleForm1.twoLvRebatePoint" autocomplete="off" placeholder="">
             <template slot="append"> % </template>
           </el-input>
         </el-form-item>
 
         <el-form-item :label-width="formLabel1Width" label="三级返点" prop="threeLvRebatePoint">
-          <el-input v-model="ruleForm1.threeLvRebatePoint" autocomplete="off" placeholder="">
+          <el-input v-model.number="ruleForm1.threeLvRebatePoint" autocomplete="off" placeholder="">
             <template slot="append"> % </template>
           </el-input>
         </el-form-item>
 
         <el-form-item :label-width="formLabel1Width" label="所需经验:" prop="expNeed">
-          <el-input v-model="ruleForm1.expNeed" autocomplete="off" placeholder=""/>
+          <el-input v-model.number="ruleForm1.expNeed" autocomplete="off" placeholder=""/>
         </el-form-item>
 
       </el-form>
@@ -99,6 +99,44 @@
       </div>
     </el-dialog>
 
+    <!-- dialog3 编辑 -->
+    <el-dialog :visible.sync="dialogForm3Visible" title="新增返利等级" center>
+      <el-form ref="ruleForm3" :model="ruleForm3" :rules="rules1">
+
+        <el-form-item :label-width="formLabel1Width" label="等级名称:" prop="lvName">
+          <el-input v-model="ruleForm3.lvName" autocomplete="off" placeholder="请输入"/>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabel1Width" label="一级返点:" prop="oneLvRebatePoint">
+          <el-input v-model.number="ruleForm3.oneLvRebatePoint" autocomplete="off" placeholder="">
+            <template slot="append"> % </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabel1Width" label="二级返点:" prop="twoLvRebatePoint">
+          <el-input v-model.number="ruleForm3.twoLvRebatePoint" autocomplete="off" placeholder="">
+            <template slot="append"> % </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabel1Width" label="三级返点" prop="threeLvRebatePoint">
+          <el-input v-model.number="ruleForm3.threeLvRebatePoint" autocomplete="off" placeholder="">
+            <template slot="append"> % </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabel1Width" label="所需经验:" prop="expNeed">
+          <el-input v-model.number="ruleForm3.expNeed" autocomplete="off" placeholder=""/>
+        </el-form-item>
+
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogForm3Visible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogForm3Visible = false">保 存</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -113,8 +151,6 @@ export default {
       }
       setTimeout(() => {
         if (!Number.isInteger(value)) {
-          // test
-          console.log('type = ' + typeof (value))
           callback(new Error('返点设置必须为整数'))
         } else {
           if (value > 100 || value < 0) {
@@ -173,6 +209,10 @@ export default {
       dialogForm2Visible: false,
       formLabel2Width: '120px',
 
+      // dialog3 编辑
+      dialogForm3Visible: false,
+      formLabel3Width: '120px',
+
       // dialog1 输入验证
       ruleForm1: {
         lvName: '',
@@ -211,6 +251,15 @@ export default {
         expAdd: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
+      },
+
+      // dialog3 输入验证
+      ruleForm3: {
+        lvName: '',
+        oneLvRebatePoint: '',
+        twoLvRebatePoint: '',
+        threeLvRebatePoint: '',
+        expNeed: ''
       }
     }
   },
