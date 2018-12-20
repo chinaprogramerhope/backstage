@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form1" style="margin-top: 20px;" align="center">
+    <el-form :model="form1" style="margin-top: 30px;" align="center">
       <el-form-item>
         <el-row>
           <el-col :span="8">参数名称</el-col>
@@ -75,7 +75,9 @@
             <el-table
               :data="form1.tableData"
               :default-sort="{prop: 'timeBegin', order:'descending'}"
-              style="width: 100%; margin-bottom: 24px">
+              style="width: 100%; margin-bottom: 24px"
+              stripe="true"
+            >
               <el-table-column prop="soundProject" label="提示音项目" align="center"/>
               <el-table-column prop="currentSound" label="当前声音" align="center"/>
               <el-table-column prop="enableSound" label="启用声音" align="center">
@@ -119,6 +121,8 @@ export default {
         message: '',
         switchEnableSound: '',
         tableData: [{
+          soundProject: '2018-11-11 11:11:11'
+        }, {
           soundProject: '2018-11-11 11:11:11'
         }]
       }

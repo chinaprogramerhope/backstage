@@ -359,9 +359,9 @@ export const constantRouterMap = [
 
   // 运营管理
   {
-    path: '/operationManage',
+    path: '/operation',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/operation/index',
     alwaysShow: true,
     meta: {
       title: '运营管理',
@@ -370,16 +370,16 @@ export const constantRouterMap = [
     children: [
       {
         path: 'gameReport',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/operation/gameReport'),
+        name: 'gameReport',
         meta: {
           title: '游戏报表'
         }
       },
       {
-        path: 'moneyChange',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'moneyReport',
+        component: () => import('@/views/operation/moneyReport'),
+        name: 'moneyReport',
         meta: {
           title: '资金帐变'
         }
@@ -389,9 +389,9 @@ export const constantRouterMap = [
 
   // 活动管理
   {
-    path: '/activityManage',
+    path: '/activity',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/activity/index',
     alwaysShow: true,
     meta: {
       title: '活动管理',
@@ -400,15 +400,15 @@ export const constantRouterMap = [
     children: [
       {
         path: 'activityReport',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        component: () => import('@/views/activity/page'),
+        name: 'activityReport',
         meta: {
           title: '活动报表'
         }
       },
       {
         path: 'activityList',
-        component: () => import('@/views/permission/directive'),
+        component: () => import('@/views/activity/directive'),
         name: 'DirectivePermission',
         meta: {
           title: '活动列表'
@@ -416,7 +416,7 @@ export const constantRouterMap = [
       },
       {
         path: 'commonActivity',
-        component: () => import('@/views/permission/directive'),
+        component: () => import('@/views/activity/directive'),
         name: 'DirectivePermission',
         meta: {
           title: '常规活动'
@@ -427,9 +427,9 @@ export const constantRouterMap = [
 
   // 网站管理
   {
-    path: '/websiteManage',
+    path: '/website',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/website/index',
     alwaysShow: true,
     meta: {
       title: '网站管理',
@@ -437,16 +437,16 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'adMapSettings',
-        component: () => import('@/views/permission/page'),
+        path: 'adMapConf',
+        component: () => import('@/views/website/adMapConf'),
         name: 'PagePermission',
         meta: {
           title: '广告图设置'
         }
       },
       {
-        path: 'rotationMapSettings',
-        component: () => import('@/views/permission/directive'),
+        path: 'rotationMapConf',
+        component: () => import('@/views/website/rotationMapConf'),
         name: 'DirectivePermission',
         meta: {
           title: '轮播图设置'
