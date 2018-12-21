@@ -1,10 +1,9 @@
 <template>
   <div>
 
-    <e-form v-model="form1">
+    <el-form v-model="form1" label-width="100px">
 
-      <el-form-item>
-        棋牌游戏顶部
+      <el-form-item label="棋牌游戏顶部">
         <el-upload
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -17,8 +16,7 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item>
-        捕鱼游戏顶部
+      <el-form-item label="捕鱼游戏顶部">
         <el-upload
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -31,8 +29,7 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item>
-        电玩游戏顶部
+      <el-form-item label="电玩游戏顶部">
         <el-upload
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -45,8 +42,7 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item>
-        优惠活动顶部
+      <el-form-item label="优惠活动顶部">
         <el-upload
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -59,11 +55,11 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item align="center">
         <el-button type="primary">保存</el-button>
       </el-form-item>
 
-    </e-form>
+    </el-form>
 
   </div>
 

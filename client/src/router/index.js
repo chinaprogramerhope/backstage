@@ -437,19 +437,19 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'adsetting',
-        component: () => import('@/views/website/adsetting'),
-        name: 'adsetting',
-        meta: {
-          title: '广告图设置'
-        }
-      },
-      {
         path: 'bannerSetting',
         component: () => import('@/views/website/bannerSetting'),
         name: 'bannerSetting',
         meta: {
           title: '轮播图设置'
+        }
+      },
+      {
+        path: 'adsetting',
+        component: () => import('@/views/website/adsetting'),
+        name: 'adsetting',
+        meta: {
+          title: '广告图设置'
         }
       }
     ]
