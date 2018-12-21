@@ -123,19 +123,19 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'gameGroup',
-        component: () => import('@/views/game/gameGroup'),
-        name: 'gameGroup',
-        meta: {
-          title: '游戏分组'
-        }
-      },
-      {
         path: 'gameList',
         component: () => import('@/views/game/gameList'),
         name: 'gameList',
         meta: {
           title: '游戏列表'
+        }
+      },
+      {
+        path: 'gameGroup',
+        component: () => import('@/views/game/gameGroup'),
+        name: 'gameGroup',
+        meta: {
+          title: '游戏分组'
         }
       },
       {
@@ -221,9 +221,9 @@ export const constantRouterMap = [
 
   // 公告管理
   {
-    path: '/announce',
+    path: '/message',
     component: Layout,
-    redirect: '/announce/index',
+    redirect: '/message/index',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '公告管理',
@@ -232,7 +232,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'announceList',
-        component: () => import('@/views/announce/announceList'),
+        component: () => import('@/views/message/announceList'),
         name: 'announceList',
         meta: {
           title: '公告列表'
@@ -240,7 +240,7 @@ export const constantRouterMap = [
       },
       {
         path: 'stationMessage',
-        component: () => import('@/views/announce/stationMessage'),
+        component: () => import('@/views/message/stationMessage'),
         name: 'stationMessage',
         meta: {
           title: '站内消息'

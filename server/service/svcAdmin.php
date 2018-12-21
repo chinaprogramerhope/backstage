@@ -3,7 +3,7 @@
  * User: hanxiaolong
  * Date: 18-10-8
  *
- * 玩家账号
+ * 管理员
  */
 
 class svcAdmin {
