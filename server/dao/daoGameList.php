@@ -9,10 +9,11 @@
 class daoGameList {
     /**
      * 获取游戏列表
+     * @param $param
      * @param $data
      * @return int
      */
-    public static function get(&$data) {
+    public static function get($param, &$data) {
         return ERR_OK;
     }
 

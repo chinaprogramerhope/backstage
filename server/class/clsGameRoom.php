@@ -14,7 +14,7 @@ class clsGameRoom {
      * @return int
      */
     public static function get($param, &$data) {
-        return daoGameList::get($data);
+        return daoGameRoom::get($param, $data);
     }
 
     /**
@@ -23,7 +23,7 @@ class clsGameRoom {
      * @param $data
      * @return int
      */
-    public function changeTaxRatio($param, &$data) {
+    public static function changeTaxRatio($param, &$data) {
         return daoGameRoom::changeTaxRatio($param, $data);
     }
 

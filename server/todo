@@ -1,3 +1,8 @@
+cmd定义接口
+
+========
+
+
 __LINE__效率
 
 nginx是否需要ob_flush()后flush(), ob_flush()和exit()的搭配

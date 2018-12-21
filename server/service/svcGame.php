@@ -17,7 +17,6 @@ class svcGame {
         return clsGameList::get($data);
     }
 
-
     /**
      * 游戏列表 - 编辑(更改游戏状态)
      * @param $param
@@ -35,7 +34,7 @@ class svcGame {
      * @return int
      */
     public function roomGet($param, &$data) {
-
+        return clsGameRoom::get($param, $data);
     }
 
     /**
@@ -45,7 +44,7 @@ class svcGame {
      * @return int
      */
     public function roomChangeTaxRatio($param, &$data) {
-
+        return clsGameRoom::changeTaxRatio($param, $data);
     }
 
     /**
@@ -55,7 +54,7 @@ class svcGame {
      * @return int
      */
     public function roomClose($param, &$data) {
-
+        return clsGameRoom::close($param, $data);
     }
 
     /**
@@ -65,7 +64,7 @@ class svcGame {
      * @return int
      */
     public function groupGet($param, &$data) {
-
+        return clsGameGroup::get($param, $data);
     }
 
     /**
@@ -75,7 +74,7 @@ class svcGame {
      * @return int
      */
     public function groupGetGames($param, &$data) {
-
+        return clsGameGroup::getGames($param, $data);
     }
 
     /**
@@ -85,7 +84,7 @@ class svcGame {
      * @return int
      */
     public function groupStick($param, &$data) {
-
+        return clsGameGroup::stick($param, $data);
     }
 
     /**
@@ -95,7 +94,7 @@ class svcGame {
      * @return int
      */
     public function groupCancelPopular($param, &$data) {
-
+        return clsGameGroup::cancelPopular($param, $data);
     }
 
     /**
@@ -105,7 +104,7 @@ class svcGame {
      * @return int
      */
     public function betRecordGet($param, &$data) {
-
+        return clsGameBetRecord::get($param, $data);
     }
 
     /**
@@ -115,6 +114,6 @@ class svcGame {
      * @return int
      */
     public function betRecordGetDetail($param, &$data) {
-
+        return clsGameBetRecord::getDetail($param, $data);
     }
 }

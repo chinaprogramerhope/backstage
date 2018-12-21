@@ -46,16 +46,23 @@ if (empty($_POST) && !empty($tmpParam)) {
 
 clsLog::debug('index.php, param = ' . json_encode($_POST));
 
-if (!isset($_POST['svc']) || !isset($_POST['func'])) {
+if (!isset($_POST['cmd']) || !array_key_exists($_POST['cmd'], cmdArr)) {
     clsLog::error(basename(__FILE__) . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($_POST));
     $ret['code'] = ERR_CLIENT;
     echo json_encode($ret);
     ob_flush();
     exit();
 }
-$_POST['param'] = isset($_POST['param']) ? $_POST['param'] : [];
 
-$code = (new $_POST['svc'])->{$_POST['func']}($_POST['param'], $data);
+$cmdContent = cmdArr[$_POST['cmd']];
+
+$svc = $cmdContent['svc'];
+$func = $cmdContent['func'];
+$param = isset($_POST['param']) ? $_POST['param'] : [];
+
+$code = (new $svc)->$func($param, $data);
+
+//$code = (new $_POST['svc'])->{$_POST['func']}($_POST['param'], $data);
 
 if (!is_int($code) || !is_array($data)) {
     clsLog::error('index.php, ' . __LINE__ . ', code type = ' . gettype($code) . ', data type = ' . gettype($data));
