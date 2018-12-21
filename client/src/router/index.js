@@ -64,9 +64,9 @@ export const constantRouterMap = [
 
   // 会员管理
   {
-    path: '/vipManage',
+    path: '/member',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/member/index',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '会员管理',
@@ -75,35 +75,35 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'vipTag',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '会员标签',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'vipList',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'memberList',
+        component: () => import('@/views/member/memberList'),
+        name: 'memberList',
         meta: {
           title: '会员列表'
           // if do not set roles, means: this page does not require permission
         }
       },
       {
-        path: 'vipLoginLog',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'memberLog',
+        component: () => import('@/views/member/memberLog'),
+        name: 'memberLog',
         meta: {
           title: '会员登录日志'
         }
       },
       {
-        path: 'vipLv',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'memberLabel',
+        component: () => import('@/views/member/memberLabel'),
+        name: 'memberLabel',
+        meta: {
+          title: '会员标签',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'memberLevel',
+        component: () => import('@/views/member/memberLevel'),
+        name: 'memberLevel',
         meta: {
           title: '会员等级'
         }
@@ -400,7 +400,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'activityReport',
-        component: () => import('@/views/activity/page'),
+        component: () => import('@/views/activity/activityReport'),
         name: 'activityReport',
         meta: {
           title: '活动报表'
@@ -408,16 +408,16 @@ export const constantRouterMap = [
       },
       {
         path: 'activityList',
-        component: () => import('@/views/activity/directive'),
-        name: 'DirectivePermission',
+        component: () => import('@/views/activity/activityList'),
+        name: 'activityList',
         meta: {
           title: '活动列表'
         }
       },
       {
         path: 'commonActivity',
-        component: () => import('@/views/activity/directive'),
-        name: 'DirectivePermission',
+        component: () => import('@/views/activity/commonActivity'),
+        name: 'commonActivity',
         meta: {
           title: '常规活动'
         }
@@ -437,17 +437,17 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'adMapConf',
-        component: () => import('@/views/website/adMapConf'),
-        name: 'PagePermission',
+        path: 'adsetting',
+        component: () => import('@/views/website/adsetting'),
+        name: 'adsetting',
         meta: {
           title: '广告图设置'
         }
       },
       {
-        path: 'rotationMapConf',
-        component: () => import('@/views/website/rotationMapConf'),
-        name: 'DirectivePermission',
+        path: 'bannerSetting',
+        component: () => import('@/views/website/bannerSetting'),
+        name: 'bannerSetting',
         meta: {
           title: '轮播图设置'
         }
