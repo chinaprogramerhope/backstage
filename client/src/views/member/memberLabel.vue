@@ -10,7 +10,7 @@
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       style="width: 100%; margin-bottom: 24px"
-      stripe="true"
+      stripe
     >
       <el-table-column prop="labelName" label="标签名称" align="center"/>
       <el-table-column prop="sort" label="排序" align="center"/>

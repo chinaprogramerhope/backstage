@@ -60,7 +60,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'activityName', order:'descending'}"
-      stripe="true"
+      stripe
       style="width: 100%; margin-bottom: 20px">
       <el-table-column prop="activityName" label="活动名称" align="center"/>
       <el-table-column prop="vipAccount" label="会员账号" align="center"/>

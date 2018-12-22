@@ -10,7 +10,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'activityName', order:'descending'}"
-      stripe="true"
+      stripe
       style="width: 100%; margin-bottom: 20px">
       <el-table-column prop="activityName" label="活动名称" align="center"/>
       <el-table-column prop="activityTime" label="活动时间" align="center"/>

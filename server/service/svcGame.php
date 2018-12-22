@@ -14,7 +14,7 @@ class svcGame {
      * @return int
      */
     public function listGet($param, &$data) {
-        return clsGameList::get($data);
+        return clsGameList::get($param, $data);
     }
 
     /**

@@ -20,7 +20,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'vipId', order:'descending'}"
-      stripe="true"
+      stripe
       style="width: 100%; margin-bottom: 24px">
       <el-table-column prop="vipAccount" label="会员账号" align="center"/>
       <el-table-column prop="vipId" label="会员ID" align="center"/>

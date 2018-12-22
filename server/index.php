@@ -23,10 +23,9 @@ $ret = [ // 返回值标准格式, 支持只返回其中一个
  */
 header("Access-Control-Allow-Origin:*"); // 允许其他域名访问
 header('Access-Control-Allow-Methods:OPTIONS,POST'); // 响应类型 todo  怎么这里把OPTIONS去掉, OPTIONS请求也是能继续往下执行啊;
-header('Access-Control-Allow-Headers:x-requested-with, content-type'); // 响应头设置
-if(isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest"){ // 判断是否为 options (ajax) 请求
-    // test
-    clsLog::error('ok881, options'); // todo 这里怎么没走到, 明明发送了options请求, 是$_SERVER也获取不到吗,
+header('Access-Control-Allow-Headers:x-requested-with,content-type,x-token'); // 响应头设置
+if((strtolower($_SERVER['REQUEST_METHOD']) == 'options')
+    || (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")){ // 判断是否为 options (ajax) 请求
     echo json_encode($ret);
     ob_flush();
     exit();

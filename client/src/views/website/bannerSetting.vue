@@ -9,7 +9,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'date', order:'descending'}"
-      stripe="true"
+      stripe
       style="width: 100%; margin-bottom: 24px">
       <el-table-column prop="picName" label="图片名称" align="center"/>
       <el-table-column prop="PCPic" label="PC端图片" align="center"/>

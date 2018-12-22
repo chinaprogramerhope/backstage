@@ -9,11 +9,12 @@
 class clsGameList {
     /**
      * 获取游戏列表
+     * @param $param
      * @param $data
      * @return int
      */
-    public static function get(&$data) {
-        return daoGameList::get($data);
+    public static function get($param, &$data) {
+        return daoGameList::get($param, $data);
     }
 
     /**

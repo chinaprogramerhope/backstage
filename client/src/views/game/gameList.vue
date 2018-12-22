@@ -29,7 +29,7 @@
       </el-form-item>
     </el-form>
 
-    <el-table :data="tableData" stripe="true" style="margin-bottom: 24px">
+    <el-table :data="tableData" stripe style="margin-bottom: 24px">
       <el-table-column label="游戏名称" prop="gameName" align="center"/>
       <el-table-column label="游戏类型" prop="gameType" align="center"/>
       <el-table-column label="游戏状态" prop="gameStatus" align="center"/>

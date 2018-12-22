@@ -2,14 +2,16 @@ deadline: 12.27
 ==========
 12.22 - 
 
-1. 前端执行流程和逻辑搞定
+1. 前端执行流程和逻辑搞定; 前端页面转换参考 vue-element-admin - 综合实例 - 文章列表 - 编辑 
 2. 前端和后端交互搞定
 3. 游戏管理前后端联调搞定
-4. 后端所有接口搞定
-5. 前后端所有接口联调搞定
 
 
 
+
+基本上一个请求响应的流程就看明白了
+route->login.index->request->store.model.user->api.login->utils.request->response->login.index
+当然这个不是完整的，但是知道这些基本可以工作了
 
 
 ==
@@ -18,3 +20,6 @@ deadline: 12.27
 
 js发送数组参数  get post
 > 是table展开行
+
+4. 后端所有接口搞定
+5. 前后端所有接口联调搞定

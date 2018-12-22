@@ -11,7 +11,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'date', order:'descending'}"
-      stripe="true"
+      stripe
       style="width: 100%; margin-bottom: 24px">
       <el-table-column prop="lvName" label="等级名称" align="center"/>
       <el-table-column prop="oneLvRebatePoint" label="一级返点(%)" align="center"/>

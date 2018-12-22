@@ -10,7 +10,7 @@
       :data="tableData"
       :default-sort="{prop: 'lvName', order:'descending'}"
       style="width: 100%; margin-bottom: 24px"
-      stripe="true"
+      stripe
     >
       <el-table-column prop="lvName" label="等级名称" align="center"/>
       <el-table-column prop="incrCondition" label="晋升条件" align="center"/>

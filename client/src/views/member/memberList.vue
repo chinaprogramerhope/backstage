@@ -93,7 +93,7 @@
         <el-table
           :data="tableData"
           :default-sort="{prop: 'timeBegin', order:'descending'}"
-          stripe="true"
+          stripe
           style="width: 100%; margin-bottom: 20px">
           <el-table-column prop="online" label="在线" align="center"/>
           <el-table-column prop="vipAccount" label="账号" align="center"/>

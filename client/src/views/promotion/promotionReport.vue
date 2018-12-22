@@ -30,7 +30,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'date', order:'descending'}"
-      stripe="true"
+      stripe
       style="width: 100%; margin-bottom: 24px">
       <el-table-column prop="date" label="日期" align="center"/>
       <el-table-column prop="vipId" label="会员ID" align="center"/>
