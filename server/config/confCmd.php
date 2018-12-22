@@ -67,10 +67,53 @@ const cmdArr = [
 
 
     // 系统设置 301 - 350
+    301 => ['svc' => 'svcSystem', 'func' => 'subAccountGet'], // 厅主子账号管理 - 获取
+    302 => ['svc' => 'svcSystem', 'func' => 'subAccountAdd'], // 厅主子账号管理 - 添加
+    303 => ['svc' => 'svcSystem', 'func' => 'subAccountEdit'], // 厅主子账号管理 - 编辑
+    304 => ['svc' => 'svcSystem', 'func' => 'subAccountForbid'], // 厅主子账号管理 - 禁用
+
+    305 => ['svc' => 'svcSystem', 'func' => 'globalParamSave'], // 全局参数 - 保存
+    306 => ['svc' => 'svcSystem', 'func' => 'subAccountUpload'], // 全局参数 - 上传
+    307 => ['svc' => 'svcSystem', 'func' => 'subAccountReset'], // 全局参数 - 重置
+
+    308 => ['svc' => 'svcSystem', 'func' => 'userProfileGet'], // 个人资料设置 - 获取
+    309 => ['svc' => 'svcSystem', 'func' => 'userProfileSaveName'], // 个人资料设置 - 保存姓名
+    310 => ['svc' => 'svcSystem', 'func' => 'userProfileBindGoogle'], // 个人资料设置 - 绑定google身份验证器
+    311 => ['svc' => 'svcSystem', 'func' => 'userProfileBindPhone'], // 个人资料设置 - 绑定手机
+    312 => ['svc' => 'svcSystem', 'func' => 'userProfileChangePass'], // 个人资料设置 - 修改密码
+    313 => ['svc' => 'svcSystem', 'func' => 'userProfileTwoStepVerify'], // 个人资料设置 - 两步验证 (未启用/启用)
+
+    314 => ['svc' => 'svcSystem', 'func' => 'operateLogGet'], // 操作日志 - 获取
+
+    315 => ['svc' => 'svcSystem', 'func' => 'downloadConfGet'], // 下载设置 - 获取
+    316 => ['svc' => 'svcSystem', 'func' => 'downloadConfEdit'], // 下载设置 - 编辑 - 保存
+    317 => ['svc' => 'svcSystem', 'func' => 'downloadConfUpload'], // 下载设置 - 编辑 - 上传
+    318 => ['svc' => 'svcSystem', 'func' => 'downloadConfDelUpload'], // 下载设置 - 编辑 - 删除已上传
+
+    319 => ['svc' => 'svcSystem', 'func' => 'roleManageGet'], // 角色管理 - 获取
+    320 => ['svc' => 'svcSystem', 'func' => 'roleManageAdd'], // 角色管理 - 添加
+    321 => ['svc' => 'svcSystem', 'func' => 'roleManageEdit'], // 角色管理 - 编辑
+    322 => ['svc' => 'svcSystem', 'func' => 'roleManageForbid'], // 角色管理 - 禁用
+    323 => ['svc' => 'svcSystem', 'func' => 'roleManageDel'], // 角色管理 - 删除
+    324 => ['svc' => 'svcSystem', 'func' => 'roleManageSave'], // 角色管理 - 权限控制 - 保存
 
     // 运营管理 351 - 400
+    351 => ['svc' => 'svcOperation', 'func' => 'gameReportGet'], // 游戏报表 - 获取
+
+    352 => ['svc' => 'svcOperation', 'func' => 'moneyReportGet'], // 资金帐变 - 获取
 
     // 活动管理 401 - 450
+    401 => ['svc' => 'svcActivity', 'func' => 'activityReportGet'], // 活动报表 - 获取
+
+    402 => ['svc' => 'svcActivity', 'func' => 'activityListGet'], // 活动列表 - 获取
+
+    403 => ['svc' => 'svcActivity', 'func' => 'commonActivitySave'], // 常规活动 - 保存
 
     // 网站管理 451 - 500
+    451 => ['svc' => 'svcWebsite', 'func' => 'bannerSettingGet'], // 轮播图设置 - 获取
+    452 => ['svc' => 'svcWebsite', 'func' => 'bannerSettingUpload'], // 轮播图设置 - 上传
+    453 => ['svc' => 'svcWebsite', 'func' => 'bannerSettingSave'], // 轮播图设置 - 保存
+
+    454 => ['svc' => 'svcWebsite', 'func' => 'adSettingUpload'], // 广告图设置 - 上传
+    455 => ['svc' => 'svcWebsite', 'func' => 'adSettingSave'], // 广告图设置 - 保存
 ];
