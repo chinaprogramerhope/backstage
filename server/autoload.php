@@ -7,9 +7,9 @@
  */
 spl_autoload_register(function ($className) {
     $dirName = [
+        'service',
         'class',
         'dao',
-        'service',
         'tool'
     ];
 
@@ -17,7 +17,7 @@ spl_autoload_register(function ($className) {
         $fileName = __DIR__ . '/' . $v . '/' . $className . '.php';
 
         if (file_exists($fileName)) {
-            require_once $fileName; // 架构
+            require_once $fileName;
             break;
         }
     }

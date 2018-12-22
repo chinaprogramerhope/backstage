@@ -7,11 +7,11 @@
  */
 const cmdArr = [
     // 首页 1 - 50
-    1 => ['svc' => 'svcHomepage', 'func' => 'getHead'],                          // 游戏列表 - 获取头部信息
-    2 => ['svc' => 'svcHomepage', 'func' => 'getNum'],                           // 游戏列表 - 获取笔数/人数
-    3 => ['svc' => 'svcHomepage', 'func' => 'getCharge'],                        // 游戏列表 - 获取充提
-    4 => ['svc' => 'svcHomepage', 'func' => 'getProfit'],                        // 游戏列表 - 获取盈亏
-    5 => ['svc' => 'svcHomepage', 'func' => 'getOnlineNum'],                     // 游戏列表 - 获取在线人数
+    1 => ['svc' => 'svcHomepage', 'func' => 'getHead'], // 首页 - 获取头部信息
+    2 => ['svc' => 'svcHomepage', 'func' => 'getNum'], // 首页 - 获取笔数/人数
+    3 => ['svc' => 'svcHomepage', 'func' => 'getCharge'], // 首页 - 获取充提
+    4 => ['svc' => 'svcHomepage', 'func' => 'getProfit'], // 首页 - 获取盈亏
+    5 => ['svc' => 'svcHomepage', 'func' => 'getOnlineNum'], // 首页 - 获取在线人数
 
     // 会员管理 51 - 100
     51 => ['svc' => 'svcMember', 'func' => 'getList'], // 获取会员列表
@@ -22,17 +22,17 @@ const cmdArr = [
     56 => ['svc' => 'svcMember', 'func' => 'addLv'], // 新增等级
 
     // 游戏管理 101 - 150
-    101 => ['svc' => 'svcGame', 'func' => 'listGet'],                             // 游戏列表 - 获取游戏列表
-    102 => ['svc' => 'svcGame', 'func' => 'listChangeStatus'],                    // 游戏列表 - 编辑(更改游戏状态)
-    103 => ['svc' => 'svcGame', 'func' => 'roomGet'],                             // 游戏列表 - 获取游戏房间
-    104 => ['svc' => 'svcGame', 'func' => 'roomChangeTaxRatio'],                  // 游戏列表 - 游戏房间 - 更改税收比例
-    105 => ['svc' => 'svcGame', 'func' => 'roomClose'],                           // 游戏列表 - 游戏房间 - 禁用
-    106 => ['svc' => 'svcGame', 'func' => 'groupGet'],                            // 游戏分组 - 获取游戏分组
-    107 => ['svc' => 'svcGame', 'func' => 'groupGetGames'],                       // 游戏分组 - 获取分组内的游戏
-    108 => ['svc' => 'svcGame', 'func' => 'groupStick'],                          // 游戏分组 - 设为置顶
-    109 => ['svc' => 'svcGame', 'func' => 'groupCancelPopular'],                  // 游戏分组 - 取消热门
-    110 => ['svc' => 'svcGame', 'func' => 'betRecordGet'],                        // 投注记录 - 获取
-    111 => ['svc' => 'svcGame', 'func' => 'betRecordGetDetail'],                  // 投注记录 - 获取详细
+    101 => ['svc' => 'svcGame', 'func' => 'listGet'], // 游戏列表 - 获取游戏列表
+    102 => ['svc' => 'svcGame', 'func' => 'listChangeStatus'], // 游戏列表 - 编辑(更改游戏状态)
+    103 => ['svc' => 'svcGame', 'func' => 'roomGet'], // 游戏列表 - 获取游戏房间
+    104 => ['svc' => 'svcGame', 'func' => 'roomChangeTaxRatio'], // 游戏列表 - 游戏房间 - 更改税收比例
+    105 => ['svc' => 'svcGame', 'func' => 'roomClose'], // 游戏列表 - 游戏房间 - 禁用
+    106 => ['svc' => 'svcGame', 'func' => 'groupGet'], // 游戏分组 - 获取游戏分组
+    107 => ['svc' => 'svcGame', 'func' => 'groupGetGames'], // 游戏分组 - 获取分组内的游戏
+    108 => ['svc' => 'svcGame', 'func' => 'groupStick'], // 游戏分组 - 设为置顶
+    109 => ['svc' => 'svcGame', 'func' => 'groupCancelPopular'], // 游戏分组 - 取消热门
+    110 => ['svc' => 'svcGame', 'func' => 'betRecordGet'], // 投注记录 - 获取
+    111 => ['svc' => 'svcGame', 'func' => 'betRecordGetDetail'], // 投注记录 - 获取详细
 
     // 财务管理 151 - 200
     151 => ['svc' => 'svcFinance', 'func' => 'manualOperate'], // 人工存提
@@ -54,7 +54,7 @@ const cmdArr = [
     208 => ['svc' => 'svcMessage', 'func' => 'stationMessageViewRecipient'], // 站内消息 - 查看收件人
 
     // 推广管理 251 - 300
-    251 => ['svc' => 'svcPromotion', 'func' => 'promitionUserGet'], // 推广玩家 - 获取
+    251 => ['svc' => 'svcPromotion', 'func' => 'promotionUserGet'], // 推广玩家 - 获取
     252 => ['svc' => 'svcPromotion', 'func' => 'promotionReportGet'], // 推广报表 - 获取
     253 => ['svc' => 'svcPromotion', 'func' => 'promotionReportView'], // 推广报表 - 查看(上级/下级)
     254 => ['svc' => 'svcPromotion', 'func' => 'promotionRebateGet'], // 推广返利 - 获取
@@ -63,7 +63,6 @@ const cmdArr = [
     257 => ['svc' => 'svcPromotion', 'func' => 'rebateSettingsExpSet'], // 返利设置 - 返利经验设置
     258 => ['svc' => 'svcPromotion', 'func' => 'rebateSettingsEdit'], // 返利设置 - 编辑
     259 => ['svc' => 'svcPromotion', 'func' => 'stationMessageViewRecipient'], // 站内消息 - 查看收件人
-    260 => ['svc' => 'svcPromotion', 'func' => 'stationMessageViewRecipient'], // 站内消息 - 查看收件人
 
 
     // 系统设置 301 - 350

@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 财务管理
  */
-class svcFinance {
+class daoFinance {
     /**
      * 人工存提
      * @param $param
      * @param $data
      * @return int
      */
-    public function manualOperate($param, &$data) {
-        return clsFinance::manualOperate($param, $data);
+    public static function manualOperate($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -23,8 +23,8 @@ class svcFinance {
      * @param $data
      * @return int
      */
-    public function officialChargeGet($param, &$data) {
-        return clsFinance::officialChargeGet($param, $data);
+    public static function officialChargeGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -33,8 +33,8 @@ class svcFinance {
      * @param $data
      * @return int
      */
-    public function onlinePayGet($param, &$data) {
-        return clsFinance::onlinePayGet($param, $data);
+    public static function onlinePayGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -43,8 +43,8 @@ class svcFinance {
      * @param $data
      * @return int
      */
-    public function aliPayAuditGet($param, &$data) {
-        return clsFinance::aliPayAuditGet($param, $data);
+    public static function aliPayAuditGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -53,8 +53,8 @@ class svcFinance {
      * @param $data
      * @return int
      */
-    public function bankCardAuditGet($param, &$data) {
-        return clsFinance::bankCardAuditGet($param, $data);
+    public static function bankCardAuditGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -63,8 +63,8 @@ class svcFinance {
      * @param $data
      * @return int
      */
-    public function autoPayTradeRecordGet($param, &$data) {
-        return clsFinance::autoPayTradeRecordGet($param, $data);
+    public static function autoPayTradeRecordGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -73,7 +73,7 @@ class svcFinance {
      * @param $data
      * @return int
      */
-    public function financeConfig($param, &$data) {
-        return clsFinance::financeConfig($param, $data);
+    public static function financeConfig($param, &$data) {
+        return ERR_OK;
     }
 }

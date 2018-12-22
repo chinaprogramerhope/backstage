@@ -2,28 +2,28 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
- * 游戏列表
+ * 运营管理
  */
-class daoGameList {
+class daoOperation {
     /**
-     * 获取游戏列表
+     * 游戏报表 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public static function get($param, &$data) {
+    public static function gameReportGet($param, &$data) {
         return ERR_OK;
     }
 
     /**
-     * 编辑(更改游戏状态)
+     * 资金帐变 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public static function changeStatus($param, &$data) {
+    public static function moneyReportGet($param, &$data) {
         return ERR_OK;
     }
 }

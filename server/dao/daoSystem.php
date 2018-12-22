@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 系统设置
  */
-class sysSystem {
+class daoSystem {
     /**
      * 厅主子账号管理 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public function subAccountGet($param, &$data) {
-        return  clsSystem::subAccountGet($param, $data);
+    public static function subAccountGet($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -23,8 +23,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function subAccountAdd($param, &$data) {
-        return  clsSystem::subAccountAdd($param, $data);
+    public static function subAccountAdd($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -33,8 +33,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function subAccountEdit($param, &$data) {
-        return  clsSystem::subAccountEdit($param, $data);
+    public static function subAccountEdit($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -43,8 +43,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function subAccountForbid($param, &$data) {
-        return  clsSystem::subAccountForbid($param, $data);
+    public static function subAccountForbid($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -53,8 +53,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function globalParamSave($param, &$data) {
-        return  clsSystem::globalParamSave($param, $data);
+    public static function globalParamSave($param, &$data) {
+        return  ERR_OK;
     }
     /**
      * 全局参数 - 上传
@@ -62,8 +62,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function subAccountUpload($param, &$data) {
-        return  clsSystem::subAccountUpload($param, $data);
+    public static function subAccountUpload($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -72,8 +72,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function subAccountReset($param, &$data) {
-        return  clsSystem::subAccountReset($param, $data);
+    public static function subAccountReset($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -82,8 +82,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function userProfileGet($param, &$data) {
-        return  clsSystem::userProfileGet($param, $data);
+    public static function userProfileGet($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -92,8 +92,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function userProfileSaveName($param, &$data) {
-        return  clsSystem::userProfileSaveName($param, $data);
+    public static function userProfileSaveName($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -102,8 +102,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function userProfileBindGoogle($param, &$data) {
-        return  clsSystem::userProfileBindGoogle($param, $data);
+    public static function userProfileBindGoogle($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -112,8 +112,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function userProfileBindPhone($param, &$data) {
-        return  clsSystem::userProfileBindPhone($param, $data);
+    public static function userProfileBindPhone($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -122,8 +122,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function userProfileChangePass($param, &$data) {
-        return  clsSystem::userProfileChangePass($param, $data);
+    public static function userProfileChangePass($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -132,8 +132,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function userProfileTwoStepVerify($param, &$data) {
-        return  clsSystem::userProfileTwoStepVerify($param, $data);
+    public static function userProfileTwoStepVerify($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -142,8 +142,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function operateLogGet($param, &$data) {
-        return  clsSystem::operateLogGet($param, $data);
+    public static function operateLogGet($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -152,8 +152,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function downloadConfGet($param, &$data) {
-        return  clsSystem::downloadConfGet($param, $data);
+    public static function downloadConfGet($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -162,8 +162,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function downloadConfEdit($param, &$data) {
-        return  clsSystem::downloadConfEdit($param, $data);
+    public static function downloadConfEdit($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -172,8 +172,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function downloadConfUpload($param, &$data) {
-        return  clsSystem::downloadConfUpload($param, $data);
+    public static function downloadConfUpload($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -182,8 +182,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function downloadConfDelUpload($param, &$data) {
-        return  clsSystem::downloadConfDelUpload($param, $data);
+    public static function downloadConfDelUpload($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -192,8 +192,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function roleManageGet($param, &$data) {
-        return  clsSystem::roleManageGet($param, $data);
+    public static function roleManageGet($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -202,8 +202,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function roleManageAdd($param, &$data) {
-        return  clsSystem::roleManageAdd($param, $data);
+    public static function roleManageAdd($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -212,8 +212,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function roleManageEdit($param, &$data) {
-        return  clsSystem::roleManageEdit($param, $data);
+    public static function roleManageEdit($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -222,8 +222,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function roleManageForbid($param, &$data) {
-        return  clsSystem::roleManageForbid($param, $data);
+    public static function roleManageForbid($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -232,8 +232,8 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function roleManageDel($param, &$data) {
-        return  clsSystem::roleManageDel($param, $data);
+    public static function roleManageDel($param, &$data) {
+        return  ERR_OK;
     }
 
     /**
@@ -242,7 +242,7 @@ class sysSystem {
      * @param $data
      * @return int
      */
-    public function roleManageSave($param, &$data) {
-        return  clsSystem::roleManageSave($param, $data);
+    public static function roleManageSave($param, &$data) {
+        return  ERR_OK;
     }
 }

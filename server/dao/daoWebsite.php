@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 网站管理
  */
-class svcWebsite {
+class daoWebsite {
     /**
      * 轮播图设置 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public function bannerSettingGet($param, &$data) {
-        return clsWebsite::bannerSettingGet($param, $data);
+    public static function bannerSettingGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -23,8 +23,8 @@ class svcWebsite {
      * @param $data
      * @return int
      */
-    public function bannerSettingUpload($param, &$data) {
-        return clsWebsite::bannerSettingUpload($param, $data);
+    public static function bannerSettingUpload($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -33,8 +33,8 @@ class svcWebsite {
      * @param $data
      * @return int
      */
-    public function bannerSettingSave($param, &$data) {
-        return clsWebsite::bannerSettingSave($param, $data);
+    public static function bannerSettingSave($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -43,8 +43,8 @@ class svcWebsite {
      * @param $data
      * @return int
      */
-    public function adSettingUpload($param, &$data) {
-        return clsWebsite::adSettingUpload($param, $data);
+    public static function adSettingUpload($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -53,7 +53,7 @@ class svcWebsite {
      * @param $data
      * @return int
      */
-    public function adSettingSave($param, &$data) {
-        return clsWebsite::adSettingSave($param, $data);
+    public static function adSettingSave($param, &$data) {
+        return ERR_OK;
     }
 }

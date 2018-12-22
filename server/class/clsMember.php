@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 会员管理
  */
-class svcMember {
+class clsMember {
     /**
      * 获取会员列表
      * @param $param
      * @param $data
      * @return int
      */
-    public function getList($param, &$data) {
-        return clsMember::getList($param, $data);
+    public static function getList($param, &$data) {
+        return daoMember::getList($param, $data);
     }
 
     /**
@@ -23,8 +23,8 @@ class svcMember {
      * @param $data
      * @return int
      */
-    public function getLoginLog($param, &$data) {
-        return clsMember::getLoginLog($param, $data);
+    public static function getLoginLog($param, &$data) {
+        return daoMember::getLoginLog($param, $data);
     }
 
     /**
@@ -33,8 +33,8 @@ class svcMember {
      * @param $data
      * @return int
      */
-    public function getLabel($param, &$data) {
-        return clsMember::getLabel($param, $data);
+    public static function getLabel($param, &$data) {
+        return daoMember::getLabel($param, $data);
     }
 
     /**
@@ -43,8 +43,8 @@ class svcMember {
      * @param $data
      * @return int
      */
-    public function addLabel($param, &$data) {
-        return clsMember::addLabel($param, $data);
+    public static function addLabel($param, &$data) {
+        return daoMember::addLabel($param, $data);
     }
 
     /**
@@ -53,8 +53,8 @@ class svcMember {
      * @param $data
      * @return int
      */
-    public function getLv($param, &$data) {
-        return clsMember::getLv($param, $data);
+    public static function getLv($param, &$data) {
+        return daoMember::getLv($param, $data);
     }
 
     /**
@@ -63,7 +63,7 @@ class svcMember {
      * @param $data
      * @return int
      */
-    public function addLv($param, &$data) {
-        return clsMember::addLv($param, $data);
+    public static function addLv($param, &$data) {
+        return daoMember::addLv($param, $data);
     }
 }

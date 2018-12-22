@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 首页
  */
-class svcHomepage {
+class clsHomepage {
     /**
      * 获取头部信息
      * @param $param
      * @param $data
      * @return int
      */
-    public function getHead($param, &$data) {
-        return clsHomepage::getHead($param, $data);
+    public static function getHead($param, &$data) {
+        return daoHomepage::getHead($param, $data);
     }
 
     /**
@@ -23,8 +23,8 @@ class svcHomepage {
      * @param $data
      * @return int
      */
-    public function getNum($param, &$data) {
-        return clsHomepage::getNum($param, $data);
+    public static function getNum($param, &$data) {
+        return daoHomepage::getNum($param, $data);
     }
 
     /**
@@ -33,8 +33,8 @@ class svcHomepage {
      * @param $data
      * @return int
      */
-    public function getCharge($param, &$data) {
-        return clsHomepage::getCharge($param, $data);
+    public static function getCharge($param, &$data) {
+        return daoHomepage::getCharge($param, $data);
     }
 
     /**
@@ -43,8 +43,8 @@ class svcHomepage {
      * @param $data
      * @return int
      */
-    public function getProfit($param, &$data) {
-        return clsHomepage::getProfit($param, $data);
+    public static function getProfit($param, &$data) {
+        return daoHomepage::getProfit($param, $data);
     }
 
     /**
@@ -53,7 +53,7 @@ class svcHomepage {
      * @param $data
      * @return int
      */
-    public function getOnlineNum($param, &$data) {
-        return clsHomepage::getOnlineNum($param, $data);
+    public static function getOnlineNum($param, &$data) {
+        return daoHomepage::getOnlineNum($param, $data);
     }
 }

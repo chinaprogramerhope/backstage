@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 运营管理
  */
-class svcOperation {
+class clsOperation {
     /**
      * 游戏报表 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public function gameReportGet($param, &$data) {
-        return clsOperation::gameReportGet($param, $data);
+    public static function gameReportGet($param, &$data) {
+        return daoOperation::gameReportGet($param, $data);
     }
 
     /**
@@ -23,7 +23,7 @@ class svcOperation {
      * @param $data
      * @return int
      */
-    public function moneyReportGet($param, &$data) {
-        return clsOperation::moneyReportGet($param, $data);
+    public static function moneyReportGet($param, &$data) {
+        return daoOperation::moneyReportGet($param, $data);
     }
 }

@@ -2,19 +2,19 @@
 
 /**
  * User: hanxiaolong
- * Date: 2018/12/21
+ * Date: 2018/12/22
  *
  * 游戏管理
  */
-class svcGame {
+class daoGame {
     /**
      * 游戏列表 - 获取游戏列表
      * @param $param
      * @param $data
      * @return int
      */
-    public function listGet($param, &$data) {
-        return clsGame::listGet($param, $data);
+    public static function listGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -23,8 +23,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function listChangeStatus($param, &$data) {
-        return clsGame::listChangeStatus($param, $data);
+    public static function listChangeStatus($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -33,8 +33,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function roomGet($param, &$data) {
-        return clsGame::roomGet($param, $data);
+    public static function roomGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -43,8 +43,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function roomChangeTaxRatio($param, &$data) {
-        return clsGame::roomChangeTaxRatio($param, $data);
+    public static function roomChangeTaxRatio($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -53,8 +53,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function roomClose($param, &$data) {
-        return clsGame::roomClose($param, $data);
+    public static function roomClose($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -63,8 +63,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function groupGet($param, &$data) {
-        return clsGame::groupGet($param, $data);
+    public static function groupGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -73,8 +73,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function groupGetGames($param, &$data) {
-        return clsGame::groupGetGames($param, $data);
+    public static function groupGetGames($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -83,8 +83,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function groupStick($param, &$data) {
-        return clsGame::groupStick($param, $data);
+    public static function groupStick($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -93,8 +93,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function groupCancelPopular($param, &$data) {
-        return clsGame::groupCancelPopular($param, $data);
+    public static function groupCancelPopular($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -103,8 +103,8 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function betRecordGet($param, &$data) {
-        return clsGame::betRecordGet($param, $data);
+    public static function betRecordGet($param, &$data) {
+        return ERR_OK;
     }
 
     /**
@@ -113,7 +113,7 @@ class svcGame {
      * @param $data
      * @return int
      */
-    public function betRecordGetDetail($param, &$data) {
-        return clsGame::betRecordGetDetail($param, $data);
+    public static function betRecordGetDetail($param, &$data) {
+        return ERR_OK;
     }
 }
