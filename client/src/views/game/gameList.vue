@@ -31,13 +31,21 @@
 
     <el-table :data="tableData" stripe style="margin-bottom: 24px">
       <el-table-column label="游戏名称" prop="gameName" align="center"/>
-      <el-table-column label="游戏类型" prop="gameType" align="center"/>
-      <el-table-column label="游戏状态" prop="gameStatus" align="center"/>
+      <el-table-column label="游戏类型" align="center">
+        <template slot-scope="scope">
+          <el-tag size="medium">{{ scope.row.gameType }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="游戏状态" align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" size="medium">{{ scope.row.gameStatus }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="维护时间" prop="maintainTime" align="center"/>
       <el-table-column label="操作" prop="operation" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleRoom()">房间</el-button>
-          <el-button type="text" @click="handleEdit()">编辑</el-button>
+          <el-button type="primary" plain size="mini" @click="handleRoom()">房间</el-button>
+          <el-button size="mini" @click="handleEdit()">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,6 +64,12 @@
 </template>
 
 <script>
+import { listGet } from '@/api/game'
+
+var gameName = ''
+var gameType = -1
+var gameStatus = -1
+
 export default {
   data() {
     return {
@@ -68,68 +82,61 @@ export default {
       // optionsGameStatus
       optionsGameStatus: [{
         'label': '全部',
-        'value': 'all'
+        'value': -1
       }, {
         'label': '正常',
-        'value': 'normal'
+        'value': 1
       }, {
         'label': '禁用',
-        'value': 'forbid'
+        'value': 2
       }, {
         'label': '维护中',
-        'value': 'maintain'
+        'value': 3
       }],
 
       // optionsGameType
       optionsGameType: [{
         'label': '全部',
-        'value': 'all'
+        'value': -1
       }, {
         'label': '下注类',
-        'value': 'bet'
+        'value': 1
       }, {
         'label': '捕鱼类',
-        'value': 'fish'
+        'value': 2
       }, {
         'label': '对战类',
-        'value': 'battle'
+        'value': 3
       }],
 
       // tableData
-      tableData: [{
-        gameName: '牛牛',
-        gameType: '棋牌游戏',
-        gameStatus: '正常',
-        maintainTime: '无~无'
-      }, {
-        gameName: '牛牛',
-        gameType: '棋牌游戏',
-        gameStatus: '正常',
-        maintainTime: '无~无'
-      }, {
-        gameName: '牛牛',
-        gameType: '棋牌游戏',
-        gameStatus: '正常',
-        maintainTime: '无~无'
-      }, {
-        gameName: '牛牛',
-        gameType: '棋牌游戏',
-        gameStatus: '正常',
-        maintainTime: '无~无'
-      }],
+      tableData: null,
 
       // 分页
       currentPage: 4
     }
   },
+
+  created() {
+    this.listGetClient(gameName, gameType, gameStatus)
+  },
+
   methods: {
-    obSubmit() {
-      console.log('submit!')
+    listGetClient(gameName, gameType, gameStatus) {
+      listGet(gameName, gameType, gameStatus).then(response => {
+        this.tableData = response.data
+        // test
+        console.log('resData = ' + JSON.stringify(response.data))
+      })
+    },
+
+    onSubmit() {
+      console.log('name = ' + this.form1.gameName + ', type = ' + this.form1.gameType + ', status = ' + this.form1.gameType)
+      this.listGetClient(this.form1.gameName, this.form1.gameType, this.form1.gameType)
     },
 
     // 分页
     handleSizeChange(val) {
-
     },
     handleCurrentChange(val) {
 
