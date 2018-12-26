@@ -23,10 +23,10 @@ const cmdArr = [
 
     // 游戏管理 101 - 150
     101 => ['svc' => 'svcGame', 'func' => 'listGet'], // 游戏列表 - 获取游戏列表
-    102 => ['svc' => 'svcGame', 'func' => 'listChangeStatus'], // 游戏列表 - 编辑(更改游戏状态)
+    102 => ['svc' => 'svcGame', 'func' => 'listChangeStatus'], // 游戏列表 - 编辑(更改游戏状态) - 废弃
     103 => ['svc' => 'svcGame', 'func' => 'roomGet'], // 游戏列表 - 获取游戏房间
     104 => ['svc' => 'svcGame', 'func' => 'roomChangeTaxRatio'], // 游戏列表 - 游戏房间 - 更改税收比例
-    105 => ['svc' => 'svcGame', 'func' => 'roomClose'], // 游戏列表 - 游戏房间 - 禁用
+    105 => ['svc' => 'svcGame', 'func' => 'roomClose'], // 游戏列表 - 游戏房间 - 禁用 - 废弃
     106 => ['svc' => 'svcGame', 'func' => 'groupGet'], // 游戏分组 - 获取游戏分组
     107 => ['svc' => 'svcGame', 'func' => 'groupGetGames'], // 游戏分组 - 获取分组内的游戏
     108 => ['svc' => 'svcGame', 'func' => 'groupStick'], // 游戏分组 - 设为置顶

@@ -14,6 +14,7 @@ const ERR_INVALID_PARAM = 3; // 参数错误
 // mysql
 const ERR_MYSQL_CONNECT_FAIL = 100; // mysql连接失败
 const ERR_MYSQL_EXCEPTION = 101; // mysql异常
+const ERR_MYSQL_EXECUTE_FAIL = 102; // mysql执行失败
 
 // redis
 const ERR_REDIS_CONNECT_FAIL = 200; // redis连接失败

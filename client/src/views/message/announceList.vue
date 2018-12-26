@@ -3,7 +3,7 @@
     <!-- 表单 -->
     <el-form :inline="true" :model="form1" style="margin-top: 20px;" align="left">
       <el-form-item label="公告类型:">
-        <el-select>
+        <el-select v-model="form1.selectAnnounceType" clearable>
           <el-option
             v-for="item in form1.optionsAnnounceType"
             :key="item.value"
@@ -14,14 +14,16 @@
       </el-form-item>
       <el-form-item label="开始时间:">
         <el-date-picker
-          v-model="dpValue1"
+          v-model="form1.dpValue1"
           type="datetimerange"
           range-separator="~"
           start-placeholder="开始日期"
-          end-placeholder="结束日期"/>
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd HH:mm:ss"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -106,8 +108,8 @@
       <el-table-column prop="note" label="备注" align="center"/>
       <el-table-column prop="operation" label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleDetail()">编辑</el-button>
-          <el-button type="danger" size="mini" @click="handleDetail()">删除</el-button>
+          <el-button type="primary" size="mini" @click="handleEdit">编辑</el-button>
+          <el-button type="danger" size="mini" @click="handleDel">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -124,33 +126,82 @@
       @current-change="handleCurrentChange"
     />
 
+    <!-- dialog2 编辑公告 -->
+    <el-dialog :visible.sync="dialog2FormVisible" title="编辑公告" center>
+      <el-form :model="dialogForm2">
+        <el-form-item :label-width="formLabelWidth" label="公告内容:">
+          <el-input
+            :rows="2"
+            v-model="dialogForm2.content"
+            type="textarea"
+            placeholder="请输入公告内容"/>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="备注:">
+          <el-input v-model="dialogForm2.note" autocomplete="off"/>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="公告类型">
+          <el-select v-model="dialogForm2.selectType" placeholder="">
+            <el-option
+              v-for="item in dialogForm2.optionsAnnounceAddType"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="公告状态">
+          <el-select v-model="dialogForm2.selectStatus" placeholder="">
+            <el-option
+              v-for="item in dialogForm2.optionsAnnounceAddStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialog2FormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialog2FormVisible = false">保 存</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
+import { announceListGet } from '@/api/message'
+import { announceListDel } from '@/api/message'
+
 // checkbox 多选框
 const areaOptions = ['收件箱', '走马灯']
 
 export default {
   data() {
     return {
-      // 日期(不在这里返回会不显示选择的时间)
-      dpValue1: '',
 
       form1: {
+        dpValue1: '',
+
         // 公告类型
+        selectAnnounceType: '',
         optionsAnnounceType: [{
-          'label': '一般游戏公告',
-          'value': 'gameCommon'
+          label: '一般游戏公告',
+          value: 1
         }, {
-          'label': '站点公告',
-          'value': 'site'
+          label: '站点公告',
+          value: 2
         }, {
-          'label': '维护公告',
-          'value': 'maintain'
+          label: '维护公告',
+          value: 3
         }, {
-          'label': '系统游戏公告',
-          'value': 'gameSystem'
+          label: '系统游戏公告',
+          value: 4
         }],
         gameRoom: '全部',
         vipAccount: ''
@@ -187,41 +238,41 @@ export default {
       form2: {
         content: '',
         note: '',
-        selectType: '系统游戏公告',
-        selectStatus: '启用',
-        selectTerminal: '全部',
+        selectType: 4,
+        selectStatus: 1,
+        selectTerminal: -1,
 
         optionsAnnounceAddType: [{
           'label': '一般游戏公告',
-          'value': 'gameCommon'
+          'value': 1
         }, {
           'label': '站点公告',
-          'value': 'site'
+          'value': 2
         }, {
           'label': '维护公告',
-          'value': 'maintain'
+          'value': 3
         }, {
           'label': '系统游戏公告',
-          'value': 'gameSystem'
+          'value': 4
         }],
 
         optionsAnnounceAddStatus: [{
           label: '启用',
-          value: 'enable'
+          value: 1
         }, {
           label: '禁用',
-          value: 'disable'
+          value: 2
         }],
 
         optionsAnnounceAddTerminal: [{
           label: '全部',
-          value: 'all'
+          value: -1
         }, {
           label: '电脑端',
-          value: 'pc'
+          value: 1
         }, {
           label: '移动端',
-          value: 'mobile'
+          value: 2
         }]
       },
 
@@ -231,12 +282,78 @@ export default {
       areas: areaOptions,
       isIndeterminate: true,
 
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+
+      // dialog2 编辑公告
+      dialog2FormVisible: false,
+      dialogForm2: {
+        content: '',
+        note: '',
+        selectType: 4,
+        selectStatus: 1,
+
+        optionsAnnounceAddType: [{
+          'label': '一般游戏公告',
+          'value': 1
+        }, {
+          'label': '站点公告',
+          'value': 2
+        }, {
+          'label': '维护公告',
+          'value': 3
+        }, {
+          'label': '系统游戏公告',
+          'value': 4
+        }],
+
+        optionsAnnounceAddStatus: [{
+          label: '启用',
+          value: 1
+        }, {
+          label: '禁用',
+          value: 2
+        }]
+      }
     }
   },
+  created() {
+    this.announceListGetClient(this.form1.selectAnnounceType, this.form1.dpValue1)
+  },
   methods: {
-    obSubmit() {
-      console.log('submit!')
+    announceListGetClient(type, timeBegin) {
+      announceListGet(type, timeBegin).then(response => {
+        this.tableData = response.data
+        // test
+        console.log('tableDataType = ' + typeof (response.data) + ', value = ' + JSON.stringify(response.data))
+      })
+    },
+
+    handleSearch() {
+      this.announceListGetClient(this.form1.selectAnnounceType, this.form1.dpValue1)
+    },
+
+    // 编辑公告
+    handleEdit() {
+      this.dialog2FormVisible = true
+    },
+
+    // 删除公告
+    handleDel(announceId) {
+      announceListDel(announceId).then(response => {
+        if (response.code === 0) {
+          this.$notify({
+            title: '删除公告成功',
+            message: '',
+            type: 'success'
+          })
+        } else {
+          this.$notify({
+            title: '删除公告失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     },
 
     // 分页

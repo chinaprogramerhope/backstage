@@ -26,41 +26,48 @@ class daoGame {
 
         $pdoParam = [];
 
-        $sql = 'select gameName, gameType, gameStatus from admin_game';
-        $haveWhere = false;
+        try {
+            $sql = 'select gameName, gameType, gameStatus from admin_game';
+            $haveWhere = false;
 
-        if ($gameName !== '') {
-            $sql .= ' where gameName like :gameName';
-            $pdoParam[':gameName'] = '%' . $gameName . '%';
-
-            $haveWhere = true;
-        }
-        if ($gameType !== -1) {
-            if ($haveWhere) {
-                $sql .= ' and gameType = :gameType';
-            } else {
-                $sql .= ' where gameType = :gameType';
+            if ($gameName !== '') {
+                $sql .= ' where gameName like :gameName';
+                $pdoParam[':gameName'] = '%' . $gameName . '%';
 
                 $haveWhere = true;
             }
+            if ($gameType !== -1) {
+                if ($haveWhere) {
+                    $sql .= ' and gameType = :gameType';
+                } else {
+                    $sql .= ' where gameType = :gameType';
 
-            $pdoParam[':gameType'] = $gameType;
-        }
-        if ($gameStatus !== -1) {
-            if ($haveWhere) {
-                $sql .= ' and gameStatus = :gameStatus';
-            } else {
-                $sql .= ' where gameStatus = :gameStatus';
+                    $haveWhere = true;
+                }
 
-                $haveWhere = true;
+                $pdoParam[':gameType'] = $gameType;
+            }
+            if ($gameStatus !== -1) {
+                if ($haveWhere) {
+                    $sql .= ' and gameStatus = :gameStatus';
+                } else {
+                    $sql .= ' where gameStatus = :gameStatus';
+
+                    $haveWhere = true;
+                }
+
+                $pdoParam[':gameStatus'] = $gameStatus;
             }
 
-            $pdoParam[':gameStatus'] = $gameStatus;
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($pdoParam);
+            $rows = $stmt->fetchAll();
+        } catch (Exception $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = '
+                . $e->getMessage() . ', sql = ' . $sql . ', param = ' . json_encode($param));
+            return ERR_MYSQL_EXCEPTION;
         }
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($pdoParam);
-        $rows = $stmt->fetchAll();
         if (!empty($rows)) {
             foreach ($rows as &$row) {
                 if (array_key_exists($row['gameType'], gameType)) {
@@ -79,8 +86,6 @@ class daoGame {
         }
         $data = !empty($rows) ? $rows : [];
 
-        // test
-        clsLog::info('ok11, data = ' . json_encode($rows) . ', name = ' . $gameName . ', type = ' . $gameType . ', status = ' . $gameStatus . ', sql = ' . $sql);
 
         return ERR_OK;
     }
@@ -92,6 +97,34 @@ class daoGame {
      * @return int
      */
     public static function listChangeStatus($param, &$data) {
+        $gameName = $param['gameName'];
+        $gameStatus = intval($param['gameStatus']);
+
+        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        try {
+            $sql = 'update admin_game set gameStatus = :gameStatus where gameName = :gameName';
+
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute([
+                ':gameName' => $gameName,
+                ':gameStatus' => $gameStatus
+            ]);
+        } catch (Exception $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = '
+                . $e->getMessage() . ', sql = ' . $sql . ', name = ' . $gameName . ', status = ' . $gameStatus);
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', stmt->execute fail, sql = ' . $sql . ', param = ' . json_encode($param));
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
         return ERR_OK;
     }
 

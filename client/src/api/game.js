@@ -69,3 +69,26 @@ export function listGet(gameName, gameType, gameStatus) {
 
   return ret
 }
+
+/**
+ * 游戏列表 - 编辑(更改游戏状态)
+ * @param {*} gameName
+ * @param {*} gameStatus
+ */
+export function listChangeStatus(gameName, gameStatus) {
+  const data = {
+    cmd: 102,
+    param: {
+      gameName: gameName,
+      gameStatus: gameStatus
+    }
+  }
+
+  var ret = request({
+    url: 'http://192.168.1.127:8102',
+    method: 'post',
+    data
+  })
+
+  return ret
+}
