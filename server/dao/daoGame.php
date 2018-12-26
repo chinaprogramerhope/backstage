@@ -14,6 +14,74 @@ class daoGame {
      * @return int
      */
     public static function listGet($param, &$data) {
+        $gameName = isset($param['gameName']) ? $param['gameName'] : '';
+        $gameType = intval($param['gameType']);
+        $gameStatus = intval($param['gameStatus']);
+
+        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [];
+
+        $sql = 'select gameName, gameType, gameStatus from admin_game';
+        $haveWhere = false;
+
+        if ($gameName !== '') {
+            $sql .= ' where gameName like :gameName';
+            $pdoParam[':gameName'] = '%' . $gameName . '%';
+
+            $haveWhere = true;
+        }
+        if ($gameType !== -1) {
+            if ($haveWhere) {
+                $sql .= ' and gameType = :gameType';
+            } else {
+                $sql .= ' where gameType = :gameType';
+
+                $haveWhere = true;
+            }
+
+            $pdoParam[':gameType'] = $gameType;
+        }
+        if ($gameStatus !== -1) {
+            if ($haveWhere) {
+                $sql .= ' and gameStatus = :gameStatus';
+            } else {
+                $sql .= ' where gameStatus = :gameStatus';
+
+                $haveWhere = true;
+            }
+
+            $pdoParam[':gameStatus'] = $gameStatus;
+        }
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($pdoParam);
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                if (array_key_exists($row['gameType'], gameType)) {
+                    $row['gameType'] = gameType[$row['gameType']];
+                } else {
+                    $row['gameType'] = '未知';
+                }
+
+                if (array_key_exists($row['gameStatus'], gameStatus)) {
+                    $row['gameStatus'] = gameStatus[$row['gameStatus']];
+                } else {
+                    $row['gameStatus'] = '未知';
+                }
+            }
+            unset($row);
+        }
+        $data = !empty($rows) ? $rows : [];
+
+        // test
+        clsLog::info('ok11, data = ' . json_encode($rows) . ', name = ' . $gameName . ', type = ' . $gameType . ', status = ' . $gameStatus . ', sql = ' . $sql);
+
         return ERR_OK;
     }
 
@@ -64,6 +132,7 @@ class daoGame {
      * @return int
      */
     public static function groupGet($param, &$data) {
+        $data = gameGroup;
         return ERR_OK;
     }
 
@@ -74,6 +143,26 @@ class daoGame {
      * @return int
      */
     public static function groupGetGames($param, &$data) {
+        $groupId = intval($param['groupId']);
+
+        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select gameName from admin_game where groupId=:groupId';
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':groupId' => $groupId
+        ]);
+        $rows = $stmt->fetchAll();
+        $data = !empty($rows) ? $rows : [];
+
+        // test
+        clsLog::error('data = ' . json_encode($data));
+
         return ERR_OK;
     }
 

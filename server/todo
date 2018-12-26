@@ -20,7 +20,9 @@ notice -
 
 -----
 待解决 -
-    使用require代替require_once
+0. 线上香港服务器php5.4不支持const[]
+1. 使用require代替require_once
+
 
 ---
 每日任务 -
