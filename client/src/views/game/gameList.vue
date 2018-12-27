@@ -14,16 +14,6 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="游戏类型:">
-        <el-select v-model="form1.gameType">
-          <el-option
-            v-for="item in optionsGameType"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
       </el-form-item>
@@ -31,28 +21,28 @@
 
     <el-table :data="tableData" stripe style="margin-bottom: 24px">
       <el-table-column label="游戏名称" prop="gameName" align="center"/>
-      <el-table-column label="游戏类型" align="center">
+      <el-table-column label="底分 / 准入" align="center">
         <template slot-scope="scope">
           <el-tag size="medium">{{ scope.row.gameType }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="游戏状态" align="center">
         <template slot-scope="scope">
-          <el-tag type="success" size="medium">{{ scope.row.gameStatus }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="维护时间" prop="maintainTime" align="center"/>
-      <el-table-column label="操作" prop="operation" align="center">
-        <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" @click="handleRoom()">房间</el-button>
-          <!-- <el-button size="mini" @click="dialogForm1Visible = true">编辑</el-button> -->
-          <el-button size="mini" @click="handleEdit(scope.row.gameName)">编辑</el-button>
+          <div v-if="scope.row.gameStatus==='正常'">
+            <el-tag type="success" size="medium">{{ scope.row.gameStatus }}</el-tag>
+          </div>
+          <div v-else-if="scope.row.gameStatus==='维护中'">
+            <el-tag type="warning" size="medium">{{ scope.row.gameStatus }}</el-tag>
+          </div>
+          <div v-else>
+            <el-tag type="danger" size="medium">{{ scope.row.gameStatus }}</el-tag>
+          </div>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
-    <el-pagination
+    <!-- <el-pagination
       :current-page="currentPage"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="10"
@@ -61,7 +51,7 @@
       align="center"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    />
+    /> -->
 
     <!-- dialog1 添加 -->
     <el-dialog :visible.sync="dialogForm1Visible" title="" center>

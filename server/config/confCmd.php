@@ -12,6 +12,10 @@ const cmdArr = [
     3 => ['svc' => 'svcHomepage', 'func' => 'getCharge'], // 首页 - 获取充提
     4 => ['svc' => 'svcHomepage', 'func' => 'getProfit'], // 首页 - 获取盈亏
     5 => ['svc' => 'svcHomepage', 'func' => 'getOnlineNum'], // 首页 - 获取在线人数
+    6 => ['svc' => 'svcAdmin', 'func' => 'login'], // 登录 - 获取管理员信息
+    7 => ['svc' => 'svcAdmin', 'func' => 'register'], // 注册
+    8 => ['svc' => 'svcAdmin', 'func' => 'createVerifyCode'], // 获取注册验证码
+
 
     // 会员管理 51 - 100
     51 => ['svc' => 'svcMember', 'func' => 'getList'], // 获取会员列表

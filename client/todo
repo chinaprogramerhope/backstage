@@ -29,6 +29,11 @@ el-select: clearable
 
 
 
+========
+路由:
+    #后面加path
+    http://localhost:9531/#/register/register
+
 
 ========
 参考 - 
@@ -56,3 +61,7 @@ js发送数组参数  get post
 
 4. 后端所有接口搞定
 5. 前后端所有接口联调搞定
+
+
+在 vue-element-admin/src/permission.js添加特例, 
+vue_element_admin这里写得不好。。。添加不需要验证登陆的页面很麻烦。。

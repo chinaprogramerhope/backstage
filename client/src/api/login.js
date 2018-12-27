@@ -1,18 +1,17 @@
 import request from '@/utils/request'
 
-export function loginByUsername(username, password) {
+export function loginByUsername(username, pass) {
   const data = {
-    svc: 'svcAdmin',
-    func: 'login',
+    cmd: 6,
     param: {
       adminName: username,
-      password: password
+      pass: pass
     }
   }
 
   return request({
     // url: '/login/login',
-    url: 'http://localhost:8888', // todo url定义为默认, 这里可以不用写吗
+    url: 'http://192.168.1.127:8102', // todo url定义为默认, 这里可以不用写吗
     method: 'post',
     data
   })

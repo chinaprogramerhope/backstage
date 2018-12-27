@@ -39,8 +39,6 @@ service.interceptors.response.use(
     const res = response.data
 
     if (res.code !== undefined) {
-      // test
-      console.log('3, res = ' + JSON.stringify(res) + ', code = ' + res.code)
       if (res.code !== 0) {
         // Message({
         //   message: res.message,
@@ -65,8 +63,6 @@ service.interceptors.response.use(
         console.log(1)
         return Promise.reject('error')
       } else {
-        // test
-        console.log('2, response.data = ' + JSON.stringify(response.data))
         return response.data
       }
     } else {

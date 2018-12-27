@@ -68,9 +68,9 @@ if (!is_int($code) || !is_array($data)) {
     $code = ERR_SERVER;
 }
 
-if ($code !== ERR_OK) {
-    $data = [];
-}
+//if ($code !== ERR_OK) {
+//    $data = [];
+//}
 
 $ret = [
     'code' => $code,

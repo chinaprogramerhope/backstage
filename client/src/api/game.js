@@ -71,7 +71,7 @@ export function listGet(gameName, gameType, gameStatus) {
 }
 
 /**
- * 游戏列表 - 编辑(更改游戏状态)
+ * 游戏列表 - 编辑(更改游戏状态) - 废弃
  * @param {*} gameName
  * @param {*} gameStatus
  */

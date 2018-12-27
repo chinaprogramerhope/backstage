@@ -226,6 +226,71 @@ class daoGame {
      * @return int
      */
     public static function betRecordGet($param, &$data) {
+        if (isset($param['dateRange']) && !empty($param['dateRange'])) {
+            $timeBegin = $param['dateRange'][0];
+            $timeEnd = $param['dateRange'][1];
+        } else {
+            $timeBegin = $timeEnd = -1;
+        }
+
+        $gameId = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
+        $roomId = isset($param['roomId']) && !empty($param['roomId']) ? intval($param['roomId']) : -1;
+        $userId = isset($param['userId']) ? $param['userId'] : '';
+
+        $pdo = clsMysql::getInstance(mysqlConfig['gameHistory']);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        if ($gameId === -1) {
+        } else {
+            if (!array_key_exists($gameId, gameHistoryTables)) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid gameId, param = ' . json_encode($param));
+                return ERR_INVALID_PARAM;
+            }
+            $tableName = gameHistoryTables[$gameId];
+
+            $sql = 'select user_id, user_nickname, game_number, room_id, user_game_result, user_table_fee,';
+            $sql .= 'user_score_begin, user_score_end, earn_score, game_time, record_timestamp';
+
+            $haveWhere = false;
+            if ($roomId !== -1) {
+                $sql .= ' where room_id = :roomId';
+                $haveWhere = true;
+            }
+            if ($userId !== -1) {
+                if ($haveWhere) {
+                    $sql .= ' and user_id = :userId';
+                } else {
+                    $sql .= ' where user_id = :userId';
+                }
+            }
+            if ($timeBegin !== -1) {
+                if ($haveWhere) {
+                    $sql .= ' and record_timestamp >= :timeBegin';
+                } else {
+                    $sql .= ' where record_timestamp >= :timeBegin';
+                }
+            }
+            if ($timeEnd !== -1) {
+                if ($haveWhere) {
+                    $sql .= ' and record_timestamp <= :timeEnd';
+                } else {
+                    $sql .= ' where record_timestamp <= :timeEnd';
+                }
+            }
+        }
+
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':groupId' => $groupId
+        ]);
+        $rows = $stmt->fetchAll();
+        $data = !empty($rows) ? $rows : [];
+
+
         return ERR_OK;
     }
 

@@ -18,6 +18,14 @@ const whiteList = ['/login', '/auth-redirect']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
+
+  // test
+  // console.log('to.path = ' + to.path + ', from = ' + JSON.stringify(from))
+  // if (to.path === '/register') {
+  //   next(`/register?redirect=${to.path}`) // 否则全部重定向到登录页
+  //   NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+  // } else
+
   if (getToken()) { // determine if there has token
     /* has token*/
     if (to.path === '/login') {

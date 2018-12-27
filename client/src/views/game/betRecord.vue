@@ -32,8 +32,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="会员账号:">
-        <el-input v-model="form1.vipAccount"/>
+      <el-form-item label="玩家id:">
+        <el-input v-model="form1.userId"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
@@ -45,24 +45,26 @@
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column prop="timeBegin" label="开始时间" sortable align="center"/>
-      <el-table-column prop="timeEnd" label="结束时间" sortable align="center"/>
-      <el-table-column prop="vipAccount" label="会员账号" sortable align="center"/>
+      <el-table-column prop="userId" label="玩家id" sortable align="center"/>
+      <el-table-column prop="userNickname" label="玩家昵称" sortable align="center"/>
       <el-table-column prop="gameName" label="游戏名称" sortable align="center"/>
-      <el-table-column prop="gameRoom" label="游戏房间" sortable align="center"/>
-      <el-table-column prop="bet" label="投注" sortable align="center"/>
-      <el-table-column prop="winAmount" label="中奖金额" sortable align="center"/>
-      <el-table-column prop="winLose" label="盈亏" sortable align="center"/>
-      <el-table-column prop="tax" label="税收" sortable align="center"/>
-      <el-table-column prop="operation" label="操作" sortable align="center">
+      <el-table-column prop="roomName" label="游戏房间" sortable align="center"/>
+      <el-table-column prop="gameNumber" label="牌局编号" sortable align="center"/>
+      <el-table-column prop="userGameResult" label="输赢状态" sortable align="center"/>
+      <el-table-column prop="userTableFee" label="桌费" sortable align="center"/>
+      <el-table-column prop="userScoreBegin" label="开始金豆" sortable align="center"/>
+      <el-table-column prop="userScoreEnd" label="结束金豆" sortable align="center"/>
+      <el-table-column prop="gameTime" label="游戏时长" sortable align="center"/>
+      <el-table-column prop="recordTimestamp" label="游戏时间" sortable align="center"/>
+      <!-- <el-table-column prop="operation" label="操作" sortable align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="handleDetail()">详细</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <!-- 分页 -->
-    <el-row gutter="20">
+    <!-- <el-row gutter="20">
       <el-col :span="10" style="text-align: center">
         <el-pagination
           :current-page="currentPage"
@@ -73,14 +75,14 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
-      </el-col>
+      </el-col> -->
 
-      <el-col :span="10" style="text-align: right">
-        总下注金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
-        总中奖金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
-        总盈亏金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
-        总税收金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>
-      </el-col>
+    <el-col :span="10" style="text-align: right">
+      总下注金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+      总中奖金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+      总盈亏金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+      总税收金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>
+    </el-col>
     </el-row>
   </div>
 </template>
@@ -95,7 +97,7 @@ export default {
       form1: {
         gameName: '全部',
         gameRoom: '全部',
-        vipAccount: ''
+        userId: ''
       },
 
       // optionsGameName
@@ -162,7 +164,7 @@ export default {
       tableData: [{
         timeBegin: '2018-11-11 11:11:11',
         timeEnd: '2018-11-11 11:11:11',
-        vipAccount: 'ok1',
+        userId: 'ok1',
         gameName: '牛牛1',
         gameRoom: '初级房',
         bet: 11.11,
@@ -172,7 +174,7 @@ export default {
       }, {
         timeBegin: '2018-11-11 11:11:12',
         timeEnd: '2018-11-11 11:11:12',
-        vipAccount: 'ok2',
+        userId: 'ok2',
         gameName: '牛牛2',
         gameRoom: '初级房',
         bet: 11.12,
