@@ -40,6 +40,11 @@ service.interceptors.response.use(
 
     if (res.code !== undefined) {
       if (res.code !== 0) {
+        if (typeof res.data['ok'] !== 'undefined') { // 接口请求失败, 但是还需要接口返回的数据, 比如错误信息data['msg']
+          return response.data
+        } else {
+          return Promise.reject('error')
+        }
         // Message({
         //   message: res.message,
         //   type: 'error',
@@ -59,9 +64,7 @@ service.interceptors.response.use(
         //     })
         //   })
         // }
-        // test
-        console.log(1)
-        return Promise.reject('error')
+        // return Promise.reject('error')
       } else {
         return response.data
       }

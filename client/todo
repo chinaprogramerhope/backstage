@@ -1,6 +1,9 @@
-deadline: 12.27
+deadline: -1
 ==========
-12.25 - 
+12.28 - 
+    登录页面
+    部署外网搞定
+    接口搞定
 
 原则: 
 后台不影响服务端, 只从服务端拉数据; 影响客户端的接口重新接;
@@ -53,14 +56,9 @@ route->login.index->request->store.model.user->api.login->utils.request->respons
 
 
 ==
-所有前端一级页面搞定
-首页和游戏管理前后台调通
-
 js发送数组参数  get post
 > 是table展开行
 
-4. 后端所有接口搞定
-5. 前后端所有接口联调搞定
 
 
 在 vue-element-admin/src/permission.js添加特例, 
