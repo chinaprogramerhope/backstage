@@ -19,7 +19,7 @@ export function register(userName, pass, passRepeat, verifyCode) {
   }
 
   var ret = request({
-    url: 'http://192.168.1.127:8102',
+    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })
@@ -40,7 +40,7 @@ export function getVerifyCode() {
   }
 
   var ret = request({
-    url: 'http://192.168.1.127:8102',
+    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })

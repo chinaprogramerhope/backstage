@@ -11,6 +11,7 @@ date_default_timezone_set('Asia/shanghai');
 require_once 'autoload.php';
 require_once 'loadConfig.php';
 
+
 $data = [];
 $ret = [ // 返回值标准格式, 支持只返回其中一个
     'code' => ERR_OK,
@@ -21,8 +22,8 @@ $ret = [ // 返回值标准格式, 支持只返回其中一个
  * 跨域问题解决, 即客户端先发一次options请求, 再发post请求
  * todo OPTIONS请求, 我怎么返回会影响客户端是否继续发送POST请求
  */
-header("Access-Control-Allow-Origin:*"); // 允许其他域名访问
-header('Access-Control-Allow-Methods:OPTIONS,POST'); // 响应类型 todo  怎么这里把OPTIONS去掉, OPTIONS请求也是能继续往下执行啊;
+//header("Access-Control-Allow-Origin:*"); // 允许其他域名访问 貌似nginx配置了, 这里不能再配置
+header('Access-Control-Allow-Methods:OPTIONS,POST'); // 响应类型
 header('Access-Control-Allow-Headers:x-requested-with,content-type,x-token'); // 响应头设置
 if((strtolower($_SERVER['REQUEST_METHOD']) == 'options')
     || (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")){ // 判断是否为 options (ajax) 请求

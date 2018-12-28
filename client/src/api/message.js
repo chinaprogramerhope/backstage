@@ -15,7 +15,7 @@ export function announceListGet(type, timeBegin) {
   }
 
   var ret = request({
-    url: 'http://192.168.1.127:8102',
+    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })
@@ -38,7 +38,7 @@ export function announceListDel(announceId) {
   }
 
   var ret = request({
-    url: 'http://192.168.1.127:8102',
+    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })

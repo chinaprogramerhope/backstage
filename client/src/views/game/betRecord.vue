@@ -77,12 +77,13 @@
         />
       </el-col> -->
 
-    <el-col :span="10" style="text-align: right">
-      总下注金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
-      总中奖金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
-      总盈亏金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
-      总税收金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>
-    </el-col>
+    <el-row>
+      <el-col :span="10" style="text-align: right">
+        总下注金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+        总中奖金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+        总盈亏金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
+        总税收金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>
+      </el-col>
     </el-row>
   </div>
 </template>
