@@ -25,3 +25,4 @@ const ERR_ADMIN_PASSWORD_WRONG = 301; // 密码错误
 const ERR_ADMIN_PASSWORD_EMPTY = 302; // 账号和密码不能为空
 const ERR_ADMIN_NOT_ACTIVE = 303; // 账号不可用
 const ERR_ADMIN_REGISTER_VERIFY_CODE_WRONG = 304; // 注册 - 验证码错误
+const ERR_ADMIN_REGISTER_REPEAT_USERNAME = 305; // 注册 - 该账号已被注册

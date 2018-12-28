@@ -449,33 +449,25 @@ export const constantRouterMap = [
 
   // 注册
   {
-    path: '/register',
-    component: Layout,
-    hidden: true,
-    redirect: '/register/index',
-    // alwaysShow: true,
-    meta: {
-      title: '注册',
-      icon: 'web'
-    },
-    children: [
-      {
-        path: 'register',
-        component: () => import('@/views/register/index'),
-        name: 'register',
-        meta: {
-          title: '注册'
-        }
-      }
-      // {
-      //   path: 'adsetting',
-      //   component: () => import('@/views/website/adsetting'),
-      //   name: 'adsetting',
-      //   meta: {
-      //     title: '广告图设置'
-      //   }
-      // }
-    ]
+    // path: '/register',
+    // component: Layout,
+    // hidden: true,
+    // redirect: '/register/index',
+    // // alwaysShow: true,
+    // meta: {
+    //   title: '注册',
+    //   icon: 'web'
+    // },
+    // children: [
+    //   {
+    //     path: 'register',
+    //     component: () => import('@/views/register/index'),
+    //     name: 'register',
+    //     meta: {
+    //       title: '注册'
+    //     }
+    //   }
+    // ]
 
     // path: '/register',
     // component: Layout,
@@ -489,9 +481,9 @@ export const constantRouterMap = [
     //   }
     // ]
 
-    // path: '/register',
-    // component: () => import('@/views/register/index'),
-    // hidden: true
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
   }
 ]
 

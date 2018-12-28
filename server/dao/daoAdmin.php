@@ -95,7 +95,7 @@ class daoAdmin {
      * @return int
      */
     public static function getAdmin($param, &$data) {
-        $adminName = isset($param['adminName']) ? $param['adminName'] : '';
+        $adminName = isset($param['userName']) ? $param['userName'] : '';
 
         $newAdminConfig = mysqlConfig['new_admin'];
         $pdo = clsMysql::getInstance($newAdminConfig);
@@ -105,10 +105,10 @@ class daoAdmin {
         }
 
         try {
-            $sql = 'select * from admin_admin where name = :adminName limit 1';
+            $sql = 'select * from admin_admin where name = :userName limit 1';
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                ':adminName' => $adminName
+                ':userName' => $adminName
             ]);
             $row = $stmt->fetch();
         } catch (PDOException $e) {

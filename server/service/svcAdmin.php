@@ -24,6 +24,8 @@ class svcAdmin {
      * @return int
      */
     public function register($param, &$data) {
+        $data['ok'] = 1;
+
         if (!isset($param['userName']) || empty($param['userName'])
             || !isset($param['pass']) || empty($param['pass'])
             || !isset($param['passRepeat']) || empty($param['passRepeat'])
@@ -73,14 +75,11 @@ class svcAdmin {
      * @return int
      */
     public function login($param, &$data) {
-        if (!isset($param['adminName']) || !isset($param['pass'])
-            || empty($param['adminName']) || empty($param['pass'])) {
+        if (!isset($param['userName']) || !isset($param['pass'])
+            || empty($param['userName']) || empty($param['pass'])) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             return ERR_ADMIN_PASSWORD_EMPTY;
         }
-
-        $adminName = trim($param['adminName']);
-        $pass = trim($param['pass']);
 
         return clsAdmin::login($param, $data);
 

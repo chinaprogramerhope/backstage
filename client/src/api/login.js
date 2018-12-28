@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function loginByUsername(username, pass) {
+export function loginByUsername(userName, pass) {
   const data = {
     cmd: 6,
     param: {
-      adminName: username,
+      userName: userName,
       pass: pass
     }
   }

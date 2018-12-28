@@ -32,6 +32,11 @@ router.beforeEach((to, from, next) => {
     // next(`/login/index`) // 否则全部重定向到登录页
     next()
     NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+  } else if (to.path === '/register') {
+    // next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+    // next(`/login/index`) // 否则全部重定向到登录页
+    next()
+    NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
   } else {
     if (getToken()) { // determine if there has token
       /* has token*/

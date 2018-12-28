@@ -32,6 +32,15 @@ class clsAdmin {
      * @return int
      */
     public static function register($param, &$data) {
+        // 是否已被注册
+        $adminData = [];
+        daoAdmin::getAdmin($param, $adminData);
+        if (!empty($adminData)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', repeat userName, param = ' . json_encode($param));
+            $data['msg'] = '该账号已被注册';
+            return ERR_ADMIN_REGISTER_REPEAT_USERNAME;
+        }
+
         // 检测验证码
         $ip = self::getIp();
         $verifyCode = intval($param['verifyCode']);
@@ -65,7 +74,7 @@ class clsAdmin {
      * @return int
      */
     public static function login($param, &$data) {
-        $adminName = $param['adminName'];
+        $adminName = $param['userName'];
         $pass = $param['pass'];
 
         daoAdmin::getAdmin($param, $data);
@@ -74,13 +83,13 @@ class clsAdmin {
         // 账号是否存在
         $adminInfo = $data;
         if (empty($adminInfo)) {
-            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', ERR_ADMIN_NOT_EXIST, adminName = ' . $adminName);
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', ERR_ADMIN_NOT_EXIST, userName = ' . $adminName);
             return ERR_ADMIN_NOT_EXIST;
         }
 
         // 密码是否正确 todo 保存加密密码
         if ($pass != $savePass) {
-            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', ERR_ADMIN_PASSWORD_WRONG, adminName = ' . $adminName
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', ERR_ADMIN_PASSWORD_WRONG, userName = ' . $adminName
                 . ', pass = ' . $pass . ', adminInfo = ' . json_encode($adminInfo));
             return ERR_ADMIN_PASSWORD_WRONG;
         }
@@ -108,7 +117,7 @@ class clsAdmin {
         $ret = daoAdmin::getAdmin($param, $data);
         if ($ret !== ERR_OK) {
             $code = $data;
-            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', daoAdmin::getAdmin fail , adminName = ' . $adminName);
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', daoAdmin::getAdmin fail , userName = ' . $adminName);
             return $code;
         }
 

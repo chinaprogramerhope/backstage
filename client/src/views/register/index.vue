@@ -14,14 +14,14 @@
         prop="pass"
         label="密码"
       >
-        <el-input v-model="form1.pass" placeholder="6~15位限英文数字" style="width:400px" clearable auto-complete="off"/>
+        <el-input v-model="form1.pass" type="password" placeholder="6~15位限英文数字" style="width:400px" clearable auto-complete="off"/>
       </el-form-item>
 
       <el-form-item
         prop="passRepeat"
         label="确认密码"
       >
-        <el-input v-model="form1.passRepeat" style="width:400px" clearable auto-complete="off"/>
+        <el-input v-model="form1.passRepeat" type="password" style="width:400px" clearable auto-complete="off"/>
       </el-form-item>
 
       <el-form-item
