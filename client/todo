@@ -63,3 +63,8 @@ js发送数组参数  get post
 
 在 vue-element-admin/src/permission.js添加特例, 
 vue_element_admin这里写得不好。。。添加不需要验证登陆的页面很麻烦。。
+
+=============
+说明: 
+    登录: http://192.168.1.127:9527/#/login
+    注册: http://192.168.1.127:9527/#/register
