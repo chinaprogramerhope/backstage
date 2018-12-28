@@ -82,36 +82,13 @@ export default {
     getVerifyCodeClient() {
       getVerifyCode().then(response => {
         this.verifyCode = response.data['verifyCode']
-        // test
-        console.log('retCode = ' + this.verifyCode)
       })
     },
-
-    // onSubmit() {
-    //   register(this.form1.userName, this.form1.pass, this.form1.passRepeat, this.form1.verifyCodeInput).then(response => {
-    //     if (response.code === 0) {
-    //       this.$notify({
-    //         title: '注册成功',
-    //         message: '',
-    //         type: 'success'
-    //       })
-    //     } else {
-    //       this.$notify({
-    //         title: '注册失败!! ' + response.data['msg'],
-    //         message: '',
-    //         type: 'error'
-    //       })
-    //     }
-    //   })
-    //   this.getVerifyCodeClient()
-    // }
 
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           register(this.form1.userName, this.form1.pass, this.form1.passRepeat, this.form1.verifyCodeInput).then(response => {
-            // test
-            console.log('ok111, response.code = ' + response.code + ', data = ' + JSON.stringify(response.data))
             if (response.code === 0) {
               this.getVerifyCodeClient()
               this.$notify({
