@@ -62,7 +62,6 @@ export function listGet(gameName, gameType, gameStatus) {
   }
 
   var ret = request({
-    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })
@@ -85,7 +84,32 @@ export function listChangeStatus(gameName, gameStatus) {
   }
 
   var ret = request({
-    url: 'http://47.244.177.7:8091/index.php',
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 投注记录 - 获取
+ * @param {*} dateRange
+ * @param {*} gameId
+ * @param {*} roomId
+ * @param {*} userId
+ */
+export function betRecordGet(dateRange, gameId, roomId, userId) {
+  const data = {
+    cmd: 110,
+    param: {
+      dateRange: dateRange,
+      gameId: gameId,
+      roomId: roomId,
+      userId: userId
+    }
+  }
+
+  var ret = request({
     method: 'post',
     data
   })

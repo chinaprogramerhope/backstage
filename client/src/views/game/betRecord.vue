@@ -5,7 +5,7 @@
     <el-form :inline="true" :model="form1" align="left" style="margin-top: 30px">
       <el-form-item label="时间:">
         <el-date-picker
-          v-model="dpValue1"
+          v-model="form1.dpValue1"
           type="daterange"
           range-separator="~"
           start-placeholder="开始日期"
@@ -13,7 +13,7 @@
         />
       </el-form-item>
       <el-form-item label="游戏名称:">
-        <el-select v-model="form1.gameName">
+        <el-select v-model="form1.selectGameName">
           <el-option
             v-for="item in optionsGameName"
             :key="item.value"
@@ -23,7 +23,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="游戏房间:">
-        <el-select v-model="form1.gameRoom">
+        <el-select v-model="form1.selectGameRoom">
           <el-option
             v-for="item in optionsGameRoom"
             :key="item.value"
@@ -52,8 +52,8 @@
       <el-table-column prop="gameNumber" label="牌局编号" sortable align="center"/>
       <el-table-column prop="userGameResult" label="输赢状态" sortable align="center"/>
       <el-table-column prop="userTableFee" label="桌费" sortable align="center"/>
-      <el-table-column prop="userScoreBegin" label="开始金豆" sortable align="center"/>
-      <el-table-column prop="userScoreEnd" label="结束金豆" sortable align="center"/>
+      <el-table-column prop="userScoreBegin" label="开始金币" sortable align="center"/>
+      <el-table-column prop="userScoreEnd" label="结束金币" sortable align="center"/>
       <el-table-column prop="gameTime" label="游戏时长" sortable align="center"/>
       <el-table-column prop="recordTimestamp" label="游戏时间" sortable align="center"/>
       <!-- <el-table-column prop="operation" label="操作" sortable align="center">
@@ -89,77 +89,82 @@
 </template>
 
 <script>
+import { betRecordGet } from '@/api/game'
+
 export default {
   data() {
     return {
-      // 日期(不在这里返回会不显示选择的时间)
-      dpValue1: '',
-
       form1: {
-        gameName: '全部',
-        gameRoom: '全部',
-        userId: ''
+        selectGameName: -1,
+        selectGameRoom: -1,
+        userId: '',
+        dpValue1: '',
+        optionsGameName: [{
+          label: '全部',
+          value: -1
+        }, {
+          label: '德州扑克',
+          value: 1
+        }, {
+          'label': '抢庄牛牛',
+          'value': 18
+        }, {
+          label: '看牌牛牛',
+          value: 20
+        }, {
+          label: '百人牛牛',
+          value: 21
+        }, {
+          label: '炸金花',
+          value: 49
+        }, {
+          label: '红黑大战',
+          value: 52
+        }, {
+          label: '经典斗地主',
+          value: 97
+        }, {
+          label: '欢乐斗地主',
+          value: 98
+        }, {
+          label: '十三水',
+          value: 161
+        }, {
+          label: '十三水_5色',
+          value: 162
+        }, {
+          label: '跑得快',
+          value: 321
+        }, {
+          label: '奔驰宝马',
+          value: 350
+        }, {
+          label: '龙虎斗',
+          value: 351
+        }, {
+          label: '百家乐',
+          value: 352
+        }],
+        optionsGameRoom: [{
+          label: '全部',
+          value: -1
+        }, {
+          label: '初级房',
+          value: 1
+        }, {
+          label: '中级房',
+          value: 2
+        }, {
+          label: '高级房',
+          value: 'advance'
+        }, {
+          label: '富豪房',
+          value: 'rich'
+        }, {
+          label: '至尊房',
+          value: 'Supreme'
+        }]
       },
-
-      // optionsGameName
-      optionsGameName: [{
-        'label': '全部',
-        'value': 'all'
-      }, {
-        'label': '斗地主',
-        'value': 'douidizhu'
-      }, {
-        'label': '牛牛',
-        'value': 'niuniu'
-      }, {
-        'label': '红黑大战',
-        'value': 'honghei'
-      }, {
-        'label': '全部',
-        'value': 'all'
-      }, {
-        'label': '斗地主',
-        'value': 'douidizhu'
-      }, {
-        'label': '牛牛',
-        'value': 'niuniu'
-      }, {
-        'label': '红黑大战',
-        'value': 'honghei'
-      }, {
-        'label': '全部',
-        'value': 'all'
-      }, {
-        'label': '斗地主',
-        'value': 'douidizhu'
-      }, {
-        'label': '牛牛',
-        'value': 'niuniu'
-      }, {
-        'label': '红黑大战',
-        'value': 'honghei'
-      }],
-
-      // optionsGameRoom
-      optionsGameRoom: [{
-        'label': '全部',
-        'value': 'all'
-      }, {
-        'label': '初级房',
-        'value': 'junior'
-      }, {
-        'label': '中级房',
-        'value': 'middle'
-      }, {
-        'label': '高级房',
-        'value': 'advance'
-      }, {
-        'label': '富豪房',
-        'value': 'rich'
-      }, {
-        'label': '至尊房',
-        'value': 'Supreme'
-      }],
 
       // tableData
       tableData: [{
@@ -188,6 +193,13 @@ export default {
       currentPage: 4
     }
   },
+
+  created() {
+    betRecordGet(this.form1.dateRange, this.form1.selectGameName, this.form1.selectGameRoom, this.form1.userId).then(response => {
+      this.tableData = response.data
+    })
+  },
+
   methods: {
     obSubmit() {
       console.log('submit!')
