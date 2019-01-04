@@ -28,11 +28,6 @@ require_once '../loadConfig.php';
 //$pass1 = crypt($pass, $salt);
 //echo $pass1; // 88.h3CWSFO.yw
 
-$url = 'http://47.244.177.7:8090';
-$param = [
-    'cmd' => '8',
-    'param' => [
-    ]
-];
-
-echo clsHttp::curlPost($url, $param);
+$a = 'xfdfs union all';
+$a = rtrim($a, 'nion all');
+echo $a;

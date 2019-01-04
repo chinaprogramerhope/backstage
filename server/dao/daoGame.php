@@ -261,60 +261,65 @@ class daoGame {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $currentDate = date('Ymd');
+        // test
+        $currentDate = '20181119';
+//        $currentDate = date('Ymd');
+
+        $sql = '';
+
         if ($gameId === -1) {
-            $sql = '';
-            $i = 0;
             foreach (gameHistoryTables as $tablePrefix) {
-                if (!empty($tablePrefix)) {
+                if (!empty($tablePrefix)) { // 表前缀已定义
                     $tableName = $tablePrefix . $currentDate;
 
-                    $sqlSingleTable = 'select user_id, user_nickname, game_number, room_id, user_game_result, user_table_fee,';
-                    $sqlSingleTable .= 'user_score_begin, user_score_end, earn_score, game_time, record_timestamp';
-                    $sqlSingleTable .= ' from ' . $tableName;
+                    if (clsUtility::checkTableExist($pdo, $tableName)) { // 表存在
+                        $sqlSingleTable = 'select user_id as userId, user_nickname as userNickname, room_id as roomId,';
+                        $sqlSingleTable .= ' game_number as gameNumber, user_game_result as userGameResult,';
+                        $sqlSingleTable .= ' user_table_fee as userTableFee, user_score_begin as userScoreBegin,';
+                        $sqlSingleTable .= ' user_score_end as userScoreEnd, game_time as gameTime, record_timestamp as recordTimestamp';
+                        $sqlSingleTable .= ' from ' . $tableName;
 
-                    $haveWhere = false;
+                        $haveWhere = false;
 
-                    if ($roomId !== -1) {
-                        $sql .= ' where room_id = :roomId';
-                        $haveWhere = true;
-                    }
-                    if ($userId !== -1) {
-                        if ($haveWhere) {
-                            $sql .= ' and user_id = :userId';
-                        } else {
-                            $sql .= ' where user_id = :userId';
+                        if ($roomId !== -1) {
+                            $sql .= ' where room_id = :roomId';
                             $haveWhere = true;
                         }
-                    }
-                    if ($timeBegin !== -1) {
-                        if ($haveWhere) {
-                            $sql .= ' and record_timestamp >= :timeBegin';
-                        } else {
-                            $sql .= ' where record_timestamp >= :timeBegin';
-                            $haveWhere = true;
+                        if ($userId !== -1) {
+                            if ($haveWhere) {
+                                $sql .= ' and user_id = :userId';
+                            } else {
+                                $sql .= ' where user_id = :userId';
+                                $haveWhere = true;
+                            }
                         }
-                    }
-                    if ($timeEnd !== -1) {
-                        if ($haveWhere) {
-                            $sql .= ' and record_timestamp <= :timeEnd';
-                        } else {
-                            $sql .= ' where record_timestamp <= :timeEnd';
-                            $haveWhere = true;
+                        if ($timeBegin !== -1) {
+                            if ($haveWhere) {
+                                $sql .= ' and record_timestamp >= :timeBegin';
+                            } else {
+                                $sql .= ' where record_timestamp >= :timeBegin';
+                                $haveWhere = true;
+                            }
                         }
-                    }
+                        if ($timeEnd !== -1) {
+                            if ($haveWhere) {
+                                $sql .= ' and record_timestamp <= :timeEnd';
+                            } else {
+                                $sql .= ' where record_timestamp <= :timeEnd';
+                                $haveWhere = true;
+                            }
+                        }
 
-                    $sql .= $sqlSingleTable;
-
-                    ++$i;
-                    if ($i < count(gameHistoryTables)) {
+                        $sql .= $sqlSingleTable;
                         $sql .= ' union all ';
+                    } else {
+                        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not exist');
                     }
                 } else {
                     clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not define');
                 }
             }
-            $sql .= ' limit ' . maxQueryNum;
+            $sql = rtrim($sql, ' union all ');
         } else {
             if (!array_key_exists($gameId, gameHistoryTables)) {
                 clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid gameId, param = ' . json_encode($param));
@@ -326,56 +331,66 @@ class daoGame {
             }
             $tableName = gameHistoryTables[$gameId] . $currentDate;
 
-            $sql = 'select user_id, user_nickname, game_number, room_id, user_game_result, user_table_fee,';
-            $sql .= 'user_score_begin, user_score_end, earn_score, game_time, record_timestamp';
-            $sql .= ' from ' . $tableName;
+            if (clsUtility::checkTableExist($pdo, $tableName)) { // 表存在
+                $sqlSingleTable = 'select user_id as userId, user_nickname as userNickname, room_id as roomId,';
+                $sqlSingleTable .= ' game_number as gameNumber, user_game_result as userGameResult,';
+                $sqlSingleTable .= ' user_table_fee as userTableFee, user_score_begin as userScoreBegin,';
+                $sqlSingleTable .= ' user_score_end as userScoreEnd, game_time as gameTime, record_timestamp as recordTimestamp';
+                $sql .= ' from ' . $tableName;
 
-            $haveWhere = false;
+                $haveWhere = false;
 
-            if ($roomId !== -1) {
-                $sql .= ' where room_id = :roomId';
-                $haveWhere = true;
-            }
-            if ($userId !== -1) {
-                if ($haveWhere) {
-                    $sql .= ' and user_id = :userId';
-                } else {
-                    $sql .= ' where user_id = :userId';
+                if ($roomId !== -1) {
+                    $sql .= ' where room_id = :roomId';
                     $haveWhere = true;
                 }
-            }
-            if ($timeBegin !== -1) {
-                if ($haveWhere) {
-                    $sql .= ' and record_timestamp >= :timeBegin';
-                } else {
-                    $sql .= ' where record_timestamp >= :timeBegin';
-                    $haveWhere = true;
+                if ($userId !== -1) {
+                    if ($haveWhere) {
+                        $sql .= ' and user_id = :userId';
+                    } else {
+                        $sql .= ' where user_id = :userId';
+                        $haveWhere = true;
+                    }
+                }
+                if ($timeBegin !== -1) {
+                    if ($haveWhere) {
+                        $sql .= ' and record_timestamp >= :timeBegin';
+                    } else {
+                        $sql .= ' where record_timestamp >= :timeBegin';
+                        $haveWhere = true;
+                    }
+                }
+                if ($timeEnd !== -1) {
+                    if ($haveWhere) {
+                        $sql .= ' and record_timestamp <= :timeEnd';
+                    } else {
+                        $sql .= ' where record_timestamp <= :timeEnd';
+                        $haveWhere = true;
+                    }
                 }
             }
-            if ($timeEnd !== -1) {
-                if ($haveWhere) {
-                    $sql .= ' and record_timestamp <= :timeEnd';
-                } else {
-                    $sql .= ' where record_timestamp <= :timeEnd';
-                    $haveWhere = true;
-                }
-            }
+        }
 
+        if (!empty($sql)) {
             $sql .= ' limit ' . maxQueryNum;
         }
 
-        try {
-            $stmt = $pdo->prepare($sql);
-            $ret = $stmt->execute($pdoParam);
-            if (!$ret) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
-                    . ', pdoParam = ' . json_encode($pdoParam));
-                return ERR_MYSQL_EXECUTE_FAIL;
+        $rows = [];
+
+        if (!empty($sql)) {
+            try {
+                $stmt = $pdo->prepare($sql);
+                $ret = $stmt->execute($pdoParam);
+                if (!$ret) {
+                    clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                        . ', pdoParam = ' . json_encode($pdoParam));
+                    return ERR_MYSQL_EXECUTE_FAIL;
+                }
+                $rows = $stmt->fetchAll();
+            } catch (Exception $e) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+                return ERR_MYSQL_EXCEPTION;
             }
-            $rows = $stmt->fetchAll();
-        } catch (Exception $e) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
-            return ERR_MYSQL_EXCEPTION;
         }
 
 //        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
@@ -383,8 +398,7 @@ class daoGame {
 
         $data = !empty($rows) ? $rows : [];
 
-        // test
-        clsLog::info('ok12, data = ' . json_encode($data));
+        clsLog::debug('ok12, data = ' . json_encode($data) . ', sql = ' . $sql);
 
         return ERR_OK;
     }

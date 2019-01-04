@@ -33,4 +33,40 @@ class clsUtility {
             
         }
     }
+
+    /**
+     * 检查表是否存在
+     * @param $pdo
+     * @param $tableName
+     * @return bool
+     */
+    public static function checkTableExist(&$pdo, $tableName) {
+        try {
+            $sql = "select table_name from information_schema.tables where table_name=:tableName";
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute([
+                ':tableName' => $tableName
+            ]);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                    . ', pdo = ' . json_encode($pdo));
+                return false;
+            }
+
+            $row = $stmt->fetch();
+        } catch (Exception $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        // test
+        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', tableName = ' . $tableName
+            . ', row = ' . json_encode($row));
+
+        if (empty($row) || empty($row['table_name'])) {
+            return false;
+        }
+
+        return true;
+    }
 }
