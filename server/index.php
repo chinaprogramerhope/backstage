@@ -22,7 +22,7 @@ $ret = [ // 返回值标准格式, 支持只返回其中一个
  * 跨域问题解决, 即客户端先发一次options请求, 再发post请求
  * todo OPTIONS请求, 我怎么返回会影响客户端是否继续发送POST请求
  */
-//header("Access-Control-Allow-Origin:*"); // 允许其他域名访问 貌似nginx配置了, 这里不能再配置
+header("Access-Control-Allow-Origin:*"); // 允许其他域名访问 貌似nginx配置了, 这里不能再配置
 header('Access-Control-Allow-Methods:OPTIONS,POST'); // 响应类型
 header('Access-Control-Allow-Headers:x-requested-with,content-type,x-token'); // 响应头设置
 if((strtolower($_SERVER['REQUEST_METHOD']) == 'options')
@@ -44,7 +44,7 @@ if (empty($_POST) && !empty($tmpParam)) {
     $_POST = json_decode($tmpParam, true);
 }
 
-clsLog::debug('index.php, param = ' . json_encode($_POST));
+//clsLog::debug('index.php, param = ' . json_encode($_POST));
 
 if (!isset($_POST['cmd']) || !array_key_exists($_POST['cmd'], cmdArr)) {
     clsLog::error(basename(__FILE__) . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($_POST));

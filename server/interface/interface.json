@@ -1,0 +1,11 @@
+//游戏列表 - 获取游戏列表 cmd 101
+// return
+[{
+  "gameName": "经典斗地主",
+  "gameType": "0.01 \/ 1.00",
+  "gameStatus": "正常"
+}, {
+  "gameName": "十三水",
+  "gameType": "1.00 \/ 18.00",
+  "gameStatus": "正常"
+}]

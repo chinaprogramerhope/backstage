@@ -86,6 +86,8 @@ class daoGame {
         }
         $data = !empty($rows) ? $rows : [];
 
+        // test
+        clsLog::error('ok91, data = ' . json_encode($data));
 
         return ERR_OK;
     }
@@ -226,6 +228,8 @@ class daoGame {
      * @return int
      */
     public static function betRecordGet($param, &$data) {
+        // test
+        clsLog::info('ok11, param = ' . json_encode($param));
         if (isset($param['dateRange']) && !empty($param['dateRange'])) {
             $timeBegin = $param['dateRange'][0];
             $timeEnd = $param['dateRange'][1];
@@ -235,7 +239,21 @@ class daoGame {
 
         $gameId = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
         $roomId = isset($param['roomId']) && !empty($param['roomId']) ? intval($param['roomId']) : -1;
-        $userId = isset($param['userId']) ? $param['userId'] : '';
+        $userId = isset($param['userId']) && !empty($param['userId']) ? $param['userId'] : -1;
+
+        $pdoParam = [];
+        if ($roomId !== -1) {
+            $pdoParam[':roomId'] = $roomId;
+        }
+        if ($userId !== -1) {
+            $pdoParam[':user_id'] = $userId;
+        }
+        if ($timeBegin !== -1) {
+            $pdoParam[':timeBegin'] = $timeBegin;
+        }
+        if ($timeEnd !== -1) {
+            $pdoParam[':timeEnd'] = $timeEnd;
+        }
 
         $pdo = clsMysql::getInstance(mysqlConfig['gameHistory']);
         if ($pdo === null) {
@@ -243,18 +261,77 @@ class daoGame {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
+        $currentDate = date('Ymd');
         if ($gameId === -1) {
+            $sql = '';
+            $i = 0;
+            foreach (gameHistoryTables as $tablePrefix) {
+                if (!empty($tablePrefix)) {
+                    $tableName = $tablePrefix . $currentDate;
+
+                    $sqlSingleTable = 'select user_id, user_nickname, game_number, room_id, user_game_result, user_table_fee,';
+                    $sqlSingleTable .= 'user_score_begin, user_score_end, earn_score, game_time, record_timestamp';
+                    $sqlSingleTable .= ' from ' . $tableName;
+
+                    $haveWhere = false;
+
+                    if ($roomId !== -1) {
+                        $sql .= ' where room_id = :roomId';
+                        $haveWhere = true;
+                    }
+                    if ($userId !== -1) {
+                        if ($haveWhere) {
+                            $sql .= ' and user_id = :userId';
+                        } else {
+                            $sql .= ' where user_id = :userId';
+                            $haveWhere = true;
+                        }
+                    }
+                    if ($timeBegin !== -1) {
+                        if ($haveWhere) {
+                            $sql .= ' and record_timestamp >= :timeBegin';
+                        } else {
+                            $sql .= ' where record_timestamp >= :timeBegin';
+                            $haveWhere = true;
+                        }
+                    }
+                    if ($timeEnd !== -1) {
+                        if ($haveWhere) {
+                            $sql .= ' and record_timestamp <= :timeEnd';
+                        } else {
+                            $sql .= ' where record_timestamp <= :timeEnd';
+                            $haveWhere = true;
+                        }
+                    }
+
+                    $sql .= $sqlSingleTable;
+
+                    ++$i;
+                    if ($i < count(gameHistoryTables)) {
+                        $sql .= ' union all ';
+                    }
+                } else {
+                    clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not define');
+                }
+            }
+            $sql .= ' limit ' . maxQueryNum;
         } else {
             if (!array_key_exists($gameId, gameHistoryTables)) {
                 clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid gameId, param = ' . json_encode($param));
                 return ERR_INVALID_PARAM;
             }
-            $tableName = gameHistoryTables[$gameId];
+            if (empty(gameHistoryTables[$gameId])) {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not define, param = ' . json_encode($param));
+                return ERR_TABLE_NOT_DEFINE;
+            }
+            $tableName = gameHistoryTables[$gameId] . $currentDate;
 
             $sql = 'select user_id, user_nickname, game_number, room_id, user_game_result, user_table_fee,';
             $sql .= 'user_score_begin, user_score_end, earn_score, game_time, record_timestamp';
+            $sql .= ' from ' . $tableName;
 
             $haveWhere = false;
+
             if ($roomId !== -1) {
                 $sql .= ' where room_id = :roomId';
                 $haveWhere = true;
@@ -264,6 +341,7 @@ class daoGame {
                     $sql .= ' and user_id = :userId';
                 } else {
                     $sql .= ' where user_id = :userId';
+                    $haveWhere = true;
                 }
             }
             if ($timeBegin !== -1) {
@@ -271,6 +349,7 @@ class daoGame {
                     $sql .= ' and record_timestamp >= :timeBegin';
                 } else {
                     $sql .= ' where record_timestamp >= :timeBegin';
+                    $haveWhere = true;
                 }
             }
             if ($timeEnd !== -1) {
@@ -278,18 +357,34 @@ class daoGame {
                     $sql .= ' and record_timestamp <= :timeEnd';
                 } else {
                     $sql .= ' where record_timestamp <= :timeEnd';
+                    $haveWhere = true;
                 }
             }
+
+            $sql .= ' limit ' . maxQueryNum;
         }
 
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute($pdoParam);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                    . ', pdoParam = ' . json_encode($pdoParam));
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+        } catch (Exception $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
+        }
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':groupId' => $groupId
-        ]);
-        $rows = $stmt->fetchAll();
+//        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+//        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', rows = ' . json_encode($rows));
+
         $data = !empty($rows) ? $rows : [];
 
+        // test
+        clsLog::info('ok12, data = ' . json_encode($data));
 
         return ERR_OK;
     }

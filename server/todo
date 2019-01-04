@@ -1,43 +1,22 @@
-
-
-
-游戏管理
-    游戏列表 -
-              所有游戏都加上
-    投注记录 - 数据做完
-
-   dl
-   php版本更新
-
-
-cmd定义接口
-vue前后端数据传输, 前端所有处理
-游戏管理和财务管理搞完
+12.29 -
+    游戏管理和会员管理接口搞定
 
 ========
 
-
-__LINE__效率
-
-nginx是否需要ob_flush()后flush(), ob_flush()和exit()的搭配
-
-为了效率不用require/include(_once), 自己保证require/include不重复
-
-实践curl设置项含义
-
----------
-notice -
-    写之前考虑效率
-
-
------
 待解决 -
-1. 使用require代替require_once
 
+    __LINE__效率
 
----
-每日任务 -
-    gameServer 聊天 websocket搞定
+    nginx是否需要ob_flush()后flush(), ob_flush()和exit()的搭配
+
+    为了效率不用require/include(_once), 自己保证require/include不重复
+
+    实践curl设置项含义
+
+    使用require代替require_once
+
+    js请求发送数组参数
+
 
 
 

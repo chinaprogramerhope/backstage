@@ -15,7 +15,7 @@
       <el-form-item label="游戏名称:">
         <el-select v-model="form1.selectGameName">
           <el-option
-            v-for="item in optionsGameName"
+            v-for="item in form1.optionsGameName"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -25,7 +25,7 @@
       <el-form-item label="游戏房间:">
         <el-select v-model="form1.selectGameRoom">
           <el-option
-            v-for="item in optionsGameRoom"
+            v-for="item in form1.optionsGameRoom"
             :key="item.value"
             :label="item.label"
             :value="item.value"
