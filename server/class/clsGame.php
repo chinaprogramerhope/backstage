@@ -116,4 +116,29 @@ class clsGame {
     public static function betRecordGetDetail($param, &$data) {
         return daoGame::betRecordGetDetail($param, $data);
     }
+
+
+    /**
+     * 根据roomId获取与该roomId对应的游戏房间名相同的所有roomId
+     * @param $roomId
+     * @return array
+     */
+    public static function getRoomIdArr($roomId) {
+        $roomIdArr = [];
+        switch ($roomId) {
+            case 0:
+                $roomIdArr = [0, 6];
+                break;
+            case 1:
+                $roomIdArr = [1, 7];
+                break;
+            case 2:
+                $roomIdArr = [2, 8];
+                break;
+            default:
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, roomId = ' . json_encode($roomId));
+        }
+
+        return $roomIdArr;
+    }
 }

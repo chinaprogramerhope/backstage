@@ -28,6 +28,10 @@ require_once '../loadConfig.php';
 //$pass1 = crypt($pass, $salt);
 //echo $pass1; // 88.h3CWSFO.yw
 
-$a = 'xfdfs union all';
-$a = rtrim($a, 'nion all');
-echo $a;
+//$datetime1 = new DateTime('2009-10-11');
+//$datetime2 = new DateTime('2009-10-15');
+//echo  $datetime1->diff($datetime2)->d;
+
+$a = '2009-10-11';
+$b = '2009-10-15';
+$a = $a > $b;
