@@ -32,6 +32,18 @@ require_once '../loadConfig.php';
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
 
-$a = '2009-10-11';
-$b = '2009-10-15';
-$a = $a > $b;
+$a = 0;
+$b = '';
+$c = ' ';
+if (isset($a)) {
+    echo 1;
+}
+if (isset($b)) {
+    echo 2;
+}
+if (isset($c)) {
+    echo 3;
+}
+if (empty($d)) {
+    echo 4;
+}

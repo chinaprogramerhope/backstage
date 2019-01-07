@@ -231,23 +231,23 @@ class daoGame {
         // test
         clsLog::debug('ok11, param = ' . json_encode($param));
         if (isset($param['dateRange']) && !empty($param['dateRange'])) {
-            $timeBegin = $param['dateRange'][0];
-            $timeEnd = $param['dateRange'][1];
+            $dateBegin = $param['dateRange'][0];
+            $dateEnd = $param['dateRange'][1];
         } else {
-            $timeBegin = $timeEnd = -1;
+            $dateBegin = $dateEnd = -1;
         }
 
         $gameId = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
-        $roomId = isset($param['roomId']) && !empty($param['roomId']) ? $param['roomId'] : -1;
+        $roomId = isset($param['roomId']) ? intval($param['roomId']) : -1;
         $userId = isset($param['userId']) && !empty($param['userId']) ? $param['userId'] : -1;
 
         $pdoParam = [];
         if ($userId !== -1) {
             $pdoParam[':userId'] = $userId;
         }
-        if ($timeBegin !== -1) { // 开始时间和结束时间要么不选要么都选
-            $pdoParam[':timeBegin'] = $timeBegin;
-            $pdoParam[':timeEnd'] = $timeEnd;
+        if ($dateBegin !== -1) { // 开始时间和结束时间要么不选要么都选
+            $pdoParam[':timeBegin'] = $dateBegin;
+            $pdoParam[':timeEnd'] = $dateEnd;
         }
 
         $pdo = clsMysql::getInstance(mysqlConfig['gameHistory']);
@@ -260,140 +260,13 @@ class daoGame {
         $currentDate = '20190103';
 //        $currentDate = date('Ymd');
 
-        $sql = '';
-
-        if ($timeBegin !== -1) {
-            for ($i = $timeBegin; )
-        } else { // 如果没有选择日期, 默认取最近30天的数据
-
-        }
-
-
-        if ($gameId === -1) {
-            foreach (gameHistoryTables as $k => $tablePrefix) {
-                if (!empty($tablePrefix)) { // 表前缀已定义
-                    $tableName = $tablePrefix . $currentDate;
-
-                    $gameName = '';
-                    if (array_key_exists($k, gameIdName) && !empty(gameIdName[$k])) {
-                        $gameName = gameIdName[$k];
-                    }
-
-                    if (clsUtility::checkTableExist($pdo, $tableName)) { // 表存在
-                        $sql .= 'select user_id as userId, user_nickname as userNickname,';
-                        $sql .= ' "' . $gameName . '" as gameName,';
-                        $sql .= ' room_id as roomId, game_number as gameNumber, user_game_result as userGameResult,';
-                        $sql .= ' user_table_fee as userTableFee, user_score_begin as userScoreBegin,';
-                        $sql .= ' user_score_end as userScoreEnd, game_time as gameTime, record_timestamp as recordTimestamp';
-                        $sql .= ' from ' . $tableName;
-
-                        $haveWhere = false;
-
-                        if ($roomId !== -1) {
-                            $roomIdArr = clsGame::getRoomIdArr($roomId);
-                            if (!empty($roomIdArr)) {
-                                $in = implode(',', $roomIdArr);
-                                $sql .= ' where room_id in (' . $in . ')';
-                                $haveWhere = true;
-                            }
-                        }
-                        if ($userId !== -1) {
-                            if ($haveWhere) {
-                                $sql .= ' and user_id = :userId';
-                            } else {
-                                $sql .= ' where user_id = :userId';
-                                $haveWhere = true;
-                            }
-                        }
-                        if ($timeBegin !== -1) {
-                            if ($haveWhere) {
-                                $sql .= ' and record_timestamp >= :timeBegin';
-                            } else {
-                                $sql .= ' where record_timestamp >= :timeBegin';
-                                $haveWhere = true;
-                            }
-                        }
-                        if ($timeEnd !== -1) {
-                            if ($haveWhere) {
-                                $sql .= ' and record_timestamp <= :timeEnd';
-                            } else {
-                                $sql .= ' where record_timestamp <= :timeEnd';
-                                $haveWhere = true;
-                            }
-                        }
-
-                        $sql .= ' union all ';
-                    } else {
-                        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not exist');
-                    }
-                } else {
-                    clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not define');
-                }
-            }
-            $sql = rtrim($sql, ' union all ');
-        } else {
-            if (!array_key_exists($gameId, gameHistoryTables)) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid gameId, param = ' . json_encode($param));
-                return ERR_INVALID_PARAM;
-            }
-            if (empty(gameHistoryTables[$gameId])) {
-                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not define, param = ' . json_encode($param));
-                return ERR_TABLE_NOT_DEFINE;
-            }
-            $tableName = gameHistoryTables[$gameId] . $currentDate;
-
-            $gameName = '';
-            if (array_key_exists($gameId, gameIdName) && !empty(gameIdName[$gameId])) {
-                $gameName = gameIdName[$gameId];
-            }
-
-            if (clsUtility::checkTableExist($pdo, $tableName)) { // 表存在
-                $sql .= 'select user_id as userId, user_nickname as userNickname,';
-                $sql .= ' "' . $gameName . '" as gameName,';
-                $sql .= ' room_id as roomId, game_number as gameNumber, user_game_result as userGameResult,';
-                $sql .= ' user_table_fee as userTableFee, user_score_begin as userScoreBegin,';
-                $sql .= ' user_score_end as userScoreEnd, game_time as gameTime, record_timestamp as recordTimestamp';
-                $sql .= ' from ' . $tableName;
-
-                $haveWhere = false;
-
-                if ($roomId !== -1) {
-                    $roomIdArr = clsGame::getRoomIdArr($roomId);
-                    if (!empty($roomIdArr)) {
-                        $in = implode(',', $roomIdArr);
-                        $sql .= ' where room_id in (' . $in . ')';
-                        $haveWhere = true;
-                    }
-                }
-                if ($userId !== -1) {
-                    if ($haveWhere) {
-                        $sql .= ' and user_id = :userId';
-                    } else {
-                        $sql .= ' where user_id = :userId';
-                        $haveWhere = true;
-                    }
-                }
-                if ($timeBegin !== -1) {
-                    if ($haveWhere) {
-                        $sql .= ' and record_timestamp >= :timeBegin';
-                    } else {
-                        $sql .= ' where record_timestamp >= :timeBegin';
-                        $haveWhere = true;
-                    }
-                }
-                if ($timeEnd !== -1) {
-                    if ($haveWhere) {
-                        $sql .= ' and record_timestamp <= :timeEnd';
-                    } else {
-                        $sql .= ' where record_timestamp <= :timeEnd';
-                        $haveWhere = true;
-                    }
-                }
-            }
-        }
+        $sql = clsGame::betRecordGetGenerateSql($pdo, $dateBegin, $dateEnd, $gameId, $roomId, $userId);
 
         if (!empty($sql)) {
             $sql .= ' limit ' . maxQueryNum;
+        } else {
+            clsLog::info(__METHOD__ . ', sql empty, param = ' . json_encode($param));
+            return ERR_OK;
         }
 
         $rows = [];

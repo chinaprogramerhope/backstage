@@ -42,11 +42,12 @@ service.interceptors.response.use(
     console.log('response.data, type = ' + typeof (response.data) + ', value = ' + JSON.stringify(response.data))
     if (res.code !== undefined) {
       if (res.code !== 0) {
-        if (typeof res.data['ok'] !== 'undefined') { // 接口请求失败, 但是还需要接口返回的数据, 比如错误信息data['msg']
-          return response.data
-        } else {
-          return Promise.reject('error')
-        }
+        // if (typeof res.data['ok'] !== 'undefined') { // 接口请求失败, 但是不需要接口返回的数据, 比如错误信息data['msg']
+        //   return response.data
+        // } else {
+        //   return Promise.reject('error')
+        // }
+        return response.data // todo 确定login中自己会根据res.code判断是否登录成功
         // Message({
         //   message: res.message,
         //   type: 'error',

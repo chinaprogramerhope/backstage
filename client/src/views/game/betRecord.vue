@@ -8,8 +8,8 @@
           v-model="form1.dpValue1"
           type="daterange"
           range-separator="~"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          start-placeholder="开始日期(默认显示)"
+          end-placeholder="结束日期(最近30天)"
         />
       </el-form-item>
       <el-form-item label="游戏名称:">
@@ -33,7 +33,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="玩家id:">
-        <el-input v-model="form1.userId"/>
+        <el-input v-model="form1.userId" clearable/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
@@ -77,14 +77,14 @@
         />
       </el-col> -->
 
-    <el-row>
+    <!-- <el-row>
       <el-col :span="10" style="text-align: right">
         总下注金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
         总中奖金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
         总盈亏金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>&nbsp;&nbsp;
         总税收金额&nbsp;&nbsp;<el-tag>11.11元</el-tag>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
@@ -149,20 +149,14 @@ export default {
           label: '全部',
           value: -1
         }, {
-          label: '初级房',
+          label: '小资场',
+          value: 0
+        }, {
+          label: '老板场',
           value: 1
         }, {
-          label: '中级房',
+          label: '土豪场',
           value: 2
-        }, {
-          label: '高级房',
-          value: 'advance'
-        }, {
-          label: '富豪房',
-          value: 'rich'
-        }, {
-          label: '至尊房',
-          value: 'Supreme'
         }]
       },
 
@@ -195,14 +189,16 @@ export default {
   },
 
   created() {
-    betRecordGet(this.form1.dateRange, this.form1.selectGameName, this.form1.selectGameRoom, this.form1.userId).then(response => {
+    betRecordGet(this.form1.dpValue1, this.form1.selectGameName, this.form1.selectGameRoom, this.form1.userId).then(response => {
       this.tableData = response.data
     })
   },
 
   methods: {
-    obSubmit() {
-      console.log('submit!')
+    onSubmit() {
+      betRecordGet(this.form1.dpValue1, this.form1.selectGameName, this.form1.selectGameRoom, this.form1.userId).then(response => {
+        this.tableData = response.data
+      })
     },
 
     // 分页
