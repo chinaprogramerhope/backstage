@@ -6,7 +6,7 @@
     财务管理搞定
     request.js 确定login中自己会根据res.code判断是否登录成功
 
-    补充: 系统输钱和机器人输钱
+    补充: 系统输钱和机器人输钱页面 casinoglobalinfo->casinosystemlose  根据gameId, roomId, date查询
 
 
 

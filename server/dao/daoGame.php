@@ -160,16 +160,16 @@ class daoGame {
         return ERR_OK;
     }
 
-    /**
-     * 游戏分组 - 获取游戏分组
-     * @param $param
-     * @param $data
-     * @return int
-     */
-    public static function groupGet($param, &$data) {
-        $data = gameGroup;
-        return ERR_OK;
-    }
+//    /**
+//     * 游戏分组 - 获取游戏分组
+//     * @param $param
+//     * @param $data
+//     * @return int
+//     */
+//    public static function groupGet($param, &$data) {
+//        $data = gameGroup;
+//        return ERR_OK;
+//    }
 
     /**
      * 游戏分组 - 获取分组内的游戏

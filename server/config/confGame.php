@@ -16,116 +16,125 @@ const maxQueryNum = 1000; // 最大查询数量
  * 游戏管理
  */
 
-const texasPokerPuTong = 1; // 德州扑克
-const niuNiuQiangZhuang = 18; // 抢庄牛牛
-const niuNiuSeenCardQZ = 20; // 看牌牛牛
-const niuNiuBaiRen = 21; // 百人牛牛
-const zhaJinHua = 49; // 炸金花
-const redBlack = 52; // 红黑大战
-const douDiZhu = 97; // 经典斗地主
-const douDiZhuHuanLe = 98; // 欢乐斗地主
-const shiSanZhang = 161; // 十三水
-const shiSanZhang_5 = 162; // 十三水_5色
-const paoDeKuai = 321; // 跑得快
-const benChiBaoMa = 350; // 奔驰宝马
-const dragonTiger = 351; // 龙虎斗
-const baiJiaLe = 352; // 百家乐
+
+// 游戏id
+const gameIdTexasPokerPuTong = 1; // 德州扑克
+const gameIdNiuNiuQiangZhuang = 18; // 抢庄牛牛
+const gameIdNiuNiuSeenCardQZ = 20; // 看牌牛牛
+const gameIdNiuNiuBaiRen = 21; // 百人牛牛
+const gameIdZhaJinHua = 49; // 炸金花
+const gameIdRedBlack = 52; // 红黑大战
+const gameIdDouDiZhu = 97; // 经典斗地主
+const gameIdDouDiZhuHuanLe = 98; // 欢乐斗地主
+const gameIdShiSanZhang = 161; // 十三水
+const gameIdShiSanZhang_5 = 162; // 十三水_5色
+const gameIdPaoDeKuai = 321; // 跑得快
+const gameIdBenChiBaoMa = 350; // 奔驰宝马
+const gameIdDragonTiger = 351; // 龙虎斗
+const gameIdBaiJiaLe = 352; // 百家乐
 
 
-const gameIdName = [ // 游戏id => 游戏名
-    texasPokerPuTong => '德州扑克',
-    niuNiuQiangZhuang => '抢庄牛牛',
-    niuNiuSeenCardQZ => '看牌牛牛',
-    niuNiuBaiRen => '百人牛牛',
-    zhaJinHua => '炸金花',
-    redBlack => '红黑大战',
-    douDiZhu => '经典斗地主',
-    douDiZhuHuanLe => '欢乐斗地主',
-    shiSanZhang => '十三水',
-    shiSanZhang_5 => '十三水_5色',
-    paoDeKuai => '跑得快',
-    benChiBaoMa => '奔驰宝马',
-    dragonTiger => '龙虎斗',
-    baiJiaLe => '百家乐',
+// 游戏房间id (需要注意有的游戏数据库中roomId是6,7,8)
+const roomIdXiaoZi = 0; // 小资场
+const roomIdLaoBan = 1; // 老板场
+const roomIdTuHao = 2; // 土豪场
+const roomIdXiaoZi2 = 6; // 小资场
+const roomIdLaoBan2 = 7; // 老板场
+const roomIdTuHao2 = 8; // 土豪场
+const rooIdUnknown = 100; // 未知
+
+
+// 游戏id => 游戏名
+const gameIdName = [
+    gameIdTexasPokerPuTong => '德州扑克',
+    gameIdNiuNiuQiangZhuang => '抢庄牛牛',
+    gameIdNiuNiuSeenCardQZ => '看牌牛牛',
+    gameIdNiuNiuBaiRen => '百人牛牛',
+    gameIdZhaJinHua => '炸金花',
+    gameIdRedBlack => '红黑大战',
+    gameIdDouDiZhu => '经典斗地主',
+    gameIdDouDiZhuHuanLe => '欢乐斗地主',
+    gameIdShiSanZhang => '十三水',
+    gameIdShiSanZhang_5 => '十三水_5色',
+    gameIdPaoDeKuai => '跑得快',
+    gameIdBenChiBaoMa => '奔驰宝马',
+    gameIdDragonTiger => '龙虎斗',
+    gameIdBaiJiaLe => '百家乐',
 ];
 
 
-const gameIdLimit = [ // 游戏id => [场次id => '底分 / 准入']
-    1 => [
-        1 => '1.00 / 50.00',
-        2 => '5.00 / 200.00',
-        3 => '50.00 / 2000.00'
-    ],
-    18 => [
-        1 => '1.00 / 50.00',
-        2 => '5.00 / 250.00',
-        3 => '10.00 / 500.00'
-    ],
-    20 => [
-        1 => '1.00 / 50.00',
-        2 => '5.00 / 250.00',
-        3 => '10.00 / 500.00'
-    ],
-    21 => [
-        0 => '1.00 / 50.00',
-    ],
-    49 => [
-        1 => '1.00 / 50.00',
-        2 => '5.00 / 300.00',
-        3 => '10.00 / 600.00'
-    ],
-    52 => [
-        0 => '1.00 / 50.00',
-    ],
-    97 => [
-        1 => '0.01 / 1.00',
-        2 => '1.00 / 18.00',
-        3 => '5.00 / 120.00'
-    ],
-    98 => [
-        1 => '0.01 / 1.00',
-        2 => '1.00 / 24.00',
-        3 => '5.00 / 120.00'
-    ],
-    161 => [
-        1 => '1.00 / 50.00',
-        2 => '5.00 / 400.00',
-        3 => '10.00 / 1000.00'
-    ],
-    162 => [
-        0 => '1.00 / 50.00',
-    ],
-    321 => [
-        0 => '1.00 / 50.00',
-    ],
-    350 => [
-        0 => '1.00 / 50.00',
-    ],
-    351 => [
-        0 => '1.00 / 50.00',
-    ],
-    352 => [
-        0 => '1.00 / 50.00',
-    ],
-];
-
-// 游戏房间
-const roomIdName = [ // 房间id => 房间名
-    0 => '小资场',
-    1 => '老板场',
-    2 => '土豪场',
-    6 => '小资场',
-    7 => '老板场',
-    8 => '土豪场',
+// 游戏房间id => 游戏房间名
+const roomIdName = [
+    roomIdXiaoZi => '小资场',
+    roomIdLaoBan => '老板场',
+    roomIdTuHao => '土豪场',
+    roomIdXiaoZi2 => '小资场',
+    roomIdLaoBan2 => '老板场',
+    roomIdTuHao2 => '土豪场',
+    rooIdUnknown => '',
 ];
 
 
-// 游戏分组
-const gameGroup = [ // 分组id => 分组名
-    1 => '捕鱼游戏',
-    2 => '棋牌游戏',
-    3 => '电玩游戏',
+// 游戏id => [场次id => '底分 / 准入']
+const gameIdLimit = [
+    gameIdTexasPokerPuTong => [
+        roomIdXiaoZi => '1.00 / 50.00',
+        roomIdLaoBan => '5.00 / 200.00',
+        roomIdTuHao => '50.00 / 2000.00'
+    ],
+    gameIdNiuNiuQiangZhuang => [
+        roomIdXiaoZi => '1.00 / 50.00',
+        roomIdLaoBan => '5.00 / 250.00',
+        roomIdTuHao => '10.00 / 500.00'
+    ],
+    gameIdNiuNiuSeenCardQZ => [
+        roomIdXiaoZi => '1.00 / 50.00',
+        roomIdLaoBan => '5.00 / 250.00',
+        roomIdTuHao => '10.00 / 500.00'
+    ],
+    gameIdNiuNiuBaiRen => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdZhaJinHua => [
+        roomIdXiaoZi => '1.00 / 50.00',
+        roomIdLaoBan => '5.00 / 300.00',
+        roomIdTuHao => '10.00 / 600.00'
+    ],
+    gameIdRedBlack => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdDouDiZhu => [
+        roomIdXiaoZi => '0.01 / 1.00',
+        roomIdLaoBan => '1.00 / 18.00',
+        roomIdTuHao => '5.00 / 120.00'
+    ],
+    gameIdDouDiZhuHuanLe => [
+        roomIdXiaoZi => '0.01 / 1.00',
+        roomIdLaoBan => '1.00 / 24.00',
+        roomIdTuHao => '5.00 / 120.00'
+    ],
+    gameIdShiSanZhang => [
+        roomIdXiaoZi => '1.00 / 50.00',
+        roomIdLaoBan => '5.00 / 400.00',
+        roomIdTuHao => '10.00 / 1000.00'
+    ],
+    gameIdShiSanZhang_5 => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdPaoDeKuai => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdBenChiBaoMa => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdDragonTiger => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdBaiJiaLe => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
 ];
+
 
 // 游戏类型 - 游戏底分
 const gameType = [
@@ -178,23 +187,6 @@ const gameStatus = [
     2 => '禁用',
     3 => '维护中'
 ];
-
-//// 投注记录表
-//const gameHistoryTables = [
-//    "1" => "CASINOGAMERECORD_TexasPoker_", // 游戏id => 表
-//    "5" => "CASINOGAMERECORD_BaiRenTexasPoker_",
-//    "17" => "CASINOGAMERECORD_NiuNiuQiangZhuang_",
-//    "20" => "CASINOGAMERECORD_NiuNiuSeenCardQZ_",
-//    "21" => "CASINOGAMERECORD_BaiRenNiuNiu_",
-//    "23" => "CASINOGAMERECORD_NiuNiuMalai_",
-//    "24" => "CASINOGAMERECORD_SG_",
-//    "49" => "CASINOGAMERECORD_ZJH_",
-//    "52" => "CASINOGAMERECORD_BaiRenZhaJinHua_",
-//    "54" => "CASINOGAMERECORD_BaiRenZhaJinHuaRB_",
-//    "97" => "CASINOGAMERECORD_DDZ_",
-//    "98" => "CASINOGAMERECORD_DDZHUANLE_",
-//    "101" => "CASINOGAMERECORD_DDZLAIZI_"
-//];
 
 // 投注记录表, 游戏id => 表
 const gameHistoryTables = [
