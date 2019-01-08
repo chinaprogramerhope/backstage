@@ -24,8 +24,6 @@ class svcAdmin {
      * @return int
      */
     public function register($param, &$data) {
-        $data['ok'] = 1;
-
         if (!isset($param['userName']) || empty($param['userName'])
             || !isset($param['pass']) || empty($param['pass'])
             || !isset($param['passRepeat']) || empty($param['passRepeat'])
@@ -35,9 +33,11 @@ class svcAdmin {
             return ERR_INVALID_PARAM;
         }
 
-        $userNameLen = strlen($param['userName']);
+        $userName = trim($param['userName']);
+
+        $userNameLen = strlen($userName);
         $passLen = strlen($param['pass']);
-        if ($userNameLen < 4 || $userNameLen > 15) {
+        if ($userNameLen < 4 || $userNameLen > 10) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             $data['msg'] = '账号长度错误';
             return ERR_INVALID_PARAM;
@@ -54,7 +54,7 @@ class svcAdmin {
         }
 
         $regex = '/^[a-z0-9]+$/i';
-        if (!preg_match($regex, $param['userName'])) {
+        if (!preg_match($regex, $userName)) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             $data['msg'] = '账号只能为英文数字';
             return ERR_INVALID_PARAM;

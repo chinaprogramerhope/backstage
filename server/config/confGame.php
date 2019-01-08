@@ -34,16 +34,6 @@ const gameIdDragonTiger = 351; // 龙虎斗
 const gameIdBaiJiaLe = 352; // 百家乐
 
 
-// 游戏房间id (需要注意有的游戏数据库中roomId是6,7,8)
-const roomIdXiaoZi = 0; // 小资场
-const roomIdLaoBan = 1; // 老板场
-const roomIdTuHao = 2; // 土豪场
-const roomIdXiaoZi2 = 6; // 小资场
-const roomIdLaoBan2 = 7; // 老板场
-const roomIdTuHao2 = 8; // 土豪场
-const rooIdUnknown = 100; // 未知
-
-
 // 游戏id => 游戏名
 const gameIdName = [
     gameIdTexasPokerPuTong => '德州扑克',
@@ -63,6 +53,16 @@ const gameIdName = [
 ];
 
 
+// 游戏房间id (需要注意有的游戏数据库中roomId是6,7,8)
+const roomIdXiaoZi = 0; // 小资场
+const roomIdLaoBan = 1; // 老板场
+const roomIdTuHao = 2; // 土豪场
+const roomIdXiaoZi2 = 6; // 小资场
+const roomIdLaoBan2 = 7; // 老板场
+const roomIdTuHao2 = 8; // 土豪场
+const rooIdUnknown = 100; // 未知
+
+
 // 游戏房间id => 游戏房间名
 const roomIdName = [
     roomIdXiaoZi => '小资场',
@@ -72,6 +72,21 @@ const roomIdName = [
     roomIdLaoBan2 => '老板场',
     roomIdTuHao2 => '土豪场',
     rooIdUnknown => '',
+];
+
+
+
+// 游戏状态
+const gameStatusNormal = 1; // 正常
+const gameStatusClose = 2; // 禁用
+const gameStatusMaintain = 3; // 维护中
+
+
+// 游戏状态 => 状态名
+const gameStatusName = [
+    gameStatusNormal => '正常',
+    gameStatusClose => '禁用',
+    gameStatusMaintain => '维护中'
 ];
 
 
@@ -181,12 +196,6 @@ const gameType = [
     29 => '1.00 / 50.00', // 百家乐
 ];
 
-// 游戏状态
-const gameStatus = [
-    1 => '正常',
-    2 => '禁用',
-    3 => '维护中'
-];
 
 // 投注记录表, 游戏id => 表
 const gameHistoryTables = [

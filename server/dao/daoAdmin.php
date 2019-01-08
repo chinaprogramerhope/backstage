@@ -15,7 +15,7 @@ class daoAdmin {
         $ip = $param['ip'];
         $verifyCode = $param['verifyCode'];
 
-        $key = register_vcode . $ip;
+        $key = registerVcode . $ip;
         $redis = clsRedis::getInstance();
         if (null === $redis) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
@@ -39,7 +39,7 @@ class daoAdmin {
      * @return int
      */
     public static function getVerifyCode($param, &$data) {
-        $key = register_vcode . $param['ip'];
+        $key = registerVcode . $param['ip'];
         $redis = clsRedis::getInstance();
         if (null === $redis) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
@@ -71,7 +71,7 @@ class daoAdmin {
             $sql = 'insert into admin_admin (name, pass, create_time, update_time) values (:name, :pass, :create_time, :update_time)';
             $stmt = $pdo->prepare($sql);
             $ret = $stmt->execute([
-                ':name' => $param['userName'],
+                ':name' => trim($param['userName']),
                 ':pass' => $param['pass'],
                 ':create_time' => $timeNow,
                 ':update_time' => $timeNow
@@ -95,7 +95,7 @@ class daoAdmin {
      * @return int
      */
     public static function getAdmin($param, &$data) {
-        $adminName = isset($param['userName']) ? $param['userName'] : '';
+        $adminName = isset($param['userName']) ? trim($param['userName']) : '';
 
         $newAdminConfig = mysqlConfig['new_admin'];
         $pdo = clsMysql::getInstance($newAdminConfig);

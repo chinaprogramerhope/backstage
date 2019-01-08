@@ -32,8 +32,5 @@ require_once '../loadConfig.php';
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
 
-if (strpos('xxx', '') === false) {
-    echo 1;
-} else {
-    echo 2;
-}
+$a = '   111    ';
+echo intval($a);
