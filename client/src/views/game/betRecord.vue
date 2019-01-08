@@ -161,27 +161,7 @@ export default {
       },
 
       // tableData
-      tableData: [{
-        timeBegin: '2018-11-11 11:11:11',
-        timeEnd: '2018-11-11 11:11:11',
-        userId: 'ok1',
-        gameName: '牛牛1',
-        gameRoom: '初级房',
-        bet: 11.11,
-        winAmount: 11.11,
-        winLose: 11.11,
-        tax: 11.11
-      }, {
-        timeBegin: '2018-11-11 11:11:12',
-        timeEnd: '2018-11-11 11:11:12',
-        userId: 'ok2',
-        gameName: '牛牛2',
-        gameRoom: '初级房',
-        bet: 11.12,
-        winAmount: 11.12,
-        winLose: 11.12,
-        tax: 11.12
-      }],
+      tableData: '',
 
       // 分页
       currentPage: 4

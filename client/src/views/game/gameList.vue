@@ -2,7 +2,7 @@
   <div>
     <el-form :inline="true" :model="form1" class="demo-form-inline" align="left" style="margin-top: 30px">
       <el-form-item label="游戏名称:">
-        <el-input v-model="form1.gameName"/>
+        <el-input v-model="form1.gameName" clearable/>
       </el-form-item>
       <el-form-item label="游戏状态:">
         <el-select v-model="form1.gameStatus">
@@ -21,9 +21,10 @@
 
     <el-table :data="tableData" stripe style="margin-bottom: 24px">
       <el-table-column label="游戏名称" prop="gameName" align="center"/>
+      <el-table-column label="游戏房间" prop="roomName" align="center"/>
       <el-table-column label="底分 / 准入" align="center">
         <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.gameType }}</el-tag>
+          <el-tag size="medium">{{ scope.row.score }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="游戏状态" align="center">
@@ -84,7 +85,6 @@ import { listGet } from '@/api/game'
 import { listChangeStatus } from '@/api/game'
 
 var gameName = ''
-var gameType = -1
 var gameStatus = -1
 
 export default {
@@ -92,8 +92,7 @@ export default {
     return {
       form1: {
         gameName: '',
-        gameStatus: -1,
-        gameType: -1
+        gameStatus: -1
       },
 
       // optionsGameStatus
@@ -108,21 +107,6 @@ export default {
         'value': 2
       }, {
         'label': '维护中',
-        'value': 3
-      }],
-
-      // optionsGameType
-      optionsGameType: [{
-        'label': '全部',
-        'value': -1
-      }, {
-        'label': '下注类',
-        'value': 1
-      }, {
-        'label': '捕鱼类',
-        'value': 2
-      }, {
-        'label': '对战类',
         'value': 3
       }],
 
@@ -153,19 +137,19 @@ export default {
   },
 
   created() {
-    this.listGetClient(gameName, gameType, gameStatus)
+    this.listGetClient(gameName, gameStatus)
   },
 
   methods: {
-    listGetClient(gameName, gameType, gameStatus) {
-      listGet(gameName, gameType, gameStatus).then(response => {
+    listGetClient(gameName, gameStatus) {
+      listGet(gameName, gameStatus).then(response => {
         this.tableData = response.data
       })
     },
 
     onSubmit() {
-      console.log('name = ' + this.form1.gameName + ', type = ' + this.form1.gameType + ', status = ' + this.form1.gameStatus)
-      this.listGetClient(this.form1.gameName, this.form1.gameType, this.form1.gameStatus)
+      console.log('name = ' + this.form1.gameName + ', status = ' + this.form1.gameStatus)
+      this.listGetClient(this.form1.gameName, this.form1.gameStatus)
     },
 
     // dialog1

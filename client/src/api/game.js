@@ -47,16 +47,14 @@ export function groupGetGames(groupId) {
 
 /**
  * 游戏列表 - 获取游戏列表
- * @param {*} gameName
- * @param {*} gameType
+ * @param {*} searchStr
  * @param {*} gameStatus
  */
-export function listGet(gameName, gameType, gameStatus) {
+export function listGet(searchStr, gameStatus) {
   const data = {
     cmd: 101,
     param: {
-      gameName: gameName,
-      gameType: gameType,
+      searchStr: searchStr,
       gameStatus: gameStatus
     }
   }

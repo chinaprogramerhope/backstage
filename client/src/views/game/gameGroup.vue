@@ -16,10 +16,10 @@
     <el-table :data="tableData" stripe>
       <el-table-column prop="gameName" label="游戏名称" align="center"/>
       <el-table-column prop="operation" label="操作" align="center">
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <el-button size="mini" @click="setTop()">设为置顶</el-button>
           <el-button size="mini" @click="cancelTop()">取消热门</el-button>
-        </template>
+        </template> -->
       </el-table-column>
     </el-table>
   </div>
