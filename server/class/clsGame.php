@@ -290,4 +290,63 @@ class clsGame {
 
         return $sql;
     }
+
+    /**
+     * 获取游戏列表逻辑1
+     * @param $searchStr
+     * @param $gameId
+     * @param $gameName
+     * @param $gameStatus
+     * @param $gameIdStatusArr
+     * @param $retArr
+     */
+    public static function listGetLogic1($searchStr, $gameId, $gameName, $gameStatus, &$gameIdStatusArr, &$retArr) {
+        if (array_key_exists($gameId, $gameIdStatusArr)) { // 检测redis中是否存在已定义的游戏
+            $theGameIdName[$gameId] = $gameName;
+
+            foreach (gameIdLimit[$gameId] as $roomId => $score) {
+                $gameStatusId = intval($gameIdStatusArr[$gameId]);
+                if ($gameStatus === -1) {
+                    self::listGetLogic2($searchStr, $roomId, $gameName, $score, $gameStatusId, $retArr);
+                } else {
+                    if ($gameStatusId === $gameStatus) {
+                        self::listGetLogic2($searchStr, $roomId, $gameName, $score, $gameStatusId, $retArr);
+                    }
+                }
+            }
+        } else {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', game not exist in redis, gameId = ' . $gameId . ', gameName = ' . $gameName);
+        }
+    }
+
+    public static function listGetLogic2($searchStr, $roomId, $gameName, $score, $gameStatusId, &$retArr) {
+        if ($searchStr !== '') {
+            if (strpos($gameName, $searchStr) !== false) {
+                self::listGetLogic3($roomId, $gameName, $score, $gameStatusId, $retArr);
+            }
+        } else {
+            self::listGetLogic3($roomId, $gameName, $score, $gameStatusId, $retArr);
+        }
+    }
+
+    public static function listGetLogic3($roomId, $gameName, $score, $gameStatusId, &$retArr) {
+        $tmpArr = [];
+
+        $tmpArr['gameName'] = $gameName;
+        if (!empty(roomIdName[$roomId])) {
+            $tmpArr['roomName'] = roomIdName[$roomId];
+        } else {
+            $tmpArr['roomName'] = ' - ';
+        }
+
+        $tmpArr['score'] = $score;
+
+        if (!empty(gameStatusName[$gameStatusId])) {
+            $tmpArr['gameStatus'] = gameStatusName[$gameStatusId];
+        } else {
+            $tmpArr['gameStatus'] = '';
+        }
+
+        $retArr[] = $tmpArr;
+    }
 }
