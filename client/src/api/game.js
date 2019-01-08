@@ -12,7 +12,6 @@ export function groupGet() {
   }
 
   var ret = request({
-    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })
@@ -37,7 +36,6 @@ export function groupGetGames(groupId) {
   }
 
   var ret = request({
-    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })

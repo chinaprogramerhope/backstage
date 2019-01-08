@@ -1,8 +1,5 @@
-1.7 -
-    投注记录: gameName
+1.8 -
     外网nginx和php-fpm随系统启动
-    表中没有gameId, 从参数的gameId入手; 搜索; 总xx数据是否还要
-    游戏管理搞定
     财务管理搞定
     request.js 确定login中自己会根据res.code判断是否登录成功
 
@@ -12,6 +9,8 @@
 
 
 ========
+疑问:
+    为何game.js定义的方法里打印ret为空
 
 待解决 -
 

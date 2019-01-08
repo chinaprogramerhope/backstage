@@ -153,11 +153,67 @@ export const constantRouterMap = [
     },
     children: [
       {
+        path: 'finStatistics',
+        component: () => import('@/views/finance/finStatistics'),
+        name: 'finStatistics',
+        meta: {
+          title: '财务统计'
+        }
+      },
+      {
+        path: 'payStatistics',
+        component: () => import('@/views/finance/payStatistics'),
+        name: 'payStatistics',
+        meta: {
+          title: '支付统计'
+        }
+      },
+      {
+        path: 'withdrawalTotalStatistics',
+        component: () => import('@/views/finance/withdrawalTotalStatistics'),
+        name: 'withdrawalTotalStatistics',
+        meta: {
+          title: '提现总额统计'
+        }
+      },
+      {
+        path: 'operationStatistics',
+        component: () => import('@/views/finance/operationStatistics'),
+        name: 'operationStatistics',
+        meta: {
+          title: '运营统计'
+        }
+      },
+      {
+        path: 'reconciliationStatistics',
+        component: () => import('@/views/finance/reconciliationStatistics'),
+        name: 'reconciliationStatistics',
+        meta: {
+          title: '对账统计'
+        }
+      },
+      {
+        path: 'payAccountManage',
+        component: () => import('@/views/finance/payAccountManage'),
+        name: 'payAccountManage',
+        meta: {
+          title: '代付账户管理'
+        }
+      },
+      {
+        path: 'payOrderManage',
+        component: () => import('@/views/finance/payOrderManage'),
+        name: 'payOrderManage',
+        meta: {
+          title: '代付订单管理'
+        }
+      },
+      {
         path: 'manualOperate',
         component: () => import('@/views/finance/manualOperate'),
         name: 'manualOperate',
         meta: {
-          title: '人工存提'
+          title: '人工存提 - 未开放'
         }
       },
       {
@@ -165,7 +221,7 @@ export const constantRouterMap = [
         component: () => import('@/views/finance/officialCharge'),
         name: 'officialCharge',
         meta: {
-          title: '官方支付'
+          title: '官方支付 - 未开放'
         }
       },
       {
@@ -173,7 +229,7 @@ export const constantRouterMap = [
         component: () => import('@/views/finance/onlinePay'),
         name: 'onlinePay',
         meta: {
-          title: '线上支付'
+          title: '线上支付 - 未开放'
         }
       },
       {
@@ -181,7 +237,7 @@ export const constantRouterMap = [
         component: () => import('@/views/finance/alipayAudit'),
         name: 'alipayAudit',
         meta: {
-          title: '支付宝出款审核'
+          title: '支付宝出款审核 - 未开放'
         }
       },
       {
@@ -189,7 +245,7 @@ export const constantRouterMap = [
         component: () => import('@/views/finance/bankCardAudit'),
         name: 'bankCardAudit',
         meta: {
-          title: '银行卡出款审核'
+          title: '银行卡出款审核 - 未开放'
         }
       },
       {
@@ -197,7 +253,7 @@ export const constantRouterMap = [
         component: () => import('@/views/finance/autopayTradeRecord'),
         name: 'autopayTradeRecord',
         meta: {
-          title: '自动出款交易记录'
+          title: '自动出款交易记录 - 未开放'
         }
       },
       {
@@ -205,7 +261,7 @@ export const constantRouterMap = [
         component: () => import('@/views/finance/financeConfig'),
         name: 'financeConfig',
         meta: {
-          title: '出入款配置'
+          title: '出入款配置 - 未开放'
         }
       }
     ]

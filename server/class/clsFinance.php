@@ -74,4 +74,104 @@ class clsFinance {
     public static function financeConfig($param, &$data) {
         return daoFinance::financeConfig($param, $data);
     }
+
+    /**
+     * 财务统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function finStatisticsGet($param, &$data) {
+        return daoFinance::finStatisticsGet($param, $data);
+    }
+
+    /**
+     * 财务统计 - 更新昨日充值数据
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function finStatisticsUpdate($param, &$data) {
+        return daoFinance::finStatisticsUpdate($param, $data);
+    }
+
+    /**
+     * 支付统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payStatisticsGet($param, &$data) {
+        return daoFinance::payStatisticsGet($param, $data);
+    }
+
+    /**
+     * 提现总额统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function withdrawalTotalGet($param, &$data) {
+        return daoFinance::withdrawalTotalGet($param, $data);
+    }
+
+    /**
+     * 运营统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function financeReportGet($param, &$data) {
+        return daoFinance::financeReportGet($param, $data);
+    }
+
+    /**
+     * 对账统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function reconciliationReportGet($param, &$data) {
+        return daoFinance::reconciliationReportGet($param, $data);
+    }
+
+    /**
+     * 代付账号管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payAccountManageGet($param, &$data) {
+        return daoFinance::payAccountManageGet($param, $data);
+    }
+
+    /**
+     * 代付账号管理 - 创建新账号
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payAccountManageCreate($param, &$data) {
+        return daoFinance::payAccountManageCreate($param, $data);
+    }
+
+    /**
+     * 代付订单管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payOrderManageGet($param, &$data) {
+        return daoFinance::payOrderManageGet($param, $data);
+    }
+
+    /**
+     * 代付订单管理 - 更新派支付提款单状态
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payOrderManageUpdate($param, &$data) {
+        return daoFinance::payOrderManageUpdate($param, $data);
+    }
 }

@@ -76,4 +76,104 @@ class svcFinance {
     public function financeConfig($param, &$data) {
         return clsFinance::financeConfig($param, $data);
     }
+
+    /**
+     * 财务统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function finStatisticsGet($param, &$data) {
+        return clsFinance::finStatisticsGet($param, $data);
+    }
+
+    /**
+     * 财务统计 - 更新昨日充值数据
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function finStatisticsUpdate($param, &$data) {
+        return clsFinance::finStatisticsUpdate($param, $data);
+    }
+
+    /**
+     * 支付统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payStatisticsGet($param, &$data) {
+        return clsFinance::payStatisticsGet($param, $data);
+    }
+
+    /**
+     * 提现总额统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function withdrawalTotalGet($param, &$data) {
+        return clsFinance::withdrawalTotalGet($param, $data);
+    }
+
+    /**
+     * 运营统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function financeReportGet($param, &$data) {
+        return clsFinance::financeReportGet($param, $data);
+    }
+
+    /**
+     * 对账统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function reconciliationReportGet($param, &$data) {
+        return clsFinance::reconciliationReportGet($param, $data);
+    }
+
+    /**
+     * 代付账号管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payAccountManageGet($param, &$data) {
+        return clsFinance::payAccountManageGet($param, $data);
+    }
+
+    /**
+     * 代付账号管理 - 创建新账号
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payAccountManageCreate($param, &$data) {
+        return clsFinance::payAccountManageCreate($param, $data);
+    }
+
+    /**
+     * 代付订单管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payOrderManageGet($param, &$data) {
+        return clsFinance::payOrderManageGet($param, $data);
+    }
+
+    /**
+     * 代付订单管理 - 更新派支付提款单状态
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payOrderManageUpdate($param, &$data) {
+        return clsFinance::payOrderManageUpdate($param, $data);
+    }
 }

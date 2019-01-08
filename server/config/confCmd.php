@@ -47,6 +47,17 @@ const cmdArr = [
     156 => ['svc' => 'svcFinance', 'func' => 'autoPayTradeRecordGet'], // 自动出款交易记录
     157 => ['svc' => 'svcFinance', 'func' => 'financeConfig'], // 出入款配置 todo 这个标签页接口挺多
 
+    158 => ['svc' => 'svcFinance', 'func' => 'finStatisticsGet'], // 财务统计 - 获取
+    159 => ['svc' => 'svcFinance', 'func' => 'finStatisticsUpdate'], // 财务统计 - 更新昨日充值数据
+    160 => ['svc' => 'svcFinance', 'func' => 'payStatisticsGet'], // 支付统计 - 获取
+    161 => ['svc' => 'svcFinance', 'func' => 'withdrawalTotalGet'], // 提现总额统计 - 获取
+    162 => ['svc' => 'svcFinance', 'func' => 'financeReportGet'], // 运营统计 - 获取
+    163 => ['svc' => 'svcFinance', 'func' => 'reconciliationReportGet'], // 对账统计 - 获取
+    164 => ['svc' => 'svcFinance', 'func' => 'payAccountManageGet'], // 代付账号管理 - 获取
+    165 => ['svc' => 'svcFinance', 'func' => 'payAccountManageCreate'], // 代付账号管理 - 创建新账号
+    166 => ['svc' => 'svcFinance', 'func' => 'payOrderManageGet'], // 代付订单管理 - 获取
+    167 => ['svc' => 'svcFinance', 'func' => 'payOrderManageUpdate'], // 代付订单管理 - 更新派支付提款单状态
+
     // 公告管理 201 - 250
     201 => ['svc' => 'svcMessage', 'func' => 'announceListGet'], // 公告列表 - 获取
     202 => ['svc' => 'svcMessage', 'func' => 'announceListAdd'], // 公告列表 - 添加

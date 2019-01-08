@@ -8,8 +8,8 @@
           v-model="form1.dpValue1"
           type="daterange"
           range-separator="~"
-          start-placeholder="开始日期(默认显示)"
-          end-placeholder="结束日期(最近30天)"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
         />
       </el-form-item>
       <el-form-item label="游戏名称:">
@@ -36,7 +36,7 @@
         <el-input v-model="form1.userId" clearable/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询 (默认显示最近30天)</el-button>
       </el-form-item>
     </el-form>
 
