@@ -18,7 +18,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onUpdate">更新昨日充值数据(请不要频繁操作)</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onUpdate">更新昨日充值数据 (请不要频繁操作)</el-button>
       </el-form-item>
     </el-form>
 
