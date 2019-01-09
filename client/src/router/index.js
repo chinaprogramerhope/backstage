@@ -291,7 +291,7 @@ export const constantRouterMap = [
         component: () => import('@/views/message/stationMessage'),
         name: 'stationMessage',
         meta: {
-          title: '站内消息'
+          title: '站内消息 - 未开放'
         }
       }
     ]
