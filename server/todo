@@ -1,13 +1,17 @@
 1.8 -
-    外网nginx和php-fpm随系统启动
     财务管理搞定
+    公告管理搞定
+    推广管理搞定
+
+    外网nginx和php-fpm随系统启动
     request.js 确定login中自己会根据res.code判断是否登录成功
 
     补充: 系统输钱和机器人输钱页面 casinoglobalinfo->casinosystemlose  根据gameId, roomId, date查询
 
 
 
-
+todo
+    游戏管理: 服务端自己redis存储游戏状态
 ========
 疑问:
     为何game.js定义的方法里打印ret为空

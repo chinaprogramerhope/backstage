@@ -2,16 +2,6 @@
   <div>
     <!-- 表单 -->
     <el-form :inline="true" :model="form1" style="margin-top: 20px;" align="left">
-      <el-form-item label="公告类型:">
-        <el-select v-model="form1.selectAnnounceType" clearable>
-          <el-option
-            v-for="item in form1.optionsAnnounceType"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item label="开始时间:">
         <el-date-picker
           v-model="form1.dpValue1"
@@ -44,17 +34,6 @@
 
         <el-form-item :label-width="formLabelWidth" label="备注:">
           <el-input v-model="form2.note" autocomplete="off"/>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="公告类型">
-          <el-select v-model="form2.selectType" placeholder="">
-            <el-option
-              v-for="item in form2.optionsAnnounceAddType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="公告状态">
@@ -100,13 +79,16 @@
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       style="width: 100%; margin-bottom: 24px">
       <el-table-column prop="id" label="序号" align="center"/>
-      <el-table-column prop="type" label="类型" align="center"/>
-      <el-table-column prop="content" label="公告内容" align="center"/>
-      <el-table-column prop="publishTime" label="发布时间" align="center"/>
-      <el-table-column prop="status" label="公告状态" align="center"/>
+      <el-table-column prop="title" label="标题" align="center"/>
+      <el-table-column prop="content" label="内容" align="center"/>
+      <el-table-column prop="status" label="状态" align="center"/>
+      <el-table-column prop="channel" label="渠道" align="center"/>
+      <el-table-column prop="tag" label="Tag" align="center"/>
+      <el-table-column prop="carousel" label="轮播" align="center"/>
       <el-table-column prop="creater" label="创建人" align="center"/>
       <el-table-column prop="note" label="备注" align="center"/>
-      <el-table-column prop="operation" label="操作" align="center">
+      <el-table-column prop="publishTime" label="发布时间" align="center"/>
+      <el-table-column prop="operate" label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleEdit">编辑</el-button>
           <el-button type="danger" size="mini" @click="handleDel">删除</el-button>
@@ -139,17 +121,6 @@
 
         <el-form-item :label-width="formLabelWidth" label="备注:">
           <el-input v-model="dialogForm2.note" autocomplete="off"/>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="公告类型">
-          <el-select v-model="dialogForm2.selectType" placeholder="">
-            <el-option
-              v-for="item in dialogForm2.optionsAnnounceAddType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="公告状态">
@@ -187,22 +158,6 @@ export default {
 
       form1: {
         dpValue1: '',
-
-        // 公告类型
-        selectAnnounceType: '',
-        optionsAnnounceType: [{
-          label: '一般游戏公告',
-          value: 1
-        }, {
-          label: '站点公告',
-          value: 2
-        }, {
-          label: '维护公告',
-          value: 3
-        }, {
-          label: '系统游戏公告',
-          value: 4
-        }],
         gameRoom: '全部',
         vipAccount: ''
       },
@@ -238,23 +193,8 @@ export default {
       form2: {
         content: '',
         note: '',
-        selectType: 4,
         selectStatus: 1,
         selectTerminal: -1,
-
-        optionsAnnounceAddType: [{
-          'label': '一般游戏公告',
-          'value': 1
-        }, {
-          'label': '站点公告',
-          'value': 2
-        }, {
-          'label': '维护公告',
-          'value': 3
-        }, {
-          'label': '系统游戏公告',
-          'value': 4
-        }],
 
         optionsAnnounceAddStatus: [{
           label: '启用',
@@ -289,22 +229,7 @@ export default {
       dialogForm2: {
         content: '',
         note: '',
-        selectType: 4,
         selectStatus: 1,
-
-        optionsAnnounceAddType: [{
-          'label': '一般游戏公告',
-          'value': 1
-        }, {
-          'label': '站点公告',
-          'value': 2
-        }, {
-          'label': '维护公告',
-          'value': 3
-        }, {
-          'label': '系统游戏公告',
-          'value': 4
-        }],
 
         optionsAnnounceAddStatus: [{
           label: '启用',

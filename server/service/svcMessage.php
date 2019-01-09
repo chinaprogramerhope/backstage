@@ -24,6 +24,17 @@ class svcMessage {
      * @return int
      */
     public function announceListAdd($param, &$data) {
+        if (!isset($param['content']) || empty($param['content'])
+            || !isset($param['status']) || empty($param['status'])
+            || !isset($param['tag']) || empty($param['tag'])
+            || !isset($param['carousel']) || empty($param['carousel'])
+            || !isset($param['area']) || empty($param['area'])
+            || !isset($param['terminal']) || empty($param['terminal'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+        // todo 自动获取当前管理员 为creator创建人
+
         return clsMessage::announceListAdd($param, $data);
     }
 
@@ -34,6 +45,17 @@ class svcMessage {
      * @return int
      */
     public function announceListEdit($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])
+            || !isset($param['content']) || empty($param['content'])
+            || !isset($param['status']) || empty($param['status'])
+            || !isset($param['tag']) || empty($param['tag'])
+            || !isset($param['carousel']) || empty($param['carousel'])
+            || !isset($param['area']) || empty($param['area'])
+            || !isset($param['terminal']) || empty($param['terminal'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsMessage::announceListEdit($param, $data);
     }
 
@@ -44,6 +66,11 @@ class svcMessage {
      * @return int
      */
     public function announceListDel($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsMessage::announceListDel($param, $data);
     }
 
