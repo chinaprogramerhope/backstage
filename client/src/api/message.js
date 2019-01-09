@@ -24,11 +24,27 @@ export function announceListGet(type, timeBegin) {
 
 /**
  * 公告列表 - 添加
+ * @param {*} title
+ * @param {*} content
+ * @param {*} status
+ * @param {*} tagArr
+ * @param {*} carousel
+ * @param {*} note
+ * @param {*} areaArr
+ * @param {*} terminal
  */
-export function announceListAdd() {
+export function announceListAdd(title, content, status, tagArr, carousel, note, areaArr, terminal) {
   const data = {
     cmd: 202,
     param: {
+      title: title,
+      content: content,
+      status: status,
+      tagArr: tagArr,
+      carousel: carousel,
+      note: note,
+      areaArr: areaArr,
+      terminal: terminal
     }
   }
 

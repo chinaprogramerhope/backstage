@@ -17,61 +17,9 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button @click="dialogFormVisible = true">+ 添加</el-button>
+        <el-button @click="dialogFormAddVisible = true">+ 添加</el-button>
       </el-form-item>
     </el-form>
-
-    <!-- dialog 添加公告 -->
-    <el-dialog :visible.sync="dialogFormVisible" title="添加公告" center>
-      <el-form :model="form2">
-        <el-form-item :label-width="formLabelWidth" label="公告内容:">
-          <el-input
-            :rows="2"
-            v-model="form2.content"
-            type="textarea"
-            placeholder="请输入公告内容"/>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="备注:">
-          <el-input v-model="form2.note" autocomplete="off"/>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="公告状态">
-          <el-select v-model="form2.selectStatus" placeholder="">
-            <el-option
-              v-for="item in form2.optionsAnnounceAddStatus"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="发送区域">
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-          <div style="margin: 15px 0;"/>
-          <el-checkbox-group v-model="checkedAreas" @change="handleCheckedAreaChange">
-            <el-checkbox v-for="area in areas" :label="area" :key="area">{{ area }}</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="使用终端">
-          <el-select v-model="form2.selectTerminal" placeholder="">
-            <el-option
-              v-for="item in form2.optionsAnnounceAddTerminal"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">保 存</el-button>
-      </div>
-    </el-dialog>
 
     <!-- table -->
     <el-table
@@ -108,25 +56,112 @@
       @current-change="handleCurrentChange"
     />
 
-    <!-- dialog2 编辑公告 -->
-    <el-dialog :visible.sync="dialog2FormVisible" title="编辑公告" center>
-      <el-form :model="dialogForm2">
-        <el-form-item :label-width="formLabelWidth" label="公告内容:">
+    <!-- dialog 添加公告 -->
+    <el-dialog :visible.sync="dialogFormAddVisible" title="添加公告" center>
+      <el-form :model="dialogFormAdd">
+
+        <el-form-item :label-width="formLabelWidth" label="标题:">
+          <el-input v-model="dialogFormAdd.title" autocomplete="off"/>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="内容:">
           <el-input
             :rows="2"
-            v-model="dialogForm2.content"
+            v-model="dialogFormAdd.content"
             type="textarea"
             placeholder="请输入公告内容"/>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="备注:">
-          <el-input v-model="dialogForm2.note" autocomplete="off"/>
+          <el-input v-model="dialogFormAdd.note" autocomplete="off"/>
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="公告状态">
-          <el-select v-model="dialogForm2.selectStatus" placeholder="">
+        <el-form-item :label-width="formLabelWidth" label="状态">
+          <el-select v-model="dialogFormAdd.selectStatus" placeholder="">
             <el-option
-              v-for="item in dialogForm2.optionsAnnounceAddStatus"
+              v-for="item in dialogFormAdd.optionsAnnounceAddStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="是否轮播">
+          <el-select v-model="dialogFormAdd.selectCarousel" placeholder="">
+            <el-option
+              v-for="item in dialogFormAdd.optionsCarousel"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="渠道">
+          <el-checkbox :indeterminate="isIndeterminateChannel" v-model="checkAllChannel" @change="handleCheckAllChannelChange">全选</el-checkbox>
+          <div style="margin: 15px 0;"/>
+          <el-checkbox-group v-model="checkedChannels" @change="handleCheckedChannelChange">
+            <el-checkbox v-for="channelValue in channels" :label="channelValue.key" :key="channelValue.key">{{ channelValue.value }}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="发送区域">
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+          <div style="margin: 15px 0;"/>
+          <el-checkbox-group v-model="checkedAreas" @change="handleCheckedAreaChange">
+            <el-checkbox v-for="areaValue in areas" :label="areaValue.key" :key="areaValue.key">{{ areaValue.value }}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="使用终端">
+          <el-select v-model="dialogFormAdd.selectTerminal" placeholder="">
+            <el-option
+              v-for="item in dialogFormAdd.optionsAnnounceAddTerminal"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormAddVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleAdd">保 存</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- dialog2 编辑公告 -->
+    <el-dialog :visible.sync="dialogFormEditVisible" title="编辑公告" center>
+      <el-form :model="dialogFormEdit">
+        <el-form-item :label-width="formLabelWidth" label="内容:">
+          <el-input
+            :rows="2"
+            v-model="dialogFormEdit.content"
+            type="textarea"
+            placeholder="请输入公告内容"/>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="备注:">
+          <el-input v-model="dialogFormEdit.note" autocomplete="off"/>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="状态">
+          <el-select v-model="dialogFormEdit.selectStatus" placeholder="">
+            <el-option
+              v-for="item in dialogFormEdit.optionsAnnounceAddStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="是否轮播">
+          <el-select v-model="dialogFormEdit.selectCarousel" placeholder="">
+            <el-option
+              v-for="item in dialogFormEdit.optionsCarousel"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -137,8 +172,8 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialog2FormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialog2FormVisible = false">保 存</el-button>
+        <el-button @click="dialogFormEditVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormEditVisible = false">保 存</el-button>
       </div>
     </el-dialog>
 
@@ -147,10 +182,13 @@
 
 <script>
 import { announceListGet } from '@/api/message'
+import { announceListAdd } from '@/api/message'
+import { announceListEdit } from '@/api/message'
 import { announceListDel } from '@/api/message'
 
 // checkbox 多选框
-const areaOptions = ['收件箱', '走马灯']
+const areaOptions = [{ key: 1, value: '收件箱' }, { key: 2, value: '走马灯' }]
+const channelOptions = [{ key: 1, value: '渠道1' }, { key: 2, value: '渠道2' }, { key: 3, value: '渠道3' }]
 
 export default {
   data() {
@@ -173,27 +211,19 @@ export default {
         winAmount: 11.11,
         winLose: 11.11,
         tax: 11.11
-      }, {
-        timeBegin: '2018-11-11 11:11:12',
-        timeEnd: '2018-11-11 11:11:12',
-        vipAccount: 'ok2',
-        gameName: '牛牛2',
-        gameRoom: '初级房',
-        bet: 11.12,
-        winAmount: 11.12,
-        winLose: 11.12,
-        tax: 11.12
       }],
 
       // 分页
-      currentPage: 4,
+      currentPage: 1,
 
       // dialog 添加公告
-      dialogFormVisible: false,
-      form2: {
+      dialogFormAddVisible: false,
+      dialogFormAdd: {
+        title: '',
         content: '',
         note: '',
         selectStatus: 1,
+        selectCarousel: 1,
         selectTerminal: -1,
 
         optionsAnnounceAddStatus: [{
@@ -201,6 +231,14 @@ export default {
           value: 1
         }, {
           label: '禁用',
+          value: 2
+        }],
+
+        optionsCarousel: [{
+          label: '是',
+          value: 1
+        }, {
+          label: '否',
           value: 2
         }],
 
@@ -216,26 +254,41 @@ export default {
         }]
       },
 
-      // checkbox 多选框
+      // checkbox 多选框 - 发送区域
       checkAll: false,
       checkedAreas: [],
       areas: areaOptions,
       isIndeterminate: true,
 
+      // checkbox 多选框 - 渠道
+      checkAllChannel: false,
+      checkedChannels: [],
+      channels: channelOptions,
+      isIndeterminateChannel: true,
+
       formLabelWidth: '120px',
 
       // dialog2 编辑公告
-      dialog2FormVisible: false,
-      dialogForm2: {
+      dialogFormEditVisible: false,
+      dialogFormEdit: {
         content: '',
         note: '',
         selectStatus: 1,
+        selectCarousel: 1,
 
         optionsAnnounceAddStatus: [{
           label: '启用',
           value: 1
         }, {
           label: '禁用',
+          value: 2
+        }],
+
+        optionsCarousel: [{
+          label: '是',
+          value: 1
+        }, {
+          label: '否',
           value: 2
         }]
       }
@@ -257,9 +310,37 @@ export default {
       this.announceListGetClient(this.form1.selectAnnounceType, this.form1.dpValue1)
     },
 
+    // 添加公告
+    handleAdd() {
+      const title = this.dialogFormAdd.title
+      const content = this.dialogFormAdd.content
+      const status = this.dialogFormAdd.selectStatus
+      const tagArr = this.checkedChannels
+      const carousel = this.dialogFormAdd.selectCarousel
+      const note = this.dialogFormAdd.note
+      const areaArr = this.checkedAreas
+      const terminal = this.dialogFormAdd.selectTerminal
+      announceListAdd(title, content, status, tagArr, carousel, note, areaArr, terminal).then(response => {
+        if (response.code === 0) {
+          this.dialogFormAddVisible = false
+          this.$notify({
+            title: '添加公告成功',
+            message: '',
+            type: 'success'
+          })
+        } else {
+          this.$notify({
+            title: '添加公告失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
     // 编辑公告
     handleEdit() {
-      this.dialog2FormVisible = true
+      this.dialogFormEditVisible = true
     },
 
     // 删除公告
@@ -289,15 +370,38 @@ export default {
 
     },
 
-    // checkbox 多选框
+    // checkbox 多选框 - 发送区域
     handleCheckAllChange(val) {
-      this.checkedAreas = val ? areaOptions : []
+      const tmpArr = []
+      let i = 0
+      for (const key in areaOptions) {
+        tmpArr[i] = areaOptions[key].key
+        ++i
+      }
+      this.checkedAreas = val ? tmpArr : []
       this.isIndeterminate = false
     },
     handleCheckedAreaChange(val) {
       const checkedCount = val.length
       this.checkAll = checkedCount === this.areas.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.areas.length
+    },
+
+    // checkbox 多选框 - 渠道
+    handleCheckAllChannelChange(val) {
+      const tmpArr = []
+      let i = 0
+      for (const key in channelOptions) {
+        tmpArr[i] = channelOptions[key].key
+        ++i
+      }
+      this.checkedChannels = val ? tmpArr : []
+      this.isIndeterminateChannel = false
+    },
+    handleCheckedChannelChange(val) {
+      const checkedCount = val.length
+      this.checkAllChannel = checkedCount === this.channels.length
+      this.isIndeterminateChannel = checkedCount > 0 && checkedCount < this.channels.length
     }
   }
 }
