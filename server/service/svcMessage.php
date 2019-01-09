@@ -48,10 +48,7 @@ class svcMessage {
         if (!isset($param['id']) || empty($param['id'])
             || !isset($param['content']) || empty($param['content'])
             || !isset($param['status']) || empty($param['status'])
-            || !isset($param['tag']) || empty($param['tag'])
-            || !isset($param['carousel']) || empty($param['carousel'])
-            || !isset($param['area']) || empty($param['area'])
-            || !isset($param['terminal']) || empty($param['terminal'])) {
+            || !isset($param['carousel']) || empty($param['carousel'])) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             return ERR_INVALID_PARAM;
         }

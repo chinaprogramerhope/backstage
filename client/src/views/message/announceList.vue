@@ -33,19 +33,19 @@
       <el-table-column prop="channel" label="渠道" align="center"/>
       <el-table-column prop="tag" label="Tag" align="center"/>
       <el-table-column prop="carousel" label="轮播" align="center"/>
-      <el-table-column prop="creater" label="创建人" align="center"/>
+      <el-table-column prop="creator" label="创建人" align="center"/>
       <el-table-column prop="note" label="备注" align="center"/>
       <el-table-column prop="publishTime" label="发布时间" align="center"/>
       <el-table-column prop="operate" label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleEdit">编辑</el-button>
-          <el-button type="danger" size="mini" @click="handleDel">删除</el-button>
+          <el-button type="primary" size="mini" @click="handleOpenEdit(scope.row.id)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="handleDel(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
-    <el-pagination
+    <!-- <el-pagination
       :current-page="currentPage"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="10"
@@ -54,7 +54,7 @@
       align="center"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    />
+    /> -->
 
     <!-- dialog 添加公告 -->
     <el-dialog :visible.sync="dialogFormAddVisible" title="添加公告" center>
@@ -70,10 +70,6 @@
             v-model="dialogFormAdd.content"
             type="textarea"
             placeholder="请输入公告内容"/>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="备注:">
-          <el-input v-model="dialogFormAdd.note" autocomplete="off"/>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="状态">
@@ -96,6 +92,10 @@
               :value="item.value"
             />
           </el-select>
+        </el-form-item>
+
+        <el-form-item :label-width="formLabelWidth" label="备注:">
+          <el-input v-model="dialogFormAdd.note" autocomplete="off"/>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="渠道">
@@ -135,16 +135,17 @@
     <!-- dialog2 编辑公告 -->
     <el-dialog :visible.sync="dialogFormEditVisible" title="编辑公告" center>
       <el-form :model="dialogFormEdit">
+
+        <el-form-item :label-width="formLabelWidth" label="标题:">
+          <el-input v-model="dialogFormEdit.title" autocomplete="off"/>
+        </el-form-item>
+
         <el-form-item :label-width="formLabelWidth" label="内容:">
           <el-input
             :rows="2"
             v-model="dialogFormEdit.content"
             type="textarea"
             placeholder="请输入公告内容"/>
-        </el-form-item>
-
-        <el-form-item :label-width="formLabelWidth" label="备注:">
-          <el-input v-model="dialogFormEdit.note" autocomplete="off"/>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="状态">
@@ -169,11 +170,15 @@
           </el-select>
         </el-form-item>
 
+        <el-form-item :label-width="formLabelWidth" label="备注:">
+          <el-input v-model="dialogFormEdit.note" autocomplete="off"/>
+        </el-form-item>
+
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormEditVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormEditVisible = false">保 存</el-button>
+        <el-button type="primary" @click="handleEdit">保 存</el-button>
       </div>
     </el-dialog>
 
@@ -189,6 +194,9 @@ import { announceListDel } from '@/api/message'
 // checkbox 多选框
 const areaOptions = [{ key: 1, value: '收件箱' }, { key: 2, value: '走马灯' }]
 const channelOptions = [{ key: 1, value: '渠道1' }, { key: 2, value: '渠道2' }, { key: 3, value: '渠道3' }]
+
+// 编辑所在行的id
+var idEdit = 0
 
 export default {
   data() {
@@ -295,19 +303,17 @@ export default {
     }
   },
   created() {
-    this.announceListGetClient(this.form1.selectAnnounceType, this.form1.dpValue1)
+    this.announceListGetClient(this.form1.dpValue1)
   },
   methods: {
-    announceListGetClient(type, timeBegin) {
-      announceListGet(type, timeBegin).then(response => {
+    announceListGetClient(timeBegin) {
+      announceListGet(timeBegin).then(response => {
         this.tableData = response.data
-        // test
-        console.log('tableDataType = ' + typeof (response.data) + ', value = ' + JSON.stringify(response.data))
       })
     },
 
     handleSearch() {
-      this.announceListGetClient(this.form1.selectAnnounceType, this.form1.dpValue1)
+      this.announceListGetClient(this.form1.dpValue1)
     },
 
     // 添加公告
@@ -328,6 +334,9 @@ export default {
             message: '',
             type: 'success'
           })
+
+          // 刷新页面  todo 客户端计算刷新, 不请求服务端
+          this.announceListGetClient(this.form1.dpValue1)
         } else {
           this.$notify({
             title: '添加公告失败',
@@ -340,18 +349,45 @@ export default {
 
     // 编辑公告
     handleEdit() {
-      this.dialogFormEditVisible = true
+      const title = this.dialogFormEdit.title
+      const content = this.dialogFormEdit.content
+      const status = this.dialogFormEdit.selectStatus
+      const carousel = this.dialogFormEdit.selectCarousel
+      const note = this.dialogFormEdit.note
+      announceListEdit(this.idEdit, title, content, status, carousel, note).then(response => {
+        if (response.code === 0) {
+          this.$notify({
+            title: '编辑公告成功',
+            message: '',
+            type: 'success'
+          })
+
+          this.dialogFormEditVisible = false
+
+          // 刷新页面  todo 客户端计算刷新, 不请求服务端
+          this.announceListGetClient(this.form1.dpValue1)
+        } else {
+          this.$notify({
+            title: '编辑公告失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     },
 
     // 删除公告
-    handleDel(announceId) {
-      announceListDel(announceId).then(response => {
+    handleDel(id) {
+      announceListDel(id).then(response => {
         if (response.code === 0) {
           this.$notify({
             title: '删除公告成功',
             message: '',
             type: 'success'
           })
+
+          // 刷新页面  todo 客户端计算刷新, 不请求服务端
+          this.announceListGetClient(this.form1.dpValue1)
         } else {
           this.$notify({
             title: '删除公告失败',
@@ -360,6 +396,12 @@ export default {
           })
         }
       })
+    },
+
+    // 打开编辑页面
+    handleOpenEdit(id) {
+      this.dialogFormEditVisible = true
+      this.idEdit = id
     },
 
     // 分页

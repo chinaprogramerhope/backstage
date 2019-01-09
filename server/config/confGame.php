@@ -254,3 +254,13 @@ const messageTerminal = [
     messageTerminalPc => '电脑端',
     messageTerminalMobile => '移动端'
 ];
+
+// 渠道
+const messageChannel1 = 1;
+const messageChannel2 = 2;
+const messageChannel3 = 3;
+const messageChannel = [
+    messageChannel1 => '渠道1',
+    messageChannel2 => '渠道2',
+    messageChannel3 => '渠道3',
+];

@@ -30,7 +30,7 @@ class daoMessage {
         $pdoParam = [];
         $haveWhere = false;
         try {
-            $sql = 'select id, type, content, publishTime, status, creator, note from smc_sys_notice';
+            $sql = 'select id, title, content, status, tag, carousel, note, creator, publishTime from smc_sys_notice';
 
             if ($timeBegin !== -1) {
                 if ($haveWhere) {
@@ -67,6 +67,13 @@ class daoMessage {
             }
             $rows = $stmt->fetchAll();
             if (!empty($rows)) {
+                foreach ($rows as &$row) {
+                    $row['status'] = array_key_exists($row['status'], messageStatus) ? messageStatus[$row['status']] : '';
+                    $row['channel'] = array_key_exists($row['tag'], messageChannel) ? messageChannel[$row['tag']] : '';
+                    $row['carousel'] = array_key_exists($row['carousel'], messageCarousel) ? messageCarousel[$row['carousel']] : '';
+                }
+                unset($row);
+
                 $data = $rows;
             }
         } catch (Exception $e) {
@@ -101,6 +108,7 @@ class daoMessage {
 
         $timeNow = date('Y-m-d H:i:s');
         $publishTime = $status === 1 ? $timeNow : 0;
+        $editTime = 0;
 
         $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
         if ($pdo === null) {
@@ -109,12 +117,13 @@ class daoMessage {
         }
 
         try {
-            $sql = 'insert into smc_sys_notice(title, content, status, tag, carousel, note, area, terminal, creator, createTime, publishTime) values';
+            $sql = 'insert into smc_sys_notice(title, content, status, tag, carousel, note, area, terminal, creator, createTime, publishTime, editTime) values';
 
             foreach ($tagArr as $tag) {
                 foreach ($areaArr as $area) {
-                    $sql .= ' (' . $pdo->quote($title) . ', ' . $pdo->quote($content) . ', ' . $status . ', ' . $tag . ', ' . $carousel . ', ' . $note;
-                    $sql .= ', ' . $area . ', ' . $terminal . ', ' . $pdo->quote($creator) . ', ' . $pdo->quote($timeNow) . ', ' . $pdo->quote($publishTime) . '),';
+                    $sql .= ' (' . $pdo->quote($title) . ', ' . $pdo->quote($content) . ', ' . $status . ', ' . $tag;
+                    $sql .= ', ' . $carousel . ', ' . $note . ', ' . $area . ', ' . $terminal . ', ' . $pdo->quote($creator);
+                    $sql .= ', ' . $pdo->quote($timeNow) . ', ' . $pdo->quote($publishTime) . ', ' .  $pdo->quote($editTime) . '),';
                 }
             }
 
@@ -145,13 +154,10 @@ class daoMessage {
         $title = isset($param['title']) ? $param['title'] : '';
         $content = $param['content'];
         $status = intval($param['status']);
-        $tag = $param['tag'];
         $carousel = intval($param['carousel']);
         $note = isset($param['note']) ? $param['note'] : '';
-        $area = intval($param['area']);
-        $terminal = intval($param['terminal']);
 
-        $creator = ''; // todo
+        $creator = 'hxl1'; // todo
 
         $timeNow = date('Y-m-d H:i:s');
         $publishTime = $status === 1 ? $timeNow : 0;
@@ -164,10 +170,8 @@ class daoMessage {
 
         $pdoParam = [];
         try {
-            $sql = 'update smc_sys_notice set title = :title, content = :content, status = :status, tag = :tag,';
-            $sql .= ' carousel = :carousel, note = :note, area = :area, terminal = :terminal, creator = :creator,';
-            $sql .= ' createTime = :createTime, publishTime = :publishTime';
-            $sql .= ' where id = :id';
+            $sql = 'update smc_sys_notice set title = :title, content = :content, status = :status, carousel = :carousel,';
+            $sql .= ' note = :note, creator = :creator, publishTime = :publishTime, editTime = :editTime where id = :id';
 
             $stmt = $pdo->prepare($sql);
 
@@ -175,14 +179,11 @@ class daoMessage {
                 ':title' => $title,
                 ':content' => $content,
                 ':status' => $status,
-                ':tag' => $tag,
                 ':carousel' => $carousel,
                 ':note' => $note,
-                ':area' => $area,
-                ':terminal' => $terminal,
                 ':creator' => $creator,
-                ':createTime' => $timeNow,
                 ':publishTime' => $publishTime,
+                ':editTime' => $timeNow,
                 ':id' => $id
             ];
             $ret = $stmt->execute($pdoParam);
@@ -195,6 +196,7 @@ class daoMessage {
                 . $e->getMessage() . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
             return ERR_MYSQL_EXCEPTION;
         }
+
         return ERR_OK;
     }
 

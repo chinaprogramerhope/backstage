@@ -2,14 +2,12 @@ import request from '@/utils/request'
 
 /**
  * 公告列表 - 获取
- * @param {*} type
  * @param {*} timeBegin
  */
-export function announceListGet(type, timeBegin) {
+export function announceListGet(timeBegin) {
   const data = {
     cmd: 201,
     param: {
-      type: type,
       dateRange: timeBegin
     }
   }
@@ -58,11 +56,23 @@ export function announceListAdd(title, content, status, tagArr, carousel, note, 
 
 /**
  * 公告列表 - 编辑
+ * @param {*} id
+ * @param {*} title
+ * @param {*} content
+ * @param {*} status
+ * @param {*} carousel
+ * @param {*} note
  */
-export function announceListEdit() {
+export function announceListEdit(id, title, content, status, carousel, note) {
   const data = {
     cmd: 203,
     param: {
+      id: id,
+      title: title,
+      content: content,
+      status: status,
+      carousel: carousel,
+      note: note
     }
   }
 
@@ -76,13 +86,13 @@ export function announceListEdit() {
 
 /**
  * 公告列表 - 删除
- * @param {*} announceId
+ * @param {*} id
  */
-export function announceListDel(announceId) {
+export function announceListDel(id) {
   const data = {
     cmd: 204,
     param: {
-      announceId: announceId
+      id: id
     }
   }
 
