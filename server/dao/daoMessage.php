@@ -85,16 +85,19 @@ class daoMessage {
      * @return int
      */
     public static function announceListAdd($param, &$data) {
+        // test
+        clsLog::debug('ok11, addParam = ' . json_encode($param));
+
         $title = isset($param['title']) ? $param['title'] : '';
         $content = $param['content'];
         $status = intval($param['status']);
-        $tag = $param['tag'];
+        $tagArr = $param['tagArr'];
         $carousel = intval($param['carousel']);
         $note = isset($param['note']) ? $param['note'] : '';
-        $area = intval($param['area']);
+        $areaArr = $param['areaArr'];
         $terminal = intval($param['terminal']);
 
-        $creator = ''; // todo
+        $creator = 'hxl'; // todo
 
         $timeNow = date('Y-m-d H:i:s');
         $publishTime = $status === 1 ? $timeNow : 0;
@@ -105,34 +108,27 @@ class daoMessage {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $pdoParam = [];
-        try { // todo 改为不用pdo, 一次插入所有
-            $sql = 'insert into smc_sys_notice(title, content, status, tag, carousel, note, area, terminal, creator, createTime, publishTime)';
-            $sql .= ' values (:title, :content, :status, :tag, :carousel, :note, :area, :terminal, :creator, :createTime, :publishTime)';
+        try {
+            $sql = 'insert into smc_sys_notice(title, content, status, tag, carousel, note, area, terminal, creator, createTime, publishTime) values';
+
+            foreach ($tagArr as $tag) {
+                foreach ($areaArr as $area) {
+                    $sql .= ' (' . $pdo->quote($title) . ', ' . $pdo->quote($content) . ', ' . $status . ', ' . $tag . ', ' . $carousel . ', ' . $note;
+                    $sql .= ', ' . $area . ', ' . $terminal . ', ' . $pdo->quote($creator) . ', ' . $pdo->quote($timeNow) . ', ' . $pdo->quote($publishTime) . '),';
+                }
+            }
+
+            $sql = rtrim($sql, ',');
 
             $stmt = $pdo->prepare($sql);
-
-            $pdoParam = [
-                ':title' => $title,
-                ':content' => $content,
-                ':status' => $status,
-                ':tag' => $tag,
-                ':carousel' => $carousel,
-                ':note' => $note,
-                ':area' => $area,
-                ':terminal' => $terminal,
-                ':creator' => $creator,
-                ':createTime' => $timeNow,
-                ':publishTime' => $publishTime
-            ];
-            $ret = $stmt->execute($pdoParam);
+            $ret = $stmt->execute();
             if (!$ret) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', param = ' . json_encode($param));
                 return ERR_MYSQL_EXECUTE_FAIL;
             }
         } catch (Exception $e) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = '
-                . $e->getMessage() . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+                . $e->getMessage() . ', sql = ' . $sql . ', param = ' . json_encode($param));
             return ERR_MYSQL_EXCEPTION;
         }
         return ERR_OK;

@@ -16,7 +16,6 @@ const maxQueryNum = 1000; // 最大查询数量
  * 游戏管理
  */
 
-
 // 游戏id
 const gameIdTexasPokerPuTong = 1; // 德州扑克
 const gameIdNiuNiuQiangZhuang = 18; // 抢庄牛牛
@@ -213,4 +212,45 @@ const gameHistoryTables = [
     350 => '',
     351 => '',
     352 => ''
+];
+
+
+/**
+ * 公告管理
+ */
+
+// 公告状态
+const messageStatusOpen = 1;
+const messageStatusClose = 2;
+const messageStatus = [
+    messageStatusOpen => '启用',
+    messageStatusClose => '禁用',
+];
+
+// 是否轮播
+const messageCarouselYes = 1;
+const messageCarouselNo = 2;
+const messageCarousel = [
+    messageCarouselYes => '是',
+    messageCarouselNo => '否'
+];
+
+// 发送区域
+const messageAreaAll = -1;
+const messageAreaInbox = 1;
+const messageAreaRidingLantern = 2;
+const messageArea = [
+    messageAreaAll => '全部',
+    messageAreaInbox => '收件箱',
+    messageAreaRidingLantern => '走马灯'
+];
+
+// 使用终端
+const messageTerminalAll = -1;
+const messageTerminalPc = 1;
+const messageTerminalMobile = 2;
+const messageTerminal = [
+    messageTerminalAll => '全部',
+    messageTerminalPc => '电脑端',
+    messageTerminalMobile => '移动端'
 ];

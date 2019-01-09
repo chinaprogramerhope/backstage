@@ -26,9 +26,9 @@ class svcMessage {
     public function announceListAdd($param, &$data) {
         if (!isset($param['content']) || empty($param['content'])
             || !isset($param['status']) || empty($param['status'])
-            || !isset($param['tag']) || empty($param['tag'])
+            || !isset($param['tagArr']) || empty($param['tagArr'])
             || !isset($param['carousel']) || empty($param['carousel'])
-            || !isset($param['area']) || empty($param['area'])
+            || !isset($param['areaArr']) || empty($param['areaArr'])
             || !isset($param['terminal']) || empty($param['terminal'])) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             return ERR_INVALID_PARAM;
