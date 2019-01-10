@@ -53,7 +53,7 @@ class daoOperation {
             $rows = $stmt->fetchAll();
             if (!empty($rows)) {
                 foreach ($rows as &$row) {
-                    $row['systemProfit'] = number_format($row['systemProfit'], 2, '.', '');
+                    $row['systemProfit'] = number_format($row['systemProfit'], 2, '.', ' ');
                 }
                 unset($row);
 

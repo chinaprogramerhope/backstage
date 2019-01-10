@@ -135,11 +135,11 @@ class daoFinance {
             if (!empty($rows)) {
                 foreach ($rows as &$row) {
                     $row['channelName'] = array_key_exists($row['channelid'], channelList) ? channelList[$row['channelid']] : '未知渠道' . $row['channelid'];
-                    $row['rechargeTotal'] = number_format($row['rechargeTotal'], 2, '.', '');
-                    $row['withdrawalsTotal'] = number_format($row['withdrawalsTotal'], 2, '.', '');
-                    $row['withdrawalsGiveTotal'] = number_format($row['withdrawalsGiveTotal'], 2, '.', '');
-                    $row['withdrawalsPoundageTotal'] = number_format($row['withdrawalsPoundageTotal'], 2, '.', '');
-                    $row['pumpTotal'] = number_format($row['pumpTotal'], 2, '.', '');
+                    $row['rechargeTotal'] = number_format($row['rechargeTotal'], 2, '.', ' ');
+                    $row['withdrawalsTotal'] = number_format($row['withdrawalsTotal'], 2, '.', ' ');
+                    $row['withdrawalsGiveTotal'] = number_format($row['withdrawalsGiveTotal'], 2, '.', ' ');
+                    $row['withdrawalsPoundageTotal'] = number_format($row['withdrawalsPoundageTotal'], 2, '.', ' ');
+                    $row['pumpTotal'] = number_format($row['pumpTotal'], 2, '.', ' ');
                     unset($row['channelid']);
                 }
                 unset($row);
@@ -423,6 +423,7 @@ class daoFinance {
             }
 
             $row['timeType'] = 'pay_success_time' === payPlatform[$payPlatformId] ? '到账时间' : '创建时间';
+            $row['rechargeTotal'] = number_format($row['rechargeTotal'], 2, '.', ' ');
         }
         unset($row);
 
