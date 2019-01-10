@@ -31,5 +31,27 @@ require_once '../loadConfig.php';
 //$datetime1 = new DateTime('2009-10-11');
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
-$a = ',,,11,,ddd,,,   ';
-echo rtrim($a, ',');
+
+$a = [
+    1 => 1,
+    2 => 2,
+    3 => 3
+];
+
+$b = [
+    4 => 4,
+    'a' => 1,
+    'b' => 2
+];
+
+$c = [
+    1 => 4,
+    2 => 5,
+];
+
+$d = [
+    4 => 4,
+    1 => 11
+];
+
+print_r($a + $c);

@@ -124,8 +124,8 @@ export default {
     const payType = this.form1.selectPayType
 
     payStatisticsGet(dateRange, channelId, payType).then(response => {
-      if (response.code === 0) {
-        this.tableData = response.data
+      if (response.code === 0) { // todo channelName 根据response.data['payPlatformList']获取
+        this.tableData = response.data['tableData']
       } else {
         this.$notify({
           title: '获取数据失败',

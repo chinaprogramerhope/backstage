@@ -417,16 +417,17 @@ class daoFinance {
             $payPlatformId = $row['pay_platform'];
 
             if (array_key_exists($payPlatformId, $successArr)) {
-                $row['successRate'] = round(($successArr['num'] / $allArr['num']) * 100, 2) . '%';
+                $row['paySuccessRate'] = round(($successArr['num'] / $allArr['num']) * 100, 2) . '%';
             } else {
-                $row['successRate'] = '0.00%';
+                $row['paySuccessRate'] = '0.00%';
             }
 
             $row['timeType'] = 'pay_success_time' === payPlatform[$payPlatformId] ? '到账时间' : '创建时间';
         }
         unset($row);
 
-        $data = $rows;
+        $data['tableData'] = $rows;
+        $data['payPlatformList'] = ownPay + ylPay + jdPay + qqPay + wxPay + aliPayPay + officialAliPayPay;
 
         return ERR_OK;
     }

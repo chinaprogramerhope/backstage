@@ -3,10 +3,9 @@
     公告管理 -> todo 同客户端对接; 添加公告, 点击走马灯弹出选择时间;
 
 1.10 -
-    财务管理 -> todo 在用的渠道有哪些
+    财务管理 -> todo 在用的渠道有哪些; 配置文件名字修改
     推广管理
 
-todo now : 'pay_list' => $this->dindan_model->getPayList()
 
     外网nginx和php-fpm随系统启动
     request.js 确定login中自己会根据res.code判断是否登录成功
