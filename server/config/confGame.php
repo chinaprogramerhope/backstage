@@ -11,6 +11,37 @@
  */
 const maxQueryNum = 1000; // 最大查询数量
 
+/**
+ * 公共常量
+ */
+const daySeconds = 86400; // 1天秒数
+const monthSeconds = 2592000; // 30天秒数
+
+/**
+ * 支付相关
+ */
+
+// 渠道
+const channelList = [
+    1 => ['channelId' => 1, 'tag' => 'com.liuliugame1.fageqipai1', 'name' => '发哥游戏Ios', 'url' => 'ur1'],
+    2 => ['channelId' => 2, 'tag' => 'com.liuliugame1.kuruiyouxi', 'name' => '酷锐游戏Ios', 'url' => 'ur13'],
+];
+
+// 支付平台
+const payPlatformIdJubaoyun = 3; // 聚宝云
+const payPlatformIdHuione = 4; // 汇旺
+const payPlatformIdYufu = 5; // 裕付
+const payPlatformIdChanfu = 6; // 畅付云
+
+const payPlatform = [ // add_time, pay_success_time
+    payPlatformIdJubaoyun => 'pay_success_time',
+    payPlatformIdHuione => 'add_time',
+    payPlatformIdYufu => 'add_time',
+    payPlatformIdChanfu => 'add_time'
+];
+
+const payTimeDelay = [];
+
 
 /**
  * 游戏管理

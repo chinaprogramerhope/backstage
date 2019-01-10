@@ -27,11 +27,11 @@
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column prop="channel" label="渠道" sortable align="center"/>
+      <el-table-column prop="channelName" label="渠道" sortable align="center"/>
       <el-table-column prop="rechargeTotal" label="充值总额" sortable align="center"/>
-      <el-table-column prop="withDrawalTotal" label="提现总额" sortable align="center"/>
-      <el-table-column prop="withDrawalGiveTotal" label="提现赠送总额" sortable align="center"/>
-      <el-table-column prop="withDrawalPoundageTotal" label="提现手续费总额" sortable align="center"/>
+      <el-table-column prop="withdrawalsTotal" label="提现总额" sortable align="center"/>
+      <el-table-column prop="withdrawalsGiveTotal" label="提现赠送总额" sortable align="center"/>
+      <el-table-column prop="withdrawalsPoundageTotal" label="提现手续费总额" sortable align="center"/>
       <el-table-column prop="pumpTotal" label="抽水总额" sortable align="center"/>
     </el-table>
 
@@ -73,7 +73,15 @@ export default {
 
   created() {
     finStatisticsGet(this.form1.dpValue1).then(response => {
-      this.tableData = response.data
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败',
+          message: '',
+          type: 'error'
+        })
+      }
     })
   },
 
@@ -81,13 +89,30 @@ export default {
     // 查询
     onGet() {
       finStatisticsGet(this.form1.dpValue1).then(response => {
-        this.tableData = response.data
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败',
+            message: '',
+            type: 'error'
+          })
+        }
       })
     },
 
     // 更新昨日充值数据(请不要频繁操作)
     onUpdate() {
       finStatisticsUpdate().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败',
+            message: '',
+            type: 'error'
+          })
+        }
       })
     },
 
