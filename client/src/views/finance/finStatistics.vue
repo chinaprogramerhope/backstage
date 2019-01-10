@@ -3,7 +3,7 @@
 
     <!-- 表单 -->
     <el-form :inline="true" :model="form1" align="left" style="margin-top: 30px">
-      <el-form-item label="时间:">
+      <el-form-item label="日期:">
         <el-date-picker
           v-model="form1.dpValue1"
           type="daterange"

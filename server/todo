@@ -6,11 +6,11 @@
     财务管理 -> todo 在用的渠道有哪些
     推广管理
 
+todo now : 'pay_list' => $this->dindan_model->getPayList()
 
     外网nginx和php-fpm随系统启动
     request.js 确定login中自己会根据res.code判断是否登录成功
 
-    补充: 系统输钱和机器人输钱页面 casinoglobalinfo->casinosystemlose  根据gameId, roomId, date查询
 
 
 

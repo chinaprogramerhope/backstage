@@ -3,7 +3,7 @@
 
     <!-- 表单 -->
     <el-form :inline="true" :model="form1" align="left" style="margin-top: 30px">
-      <el-form-item label="日期:">
+      <!-- <el-form-item label="日期:">
         <el-date-picker
           v-model="form1.dpValue1"
           type="daterange"
@@ -11,9 +11,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         />
-      </el-form-item>
+      </el-form-item> -->
 
-      <el-form-item label="渠道:">
+      <!-- <el-form-item label="渠道:">
         <el-select v-model="form1.selectChannel">
           <el-option
             v-for="item in form1.optionsChannel"
@@ -32,11 +32,11 @@
             :label="item.label"
             :value="item.value"
           />
-        </el-select>
-      </el-form-item>
+        </el-select> -->
+      <!-- </el-form-item> -->
 
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onGet">查询 (默认显示最近30天)</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onGet">查询</el-button>
       </el-form-item>
 
     </el-form>
@@ -46,10 +46,12 @@
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column prop="channelName" label="支付平台" sortable align="center"/>
-      <el-table-column prop="rechargeTotal" label="充值总额" sortable align="center"/>
-      <el-table-column prop="paySuccessRate" label="付费成功率" sortable align="center"/>
-      <el-table-column prop="statisticalBasis" label="统计依据" sortable align="center"/>
+      <el-table-column prop="id" label="id" sortable align="center"/>
+      <el-table-column prop="sDate" label="sdate" sortable align="center"/>
+      <el-table-column prop="gameType" label="游戏类型" sortable align="center"/>
+      <el-table-column prop="serverId" label="服务器id" sortable align="center"/>
+      <el-table-column prop="roomId" label="游戏房间id" sortable align="center"/>
+      <el-table-column prop="systemProfit" label="系统利润" sortable align="center"/>
     </el-table>
 
     <!-- 分页 -->
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-import { payStatisticsGet } from '@/api/finance'
+import { systemProfitGet } from '@/api/operation'
 
 export default {
   data() {
@@ -114,16 +116,12 @@ export default {
       tableData: '',
 
       // 分页
-      currentPage: 4
+      currentPage: 1
     }
   },
 
   created() {
-    const dateRange = this.form1.dpValue1
-    const channelId = this.form1.selectChannel
-    const payType = this.form1.selectPayType
-
-    payStatisticsGet(dateRange, channelId, payType).then(response => {
+    systemProfitGet().then(response => {
       if (response.code === 0) {
         this.tableData = response.data
       } else {
@@ -140,11 +138,7 @@ export default {
 
     // 查询
     onGet() {
-      const dateRange = this.form1.dpValue1
-      const channelId = this.form1.selectChannel
-      const payType = this.form1.selectPayType
-
-      payStatisticsGet(dateRange, channelId, payType).then(response => {
+      systemProfitGet().then(response => {
         if (response.code === 0) {
           this.tableData = response.data
         } else {

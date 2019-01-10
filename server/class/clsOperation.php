@@ -26,4 +26,14 @@ class clsOperation {
     public static function moneyReportGet($param, &$data) {
         return daoOperation::moneyReportGet($param, $data);
     }
+
+    /**
+     * 系统利润 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function systemProfitGet($param, &$data) {
+        return daoOperation::systemProfitGet($param, $data);
+    }
 }

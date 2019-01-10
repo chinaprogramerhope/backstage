@@ -27,6 +27,21 @@ const channelList = [
     2 => ['channelId' => 2, 'tag' => 'com.liuliugame1.kuruiyouxi', 'name' => '酷锐游戏Ios', 'url' => 'ur13'],
 ];
 
+// 支付方式
+const payTypeAli = 1;
+const payTypeWeChat = 2;
+const payTypeCard = 3;
+const payTypeQQ = 4;
+const payTypeJd = 5;
+
+const payType = [
+    payTypeAli => '支付宝',
+    payTypeWeChat => '微信',
+    payTypeCard => '卡支付',
+    payTypeQQ => 'QQ钱包',
+    payTypeJd => '京东钱包'
+];
+
 // 支付平台
 const payPlatformIdJubaoyun = 3; // 聚宝云
 const payPlatformIdHuione = 4; // 汇旺

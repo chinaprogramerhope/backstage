@@ -116,6 +116,8 @@ const cmdArr = [
 
     352 => ['svc' => 'svcOperation', 'func' => 'moneyReportGet'], // 资金帐变 - 获取
 
+    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
+
     // 活动管理 401 - 450
     401 => ['svc' => 'svcActivity', 'func' => 'activityReportGet'], // 活动报表 - 获取
 

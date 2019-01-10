@@ -26,4 +26,8 @@ class svcOperation {
     public function moneyReportGet($param, &$data) {
         return clsOperation::moneyReportGet($param, $data);
     }
+
+    public function systemProfitGet($param, &$data) {
+        return clsOperation::systemProfitGet($param, $data);
+    }
 }

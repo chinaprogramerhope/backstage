@@ -110,7 +110,7 @@ class daoFinance {
             ':dateEnd' => $dateEnd
         ];
         try {
-            // 充值总额rechargeTotal, 提现总额withDrawalTotal, 提现赠送总额withdrawalsGiveTotal, 提现手续费总额withdrawalsPoundageTotal, 抽水总额pumpTotal
+            // 充值总额rechargeTotal, 提现总额withdrawalsTotal, 提现赠送总额withdrawalsGiveTotal, 提现手续费总额withdrawalsPoundageTotal, 抽水总额pumpTotal
             $sql = 'select
                 channelid,
                 sum(pay_total_money)/100 as rechargeTotal,
@@ -135,6 +135,11 @@ class daoFinance {
             if (!empty($rows)) {
                 foreach ($rows as &$row) {
                     $row['channelName'] = array_key_exists($row['channelid'], channelList) ? channelList[$row['channelid']] : '未知渠道' . $row['channelid'];
+                    $row['rechargeTotal'] = number_format($row['rechargeTotal'], 2, '.', '');
+                    $row['withdrawalsTotal'] = number_format($row['withdrawalsTotal'], 2, '.', '');
+                    $row['withdrawalsGiveTotal'] = number_format($row['withdrawalsGiveTotal'], 2, '.', '');
+                    $row['withdrawalsPoundageTotal'] = number_format($row['withdrawalsPoundageTotal'], 2, '.', '');
+                    $row['pumpTotal'] = number_format($row['pumpTotal'], 2, '.', '');
                     unset($row['channelid']);
                 }
                 unset($row);
@@ -299,6 +304,130 @@ class daoFinance {
      * @return int
      */
     public static function payStatisticsGet($param, &$data) {
+        if (isset($param['dateRange']) && !empty($param['dateRange'])) {
+            $dateBegin = $param['dateRange'][0];
+            $dateEnd = $param['dateRange'][1];
+        } else {
+            $dateBegin = $dateEnd = -1;
+        }
+
+        if ($dateBegin === -1) { // 默认获取最近30天
+            $tomorrowTs = strtotime(date('Ymd')) + daySeconds;
+            $monthAgoTs = $tomorrowTs - monthSeconds;
+
+            $dateBegin = date('Ymd', $monthAgoTs);
+            $dateEnd = date('Ymd', $tomorrowTs);
+        }
+
+        $channelId = intval($param['channelId']);
+        $payType = $param['payType'];
+
+        $tsBegin = strtotime($dateBegin);
+        $tsEnd = strtotime();
+
+        $platFormArr = [];
+        $ret = self::getPlatformArr($dateBegin, $dateEnd, $channelId, $payType, $platFormArr); // todo
+        if ($ret !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', self::getPlatformArr fail, param = ' . json_encode($param)
+                . ', errCode = ' . $ret);
+            return $ret;
+        }
+        if (empty($platFormArr)) {
+            clsLog::info(__METHOD__ . ', self::getPlatformArr return empty, param = ' . json_encode($param));
+            return ERR_OK;
+        }
+
+        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = '';
+
+        $sqlFrag = 'select pay_platform,SUM(money/100) as rechargeTotal from smc_order where status = 1';
+        if (!empty($channelId)) {
+            $sqlFrag .= ' and channel_id = ' . $channelId;
+        }
+        if (!empty($payType)) {
+            $sqlFrag .= ' and pay_type = ' . $payType;
+        }
+
+        foreach ($platFormArr as $platFormId) {
+            $timeField = array_key_exists($platFormId, payPlatform) ? payPlatform[$platFormId] : 'pay_success_time'; // 默认到账时间
+            $timeDelay = !empty(payTimeDelay) && !empty(payTimeDelay[$platFormId]) ? $platFormId[$platFormId] : 0;
+
+            $tsBegin += $timeDelay;
+            $tsEnd += $timeDelay;
+
+            $sql .= $sqlFrag;
+            $sql .= ' and pay_platform = ' . $platFormId . ' and ' . $timeField . ' >= ' . $tsBegin . ' and ' . $timeField . ' <= ' . $tsEnd;
+            $sql .= ' union all ';
+        }
+        $sql = rtrim($sql, ' union all ');
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
+        $rows = $stmt->fetchAll();
+        if (empty($rows)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql);
+            return ERR_OK;
+        }
+
+        // 查询成功率, 即status为1的订单除以总数
+        $sqlAll = 'select count(*) as num, pay_platform from smc_order group by pay_platform';
+        $stmtAll = $pdo->prepare($sqlAll);
+        $retAll = $stmtAll->execute();
+        if (!$retAll) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sqlAll = ' . $sqlAll);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rowsAll = $stmtAll->fetchAll();
+        if (empty($rowsAll)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sqlAll = ' . $sqlAll);
+            return ERR_OK;
+        }
+        $allArr = [];
+        foreach ($rowsAll as $row) {
+            $allArr[$row['pay_platform']] = $row['num'];
+        }
+
+        $sqlSuccess = 'select count(*) as num, pay_platform where status = 1 from smc_order group by pay_platform';
+        $stmtSuccess = $pdo->prepare($sqlSuccess);
+        $retSuccess = $stmtAll->execute();
+        if (!$retSuccess) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sqlSuccess = ' . $sqlSuccess);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rowsSuccess = $stmtSuccess->fetchAll();
+        if (empty($rowsSuccess)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sqlSuccess = ' . $sqlSuccess);
+            return ERR_OK;
+        }
+        $successArr = [];
+        foreach ($rowsSuccess as $row) {
+            $successArr[$row['pay_platform']] = $row['num'];
+        }
+
+        foreach ($rows as $k => &$row) {
+            $payPlatformId = $row['pay_platform'];
+
+            if (array_key_exists($payPlatformId, $successArr)) {
+                $row['successRate'] = round(($successArr['num'] / $allArr['num']) * 100, 2) . '%';
+            } else {
+                $row['successRate'] = '0.00%';
+            }
+
+            $row['timeType'] = 'pay_success_time' === payPlatform[$payPlatformId] ? '到账时间' : '创建时间';
+        }
+        unset($row);
+
+        $data = $rows;
+
         return ERR_OK;
     }
 
@@ -370,5 +499,9 @@ class daoFinance {
      */
     public static function payOrderManageUpdate($param, &$data) {
         return ERR_OK;
+    }
+
+    public static function getPlatformArr() {
+
     }
 }

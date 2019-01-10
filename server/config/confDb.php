@@ -63,6 +63,15 @@ const mysqlConfig = [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]
     ],
+
+    'casinoglobalinfo' => [
+        'dsn' => 'mysql:dbname=casinoglobalinfo;host=192.168.1.58;charset=utf8mb4', // charset=utf8mb4: 防止从mysql获取中文为?
+        'user' => 'RoamGame',
+        'pass' => 'Xmpx3hTpYujflCgbRkJV1',
+        'options' => [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]
+    ],
 ];
 
 // redis连接配置

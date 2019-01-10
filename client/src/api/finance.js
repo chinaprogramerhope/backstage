@@ -2,11 +2,13 @@ import request from '@/utils/request'
 
 /**
  * 财务统计 - 获取
+ * @param {*} dateRange
  */
-export function finStatisticsGet() {
+export function finStatisticsGet(dateRange) {
   const data = {
     cmd: 158,
     param: {
+      dateRange: dateRange
     }
   }
 
@@ -38,11 +40,17 @@ export function finStatisticsUpdate() {
 
 /**
  * 支付统计 - 获取
+ * @param {*} dateRange
+ * @param {*} channelId
+ * @param {*} payType
  */
-export function payStatisticsGet() {
+export function payStatisticsGet(dateRange, channelId, payType) {
   const data = {
     cmd: 160,
     param: {
+      dateRange: dateRange,
+      channelId: channelId,
+      payType: payType
     }
   }
 

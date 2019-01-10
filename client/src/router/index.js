@@ -431,6 +431,14 @@ export const constantRouterMap = [
         meta: {
           title: '资金帐变'
         }
+      },
+      {
+        path: 'systemProfit',
+        component: () => import('@/views/operation/systemProfit'),
+        name: 'systemProfit',
+        meta: {
+          title: '系统利润'
+        }
       }
     ]
   },
