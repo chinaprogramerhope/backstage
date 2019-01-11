@@ -118,11 +118,23 @@ export function reconciliationReportGet() {
 
 /**
  * 代付账号管理 - 获取
+ * @param {*} dateRange
+ * @param {*} bankcardNo
+ * @param {*} bankBranch
+ * @param {*} cardholderName
+ * @param {*} cardholderMobile
+ * @param {*} describe
  */
-export function payAccountManageGet() {
+export function payAccountManageGet(dateRange, bankcardNo, bankBranch, cardholderName, cardholderMobile, describe) {
   const data = {
     cmd: 164,
     param: {
+      dateRange: dateRange,
+      bankcardNo: bankcardNo,
+      bankBranch: bankBranch,
+      cardholderName: cardholderName,
+      cardholderMobile: cardholderMobile,
+      describe: describe
     }
   }
 
@@ -136,11 +148,32 @@ export function payAccountManageGet() {
 
 /**
  * 代付账号管理 - 创建新账号
+ * @param {*} bankcardNo - 收款账号
+ * @param {*} bankBranch - 银行名称
+ * @param {*} cardholderName - 收款人姓名
+ * @param {*} cardholderMobile - 收款人手机
+ * @param {*} headquartersBankId - 客户类型
+ * @param {*} issueBankId - 资产类型
+ * @param {*} describe - 备注
+ * @param {*} customerType - 客户类型
+ * @param {*} accountType - 资产类型
  */
-export function payAccountManageCreate() {
+export function payAccountManageCreate(bankcardNo, bankBranch, cardholderName, cardholderMobile,
+  headquartersBankId, issueBankId, describe, customerType,
+  accountType) {
   const data = {
     cmd: 165,
     param: {
+      bankcardNo: bankcardNo,
+      bankBranch: bankBranch,
+      cardholderName: cardholderName,
+      cardholderMobile: cardholderMobile,
+
+      headquartersBankId: headquartersBankId,
+      issueBankId: issueBankId,
+      describe: describe,
+      customerType: customerType,
+      accountType: accountType
     }
   }
 
@@ -154,11 +187,25 @@ export function payAccountManageCreate() {
 
 /**
  * 代付订单管理 - 获取
+ * @param {*} dateRange
+ * @param {*} cardId
+ * @param {*} amount
+ * @param {*} outTradeNo
+ * @param {*} messageNotify
+ * @param {*} orderStatus
+ * @param {*} payPlatform
  */
-export function payOrderManageGet() {
+export function payOrderManageGet(dateRange, cardId, amount, outTradeNo, messageNotify, orderStatus, payPlatform) {
   const data = {
     cmd: 166,
     param: {
+      dateRange: dateRange,
+      cardId: cardId,
+      amount: amount,
+      outTradeNo: outTradeNo,
+      messageNotify: messageNotify,
+      orderStatus: orderStatus,
+      payPlatform: payPlatform
     }
   }
 
@@ -187,3 +234,22 @@ export function payOrderManageUpdate() {
 
   return ret
 }
+
+/**
+ * 代付订单管理 - 提现
+ */
+export function payAccountManageCashWithdrawal() {
+  const data = {
+    cmd: 168,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+

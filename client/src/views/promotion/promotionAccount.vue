@@ -3,44 +3,10 @@
 
     <!-- 表单 -->
     <el-form :inline="true" :model="form1" align="left" style="margin-top: 30px">
-      <el-form-item label="日期:">
-        <el-date-picker
-          v-model="form1.dpValue1"
-          type="daterange"
-          range-separator="~"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          style="width:250px"
-        />
-      </el-form-item>
-
-      <el-form-item label="编号:">
-        <el-input v-model="form1.id" placeholder="编号" style="width:100px" clearable/>
-      </el-form-item>
-
-      <el-form-item label="支行名称:">
-        <el-input v-model="form1.bankBranch" placeholder="支行名称" style="width:250px" clearable/>
-      </el-form-item>
-
-      <el-form-item label="收款人姓名:">
-        <el-input v-model="form1.cardholderName" placeholder="收款人姓名" style="width:150px" clearable/>
-      </el-form-item>
-
-      <el-form-item label="收款人手机:">
-        <el-input v-model="form1.cardholderMobile" placeholder="收款人手机" style="width:150px" clearable/>
-      </el-form-item>
-
-      <el-form-item label="备注关键字:">
-        <el-input v-model="form1.describe" placeholder="备注关键字" style="width:150px" clearable/>
-      </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" size="mini" icon="el-icon-search" @click="onGet">查询 (默认显示最近30天)</el-button>
+        <el-button type="primary" size="mini" @click="onAddAccount">添加推广账号</el-button>
       </el-form-item>
-
-      <!-- <el-form-item>
-        <el-button type="danger" size="mini" icon="el-icon-search" @click="dialogForm1Visible = true">创建新账户</el-button>
-      </el-form-item> -->
 
     </el-form>
 
@@ -48,28 +14,20 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
-
+      stripe
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column min-width="10%" prop="id" label="编号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="bankcardNo" label="收款账号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="bankBranch" label="支行名称" sortable align="center"/>
-      <el-table-column min-width="10%" prop="cardholderName" label="收款人姓名" sortable align="center"/>
+      <el-table-column min-width="10%" prop="id" label="ID" sortable align="center"/>
+      <el-table-column min-width="10%" prop="account" label="推广账号" sortable align="center"/>
+      <el-table-column min-width="10%" prop="channelName" label="渠道名称" sortable align="center"/>
+      <el-table-column min-width="10%" prop="agentBalance" label="信用金" sortable align="center"/>
 
-      <el-table-column min-width="10%" prop="cardholderMobile" label="收款人手机" sortable align="center"/>
-      <el-table-column min-width="10%" prop="customerType" label="客户类型" sortable align="center"/>
-      <el-table-column min-width="10%" prop="accountType" label="资产类型" sortable align="center"/>
-      <el-table-column min-width="18%" prop="headquartersBankId" label="收款银行卡总行联行号" sortable align="center"/>
-
-      <el-table-column min-width="14%" prop="issueBankId" label="发卡行联行号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="addTime" label="创建时间" sortable align="center"/>
-      <el-table-column min-width="10%" prop="addUser" label="创建人" sortable align="center"/>
+      <el-table-column min-width="10%" prop="balance" label="余额" sortable align="center"/>
       <el-table-column min-width="10%" prop="status" label="状态" sortable align="center"/>
+      <el-table-column min-width="10%" prop="lastLoginTime" label="上次登陆时间" sortable align="center"/>
+      <el-table-column min-width="10%" prop="lastLoginIp" label="上次登录ip" sortable align="center"/>
 
-      <!-- <el-table-column min-width="10%" prop="cashWithdrawal" label="提现" sortable align="center">
-      <template>
-        <el-button type="text" szie="mini" @click="handleCashWithdrawal">提现</el-button>
-      </template>
-      </el-table-column> -->
+      <el-table-column min-width="10%" prop="operation" label="操作" sortable align="center"/>
+
     </el-table>
 
     <!-- 分页 -->
@@ -152,9 +110,11 @@
 </template>
 
 <script>
-import { payAccountManageGet } from '@/api/finance'
-import { payAccountManageCreate } from '@/api/finance'
-import { payAccountManageCashWithdrawal } from '@/api/finance'
+import { promotionAccountGet } from '@/api/promotion'
+import { promotionAccountAdd } from '@/api/promotion'
+import { promotionAccountEdit } from '@/api/promotion'
+import { promotionAccountOperationLogGet } from '@/api/promotion'
+import { promotionAccountIncomeGet } from '@/api/promotion'
 
 export default {
   data() {
@@ -199,14 +159,7 @@ export default {
   },
 
   created() {
-    const dateRange = this.form1.dpValue1
-    const bankcardNo = this.form1.bankcardNo
-    const bankBranch = this.form1.bankBranch
-    const cardholderName = this.form1.cardholderName
-    const cardholderMobile = this.form1.cardholderMobile
-    const describe = this.form1.describe
-
-    payAccountManageGet(dateRange, bankcardNo, bankBranch, cardholderName, cardholderMobile, describe).then(response => {
+    promotionAccountGet().then(response => {
       if (response.code === 0) {
         this.tableData = response.data
       } else {
@@ -221,21 +174,74 @@ export default {
 
   methods: {
 
-    // 查询
+    // 获取
     onGet() {
-      const dateRange = this.form1.dpValue1
-      const bankcardNo = this.form1.bankcardNo
-      const bankBranch = this.form1.bankBranch
-      const cardholderName = this.form1.cardholderName
-      const cardholderMobile = this.form1.cardholderMobile
-      const describe = this.form1.describe
-
-      payAccountManageGet(dateRange, bankcardNo, bankBranch, cardholderName, cardholderMobile, describe).then(response => {
+      promotionAccountGet().then(response => {
         if (response.code === 0) {
           this.tableData = response.data
         } else {
           this.$notify({
             title: '获取数据失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 添加
+    onAdd() {
+      promotionAccountAdd().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '添加失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 修改
+    onEdit() {
+      promotionAccountEdit().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '修改失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 获取操作日志
+    onGetOperationLog() {
+      promotionAccountOperationLogGet().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取操作日志失败',
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 获取收入统计
+    onGetIncome() {
+      promotionAccountIncomeGet().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取收入统计失败',
             message: '',
             type: 'error'
           })

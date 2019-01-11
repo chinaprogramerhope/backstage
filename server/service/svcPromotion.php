@@ -96,4 +96,123 @@ class svcPromotion {
     public function stationMessageViewRecipient($param, &$data) {
         return clsPromotion::stationMessageViewRecipient($param, $data);
     }
+
+    /**
+     * 推广账号 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionAccountGet($param, &$data) {
+        return clsPromotion::promotionAccountGet($param, $data);
+    }
+
+    /**
+     * 推广账号 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionAccountAdd($param, &$data) {
+        return clsPromotion::promotionAccountAdd($param, $data);
+    }
+
+    /**
+     * 推广账号 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionAccountEdit($param, &$data) {
+        return clsPromotion::promotionAccountEdit($param, $data);
+    }
+    /**
+     * 推广账号 - 获取操作日志
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionAccountOperationLogGet($param, &$data) {
+        return clsPromotion::promotionAccountOperationLogGet($param, $data);
+    }
+
+    /**
+     * 推广账号 - 获取收入统计
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionAccountIncomeGet($param, &$data) {
+        return clsPromotion::promotionAccountIncomeGet($param, $data);
+    }
+
+    /**
+     * 推广信用金日志 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionBalanceLogGet($param, &$data) {
+        return clsPromotion::promotionBalanceLogGet($param, $data);
+    }
+
+    /**
+     * 推广统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionStatisticsGet($param, &$data) {
+        return clsPromotion::promotionStatisticsGet($param, $data);
+    }
+
+    /**
+     * 推广统计 - 统计
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionStatisticsOneGet($param, &$data) {
+        return clsPromotion::promotionStatisticsOneGet($param, $data);
+    }
+
+    /**
+     * 推广统计 - 查询
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionStatisticsOneQuery($param, &$data) {
+        return clsPromotion::promotionStatisticsOneQuery($param, $data);
+    }
+
+    /**
+     * 推广ID修正 - 获取用户的推广id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionCorrectionGetId($param, &$data) {
+        return clsPromotion::promotionCorrectionGetId($param, $data);
+    }
+
+    /**
+     * 推广ID修正 - 修正用户的推广id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionCorrectionUpdate($param, &$data) {
+        return clsPromotion::promotionCorrectionUpdate($param, $data);
+    }
+
+    /**
+     * 推广ID修正 - 获取修正日志
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function promotionCorrectionGetLog($param, &$data) {
+        return clsPromotion::promotionCorrectionGetLog($param, $data);
+    }
 }

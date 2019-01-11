@@ -22,10 +22,10 @@ const monthSeconds = 2592000; // 30天秒数
  */
 
 // 支付平台 todo 名字转换
-const payPlatformIdJubaoyun = 3; // 聚宝云
-const payPlatformIdHuione = 4; // 汇旺
-const payPlatformIdYufu = 5; // 裕付
-const payPlatformIdChanfu = 6; // 畅付云
+const PAY_PLATFORM_JUBAOYUN = 3; // 聚宝云
+const PAY_PLATFORM_HUIONE = 4; // 汇旺
+const PAY_PLATFORM_YUFU = 5; // 裕付
+const PAY_PLATFORM_CHANGFU = 6; // 畅付云
 define('PAY_PLATFORM_PINFU', 11);	// 品付
 define('PAY_PLATFORM_ZFB_LUOKE', 12);	// 支付宝洛客
 define('PAY_PLATFORM_CAIHONG', 13);	// 彩虹
@@ -287,6 +287,44 @@ const officialAliPayPay = [
     PAY_PLATFORM_ZFB_LGWLKJ => '支付宝流光网络科技',
     PAY_PLATFORM_ZFB_MENJUNWLKJ => '支付宝梦君网络科技',
     PAY_PLATFORM_ZFB_GZJXXXJS => '支付宝爵星信息技术',
+];
+
+const noChannelList = [
+    //	49=>'全民玩德扑Ios',
+    //	1049=>'全民玩德扑Android',
+    //	54 => '月月电玩城Ios',
+    //	1054 => '月月电玩城Android'
+];
+
+// 提现订单状态
+const cashOrderStatusNew = 0; // 新订单
+const cashOrderStatusSuccess = 1; // 提现成功
+const cashOrderStatusFail = 2; // 提现失败
+const cashOrderStatusWaitReview = 3; // 等待审核
+const cashOrderStatusReviewPass = 4; // 审核通过
+const cashOrderStatusUnknown = 5; // 未知状态
+const cashOrderStatusDealing = 6; // 处理中
+const cashOrderStatusNotComplete = 100; // 未完成(包含0, 3, 4, 5, 6)
+
+// 代付订单状态
+const payOrderStatus = [
+    "0" => '待处理',
+    "10000" => '打款成功',
+    "10001" => '转账处理中',
+    "10002" => '转账失败',
+    "10003" => '转账取消',
+    "10004" => '余额查询成功',
+    "10005" => '查无此交易',
+    "10101" => '单笔金额超出支付上限',
+    "10102" => '总金额超出支付上限',
+    "10103" => '余额不足',
+    "10201" => '请求参数不正确',
+    "10301" => 'sign 签名不正确',
+    "10302" => 'key 值不存在或未开通',
+    "10303" => 'appid 错误',
+    "10304" => '打款记录已经存在',
+    "10401" => '请求异常',
+    "10500" => '未知错误',
 ];
 
 

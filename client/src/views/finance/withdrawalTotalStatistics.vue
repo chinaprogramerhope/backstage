@@ -25,15 +25,16 @@
       :default-sort="{prop: 'timeBegin', order:'descending'}"
 
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column min-width="10%" prop="totalWithdrawals" label="总提现(平台)" sortable align="center"/>
-      <el-table-column min-width="10%" prop="totalPoundage" label="总手续费(平台)" sortable align="center"/>
-      <el-table-column min-width="10%" prop="manualAmount" label="手动处理的金额" sortable align="center"/>
-      <el-table-column min-width="10%" prop="autoAmount" label="自动处理的金额" sortable align="center"/>
-      <el-table-column min-width="12%" prop="autoPoundage" label="自动处理手续费(平台)" sortable align="center"/>
-      <el-table-column min-width="12%" prop="platformMinus" label="自动金额 减 手续费(平台)" sortable align="center"/>
-      <el-table-column min-width="10%" prop="aliPayTotalWithdrawals" label="支付宝总提现" sortable align="center"/>
-      <el-table-column min-width="10%" prop="aliPayTotalPoundage" label="支付宝总手续费" sortable align="center"/>
-      <el-table-column min-width="14%" prop="aliPayMinus" label="提现金额 减 手续费(支付宝)" sortable align="center"/>
+      <el-table-column min-width="10%" prop="cmTotal" label="总提现(平台)" sortable align="center"/>
+      <el-table-column min-width="10%" prop="feeTotal" label="总手续费(平台)" sortable align="center"/>
+      <el-table-column min-width="10%" prop="man" label="手动处理的金额" sortable align="center"/>
+      <el-table-column min-width="10%" prop="cm" label="自动处理的金额" sortable align="center"/>
+
+      <el-table-column min-width="12%" prop="fee" label="自动处理手续费(平台)" sortable align="center"/>
+      <el-table-column min-width="12%" prop="autoMinus" label="自动金额 减 手续费(平台)" sortable align="center"/>
+      <el-table-column min-width="10%" prop="art" label="支付宝总提现" sortable align="center"/>
+      <el-table-column min-width="10%" prop="af" label="支付宝总手续费" sortable align="center"/>
+      <el-table-column min-width="14%" prop="cashMinus" label="提现金额 减 手续费(支付宝)" sortable align="center"/>
     </el-table>
 
     <!-- 分页 -->
@@ -73,6 +74,7 @@ export default {
 
   created() {
     const dateRange = this.form1.dpValue1
+
     withdrawalTotalGet(dateRange).then(response => {
       if (response.code === 0) {
         this.tableData = response.data

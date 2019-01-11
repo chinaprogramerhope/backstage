@@ -57,6 +57,7 @@ const cmdArr = [
     165 => ['svc' => 'svcFinance', 'func' => 'payAccountManageCreate'], // 代付账号管理 - 创建新账号
     166 => ['svc' => 'svcFinance', 'func' => 'payOrderManageGet'], // 代付订单管理 - 获取
     167 => ['svc' => 'svcFinance', 'func' => 'payOrderManageUpdate'], // 代付订单管理 - 更新派支付提款单状态
+    168 => ['svc' => 'svcFinance', 'func' => 'payAccountManageCashWithdrawal'], // 代付账号管理 - 提现
 
     // 公告管理 201 - 250
     201 => ['svc' => 'svcMessage', 'func' => 'announceListGet'], // 公告列表 - 获取
@@ -78,6 +79,22 @@ const cmdArr = [
     257 => ['svc' => 'svcPromotion', 'func' => 'rebateSettingsExpSet'], // 返利设置 - 返利经验设置
     258 => ['svc' => 'svcPromotion', 'func' => 'rebateSettingsEdit'], // 返利设置 - 编辑
     259 => ['svc' => 'svcPromotion', 'func' => 'stationMessageViewRecipient'], // 站内消息 - 查看收件人
+
+    260 => ['svc' => 'svcPromotion', 'func' => 'promotionAccountGet'], // 推广账号 - 获取
+    261 => ['svc' => 'svcPromotion', 'func' => 'promotionAccountAdd'], // 推广账号 - 添加
+    262 => ['svc' => 'svcPromotion', 'func' => 'promotionAccountEdit'], // 推广账号 - 修改
+    263 => ['svc' => 'svcPromotion', 'func' => 'promotionAccountOperationLogGet'], // 推广账号 - 获取操作日志
+    264 => ['svc' => 'svcPromotion', 'func' => 'promotionAccountIncomeGet'], // 推广账号 - 获取收入统计
+
+    265 => ['svc' => 'svcPromotion', 'func' => 'promotionBalanceLogGet'], // 推广信用金日志 - 获取
+
+    266 => ['svc' => 'svcPromotion', 'func' => 'promotionStatisticsGet'], // 推广统计 - 获取
+    267 => ['svc' => 'svcPromotion', 'func' => 'promotionStatisticsOneGet'], // 推广统计 - 统计
+    268 => ['svc' => 'svcPromotion', 'func' => 'promotionStatisticsOneQuery'], // 推广统计 - 查询
+
+    269 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionGetId'], // 推广ID修正 - 获取用户的推广id
+    270 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionUpdate'], // 推广ID修正 - 修正用户的推广id
+    271 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionGetLog'], // 推广ID修正 - 获取修正日志
 
 
     // 系统设置 301 - 350

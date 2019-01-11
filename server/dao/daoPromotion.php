@@ -96,4 +96,484 @@ class daoPromotion {
     public static function stationMessageViewRecipient($param, &$data) {
         return ERR_OK;
     }
+
+    /**
+     * 推广账号 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountGet($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广账号 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountAdd($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广账号 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountEdit($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广账号 - 获取操作日志
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountOperationLogGet($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广账号 - 获取收入统计
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountIncomeGet($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广信用金日志 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionBalanceLogGet($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionStatisticsGet($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广统计 - 统计
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionStatisticsOneGet($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广统计 - 查询
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionStatisticsOneQuery($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广ID修正 - 获取用户的推广id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionCorrectionGetId($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广ID修正 - 修正用户的推广id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionCorrectionUpdate($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 推广ID修正 - 获取修正日志
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionCorrectionGetLog($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select date, recharge_chips as rechargeChips, cash_chips as cashChips, choushui_chips as choushuiChips,';
+        $sql .= '  register_chips as registerChips, bind_phone_chips as bindPhoneChips, change_chips as changeChips';
+        $sql .= ' from casinoreconciliation';
+        $sql .= ' order by listorder desc limit 5';
+
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute();
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+        $rows = $stmt->fetchAll();
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+        }
+
+        $data = $rows;
+
+        return ERR_OK;
+    }
 }

@@ -154,6 +154,17 @@ class svcFinance {
      * @return int
      */
     public function payAccountManageCreate($param, &$data) {
+        if (!isset($param['bankcardNo']) || empty($param['bankcardNo'])
+            || !isset($param['bankBranch']) || empty($param['bankBranch'])
+            || !isset($param['cardholderName']) || empty($param['cardholderName'])
+            || !isset($param['cardholderMobile']) || empty($param['cardholderMobile'])
+
+            || !isset($param['customerType']) || empty($param['customerType'])
+            || !isset($param['accountType']) || empty($param['accountType'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsFinance::payAccountManageCreate($param, $data);
     }
 
@@ -175,5 +186,15 @@ class svcFinance {
      */
     public function payOrderManageUpdate($param, &$data) {
         return clsFinance::payOrderManageUpdate($param, $data);
+    }
+
+    /**
+     * 代付订单管理 - 提现
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payAccountManageCashWithdrawal($param, &$data) {
+        return clsFinance::payAccountManageCashWithdrawal($param, $data);
     }
 }

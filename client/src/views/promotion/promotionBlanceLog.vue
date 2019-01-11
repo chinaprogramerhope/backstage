@@ -48,28 +48,17 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
-
+      stripe
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column min-width="10%" prop="id" label="编号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="bankcardNo" label="收款账号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="bankBranch" label="支行名称" sortable align="center"/>
-      <el-table-column min-width="10%" prop="cardholderName" label="收款人姓名" sortable align="center"/>
+      <el-table-column min-width="10%" prop="addTime" label="日期" sortable align="center"/>
+      <el-table-column min-width="10%" prop="agentAccount" label="推广账号" sortable align="center"/>
+      <el-table-column min-width="10%" prop="money" label="金额" sortable align="center"/>
+      <el-table-column min-width="10%" prop="dataType" label="类型" sortable align="center"/>
 
-      <el-table-column min-width="10%" prop="cardholderMobile" label="收款人手机" sortable align="center"/>
-      <el-table-column min-width="10%" prop="customerType" label="客户类型" sortable align="center"/>
-      <el-table-column min-width="10%" prop="accountType" label="资产类型" sortable align="center"/>
-      <el-table-column min-width="18%" prop="headquartersBankId" label="收款银行卡总行联行号" sortable align="center"/>
+      <el-table-column min-width="10%" prop="agentbalanaceBefore" label="操作前信用金余额" sortable align="center"/>
+      <el-table-column min-width="10%" prop="userId" label="用户ID" sortable align="center"/>
+      <el-table-column min-width="10%" prop="content" label="备注" sortable align="center"/>
 
-      <el-table-column min-width="14%" prop="issueBankId" label="发卡行联行号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="addTime" label="创建时间" sortable align="center"/>
-      <el-table-column min-width="10%" prop="addUser" label="创建人" sortable align="center"/>
-      <el-table-column min-width="10%" prop="status" label="状态" sortable align="center"/>
-
-      <!-- <el-table-column min-width="10%" prop="cashWithdrawal" label="提现" sortable align="center">
-      <template>
-        <el-button type="text" szie="mini" @click="handleCashWithdrawal">提现</el-button>
-      </template>
-      </el-table-column> -->
     </el-table>
 
     <!-- 分页 -->
@@ -85,68 +74,6 @@
           @current-change="handleCurrentChange"
         />
       </el-col> -->
-
-    <!-- dialog1 创建新账户 -->
-    <el-dialog :visible.sync="dialogForm1Visible" title="" center>
-      <el-form ref="dialogForm1" :model="dialogForm1">
-
-        <el-form-item :rules="[{required:true, message: '收款账号不能为空'}]" label="收款账号:">
-          <el-input v-model="dialogForm1.bankcardNo" placeholder="收款账号" clearable/>
-        </el-form-item>
-
-        <el-form-item :rules="[{required:true, message: '银行名称不能为空'}]" label="银行名称:">
-          <el-input v-model="dialogForm1.bankBranch" placeholder="银行名称" clearable/>
-        </el-form-item>
-
-        <el-form-item :rules="[{required:true, message: '收款人姓名不能为空'}]" label="收款人姓名:">
-          <el-input v-model="dialogForm1.cardholderName" placeholder="收款人姓名" clearable/>
-        </el-form-item>
-
-        <el-form-item :rules="[{required:true, message: '收款人手机不能为空'}]" label="收款人手机:">
-          <el-input v-model="dialogForm1.cardholderMobile" placeholder="收款人手机" clearable/>
-        </el-form-item>
-
-        <el-form-item label="收款银行卡总行联行号:">
-          <el-input v-model="dialogForm1.headquartersBankId" placeholder="收款银行卡总行联行号" clearable/>
-        </el-form-item>
-
-        <el-form-item label="发卡行联行号:">
-          <el-input v-model="dialogForm1.issueBankId" placeholder="发卡行联行号" clearable/>
-        </el-form-item>
-
-        <el-form-item label="备注:">
-          <el-input v-model="dialogForm1.describe" :rows="2" type="textarea" placeholder="备注" clearable/>
-        </el-form-item>
-
-        <el-form-item :label-width="dialogForm1.form1LabelWidth" :rules="[{required:true, message: '客户类型不能为空'}]" label="客户类型:">
-          <el-select v-model="dialogForm1.selectCustomerType" placeholder="">
-            <el-option
-              v-for="item in dialogForm1.optionsCustomerType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label-width="dialogForm1.form1LabelWidth" :rules="[{required:true, message: '资产类型不能为空'}]" label="资产类型:">
-          <el-select v-model="dialogForm1.selectAccountType" placeholder="">
-            <el-option
-              v-for="item in dialogForm1.optionsAccountType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item align="center">
-          <el-button @click="dialogForm1Visible = false">取 消</el-button>
-          <el-button type="primary" @click="submitRuleForm('dialogForm1')">保 存</el-button>
-        </el-form-item>
-      </el-form>
-
-    </el-dialog>
 
   </div>
 </template>

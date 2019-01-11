@@ -309,11 +309,43 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'promitionUser',
-        component: () => import('@/views/promotion/promitionUser'),
-        name: 'promitionUser',
+        path: 'promotionAccount',
+        component: () => import('@/views/promotion/promotionAccount'),
+        name: 'promotionAccount',
         meta: {
-          title: '推广玩家'
+          title: '推广账号'
+        }
+      },
+      {
+        path: 'promotionBlanceLog',
+        component: () => import('@/views/promotion/promotionBlanceLog'),
+        name: 'promotionBlanceLog',
+        meta: {
+          title: '推广信用金日志'
+        }
+      },
+      {
+        path: 'promotionStatistics',
+        component: () => import('@/views/promotion/promotionStatistics'),
+        name: 'promotionStatistics',
+        meta: {
+          title: '推广统计'
+        }
+      },
+      {
+        path: 'promotionCorrection',
+        component: () => import('@/views/promotion/promotionCorrection'),
+        name: 'promotionCorrection',
+        meta: {
+          title: '推广ID修正'
+        }
+      },
+      {
+        path: 'promotionUser',
+        component: () => import('@/views/promotion/promotionUser'),
+        name: 'promotionUser',
+        meta: {
+          title: '推广玩家 - 未开放'
         }
       },
       {
@@ -321,7 +353,7 @@ export const constantRouterMap = [
         component: () => import('@/views/promotion/promotionReport'),
         name: 'promotionReport',
         meta: {
-          title: '推广报表'
+          title: '推广报表 - 未开放'
         }
       },
       {
@@ -329,7 +361,7 @@ export const constantRouterMap = [
         component: () => import('@/views/promotion/promotionRebate'),
         name: 'promotionRebate',
         meta: {
-          title: '推广返利'
+          title: '推广返利 - 未开放'
         }
       },
       {
@@ -337,7 +369,7 @@ export const constantRouterMap = [
         component: () => import('@/views/promotion/rebateSettings'),
         name: 'rebateSettings',
         meta: {
-          title: '返利设置'
+          title: '返利设置 - 未开放'
         }
       }
     ]

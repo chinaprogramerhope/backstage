@@ -174,4 +174,14 @@ class clsFinance {
     public static function payOrderManageUpdate($param, &$data) {
         return daoFinance::payOrderManageUpdate($param, $data);
     }
+
+    /**
+     * 代付订单管理 - 提现
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payAccountManageCashWithdrawal($param, &$data) {
+        return daoFinance::payAccountManageCashWithdrawal($param, $data);
+    }
 }

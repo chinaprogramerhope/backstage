@@ -96,4 +96,123 @@ class clsPromotion {
     public static function stationMessageViewRecipient($param, &$data) {
         return daoPromotion::stationMessageViewRecipient($param, $data);
     }
+
+    /**
+     * 推广账号 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountGet($param, &$data) {
+        return daoPromotion::promotionAccountGet($param, $data);
+    }
+
+    /**
+     * 推广账号 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountAdd($param, &$data) {
+        return daoPromotion::promotionAccountAdd($param, $data);
+    }
+
+    /**
+     * 推广账号 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountEdit($param, &$data) {
+        return daoPromotion::promotionAccountEdit($param, $data);
+    }
+    /**
+     * 推广账号 - 获取操作日志
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountOperationLogGet($param, &$data) {
+        return daoPromotion::promotionAccountOperationLogGet($param, $data);
+    }
+
+    /**
+     * 推广账号 - 获取收入统计
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionAccountIncomeGet($param, &$data) {
+        return daoPromotion::promotionAccountIncomeGet($param, $data);
+    }
+
+    /**
+     * 推广信用金日志 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionBalanceLogGet($param, &$data) {
+        return daoPromotion::promotionBalanceLogGet($param, $data);
+    }
+
+    /**
+     * 推广统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionStatisticsGet($param, &$data) {
+        return daoPromotion::promotionStatisticsGet($param, $data);
+    }
+
+    /**
+     * 推广统计 - 统计
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionStatisticsOneGet($param, &$data) {
+        return daoPromotion::promotionStatisticsOneGet($param, $data);
+    }
+
+    /**
+     * 推广统计 - 查询
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionStatisticsOneQuery($param, &$data) {
+        return daoPromotion::promotionStatisticsOneQuery($param, $data);
+    }
+
+    /**
+     * 推广ID修正 - 获取用户的推广id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionCorrectionGetId($param, &$data) {
+        return daoPromotion::promotionCorrectionGetId($param, $data);
+    }
+
+    /**
+     * 推广ID修正 - 修正用户的推广id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionCorrectionUpdate($param, &$data) {
+        return daoPromotion::promotionCorrectionUpdate($param, $data);
+    }
+
+    /**
+     * 推广ID修正 - 获取修正日志
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function promotionCorrectionGetLog($param, &$data) {
+        return daoPromotion::promotionCorrectionGetLog($param, $data);
+    }
 }

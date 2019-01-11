@@ -48,7 +48,7 @@
     <el-table
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
-
+      stripe
       style="width: 100%; margin-bottom: 24px">
       <el-table-column min-width="10%" prop="id" label="编号" sortable align="center"/>
       <el-table-column min-width="10%" prop="bankcardNo" label="收款账号" sortable align="center"/>
