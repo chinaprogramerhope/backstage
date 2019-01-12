@@ -92,8 +92,8 @@ const cmdArr = [
     267 => ['svc' => 'svcPromotion', 'func' => 'promotionStatisticsOneGet'], // 推广统计 - 统计
     268 => ['svc' => 'svcPromotion', 'func' => 'promotionStatisticsOneQuery'], // 推广统计 - 查询
 
-    269 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionGetId'], // 推广ID修正 - 获取用户的推广id
-    270 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionUpdate'], // 推广ID修正 - 修正用户的推广id
+    269 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionGetId'], // 推广ID修正 - 修正推广链id - 查询
+    270 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionUpdate'], // 推广ID修正 - 修正推广链id - 提交
     271 => ['svc' => 'svcPromotion', 'func' => 'promotionCorrectionGetLog'], // 推广ID修正 - 获取修正日志
 
 

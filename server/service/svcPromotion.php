@@ -104,6 +104,9 @@ class svcPromotion {
      * @return int
      */
     public function promotionAccountGet($param, &$data) {
+        $param = [
+            ':parentId' => 0
+        ];
         return clsPromotion::promotionAccountGet($param, $data);
     }
 
@@ -187,17 +190,23 @@ class svcPromotion {
     }
 
     /**
-     * 推广ID修正 - 获取用户的推广id
+     * 推广ID修正 - 修正推广链id - 查询
      * @param $param
      * @param $data
      * @return int
      */
     public function promotionCorrectionGetId($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])
+            || !is_numeric($param['userId']) || intval($param['userId']) <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsPromotion::promotionCorrectionGetId($param, $data);
     }
 
     /**
-     * 推广ID修正 - 修正用户的推广id
+     * 推广ID修正 - 修正推广链id - 提交
      * @param $param
      * @param $data
      * @return int

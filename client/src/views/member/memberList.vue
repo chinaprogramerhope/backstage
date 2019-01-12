@@ -8,11 +8,11 @@
         <el-form :model="form1" style="margin-bottom: 10px; margin-top: 20px;" label-position="right" label-width="100px">
           <el-row :gutter="20">
 
-            <el-col :span="6"><el-form-item label="账号"><el-input placeholder="会员账号"/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="账号"><el-input placeholder="会员账号" clearable/></el-form-item></el-col>
 
             <el-col :span="6">
               <el-form-item label="会员状态">
-                <el-select v-model="form1.selectVipStatus" placeholder="会员状态">
+                <el-select v-model="form1.selectVipStatus" placeholder="会员状态" disabled>
                   <el-option
                     v-for="item in form1.optionsVipStatus"
                     :key="item.value"
@@ -25,7 +25,7 @@
 
             <el-col :span="6">
               <el-form-item label="会员等级">
-                <el-select v-model="form1.selectVipLv" placeholder="会员等级">
+                <el-select v-model="form1.selectVipLv" placeholder="会员等级" disabled>
                   <el-option
                     v-for="item in form1.optionsVipLv"
                     :key="item.value"
@@ -36,7 +36,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="6"><el-form-item label="上级"><el-input placeholder="上级账号"/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="上级"><el-input placeholder="上级账号" disabled/></el-form-item></el-col>
 
           </el-row>
 
@@ -56,7 +56,7 @@
 
             <el-col :span="6">
               <el-form-item label="玩家状态">
-                <el-select v-model="form1.selectUserStatus" placeholder="请选择">
+                <el-select v-model="form1.selectUserStatus" placeholder="请选择" clearable>
                   <el-option
                     v-for="item in form1.optionsUserStatus"
                     :key="item.value"
@@ -77,13 +77,13 @@
 
           <el-row :gutter="20">
 
-            <el-col :span="6"><el-form-item label="会员ID"><el-input placeholder=""/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="会员ID"><el-input placeholder="" clearable/></el-form-item></el-col>
 
-            <el-col :span="6"><el-form-item label="手机号码"><el-input placeholder=""/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="手机号码"><el-input placeholder="" clearable/></el-form-item></el-col>
 
-            <el-col :span="6"><el-form-item label="真实姓名"><el-input placeholder=""/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="真实姓名"><el-input placeholder="" clearable/></el-form-item></el-col>
 
-            <el-col :span="6"><el-form-item label="银行卡"><el-input placeholder=""/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="银行卡"><el-input placeholder="" clearable/></el-form-item></el-col>
 
           </el-row>
 
@@ -95,17 +95,34 @@
           :default-sort="{prop: 'timeBegin', order:'descending'}"
           stripe
           style="width: 100%; margin-bottom: 20px">
-          <el-table-column prop="online" label="在线" align="center"/>
-          <el-table-column prop="vipAccount" label="账号" align="center"/>
-          <el-table-column prop="vipId" label="会员id" align="center"/>
-          <el-table-column prop="realName" label="真实姓名" align="center"/>
-          <el-table-column prop="upLine" label="上级" align="center"/>
-          <el-table-column prop="downLineNum" label="下级人数" align="center"/>
-          <el-table-column prop="registerDate" label="注册日期" align="center"/>
-          <el-table-column prop="status" label="状态" align="center"/>
-          <el-table-column prop="balance" label="账户余额" align="center"/>
-          <el-table-column prop="userStatus" label="玩家状态" align="center"/>
-          <el-table-column prop="operation" label="操作" align="center"/>
+          <el-table-column min-width="10%" prop="online" label="在线" align="center"/>
+          <el-table-column min-width="10%" prop="vipAccount" label="账号" align="center"/>
+          <el-table-column min-width="10%" prop="vipId" label="会员id" align="center"/>
+          <el-table-column min-width="10%" prop="realName" label="真实姓名" align="center"/>
+          <el-table-column min-width="10%" prop="upLine" label="上级" align="center"/>
+          <el-table-column min-width="10%" prop="downLineNum" label="下级人数" align="center"/>
+          <el-table-column min-width="10%" prop="registerDate" label="注册日期" align="center"/>
+          <el-table-column min-width="10%" prop="status" label="状态" align="center"/>
+          <el-table-column min-width="10%" prop="balance" label="账户余额" align="center"/>
+          <el-table-column min-width="10%" prop="userStatus" label="玩家状态" align="center"/>
+          <el-table-column min-width="15%" prop="operation" label="操作" align="center">
+            <template slot-scope="scope">
+              <el-row :gutter="40">
+                <el-col :span="6">
+                  <el-button size="mini" @click="handleDetail()">详情</el-button>
+                </el-col>
+                <el-col :span="6">
+                  <div v-if="scope.row.status==='黑名单'">
+                    <el-button size="mini" type="success" @click="handleDetail()">启用</el-button>
+                  </div>
+                  <div v-else>
+                    <el-button size="mini" type="danger" @click="handleDetail()">禁用</el-button>
+                  </div>
+                </el-col>
+              </el-row>
+
+            </template>
+          </el-table-column>
         </el-table>
 
         <!-- 分页 -->
@@ -178,7 +195,7 @@ export default {
       }],
 
       // 分页
-      currentPage: 4
+      currentPage: 1
     }
   },
   methods: {

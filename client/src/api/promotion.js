@@ -91,12 +91,20 @@ export function promotionAccountIncomeGet() {
 }
 
 /**
- * 推广信用金日志 - 获取
+ *推广信用金日志 - 获取
+ * @param {*} dateRange
+ * @param {*} agentAccount
+ * @param {*} userId
+ * @param {*} logType
  */
-export function promotionBalanceLogGet() {
+export function promotionBalanceLogGet(dateRange, agentAccount, userId, logType) {
   const data = {
     cmd: 265,
     param: {
+      dateRange: dateRange,
+      agentAccount: agentAccount,
+      userId: userId,
+      logType: logType
     }
   }
 
@@ -163,7 +171,7 @@ export function promotionStatisticsOneQuery() {
 }
 
 /**
- * 推广ID修正 - 获取用户的推广id
+ * 推广ID修正 - 修正推广链id - 查询
  */
 export function promotionCorrectionGetId() {
   const data = {
@@ -181,7 +189,7 @@ export function promotionCorrectionGetId() {
 }
 
 /**
- * 推广ID修正 - 修正用户的推广id
+ * 推广ID修正 - 修正推广链id - 修正
  */
 export function promotionCorrectionUpdate() {
   const data = {
@@ -200,11 +208,21 @@ export function promotionCorrectionUpdate() {
 
 /**
  * 推广ID修正 - 获取修正日志
+ * @param {*} dateRange
+ * @param {*} userId
+ * @param {*} adminName - 修正人
+ * @param {*} promotionOld - 修正前推广id
+ * @param {*} promotionNew - 修正后推广id
  */
-export function promotionCorrectionGetLog() {
+export function promotionCorrectionGetLog(dateRange, userId, adminName, promotionOld, promotionNew) {
   const data = {
     cmd: 271,
     param: {
+      dateRange: dateRange,
+      userId: userId,
+      adminName: adminName,
+      promotionOld: promotionOld,
+      promotionNew: promotionNew
     }
   }
 

@@ -606,9 +606,9 @@ class daoFinance {
                 $row['minus'] = $row['addChips'] - $row['changeChips'];
             }
             unset($row);
-        }
 
-        $data = $rows;
+            $data = $rows;
+        }
 
         return ERR_OK;
     }

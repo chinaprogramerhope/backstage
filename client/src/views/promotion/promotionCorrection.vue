@@ -1,11 +1,32 @@
 <template>
   <div>
 
-    <!-- 表单 -->
+    <!-- 表单1 -->
     <el-form :inline="true" :model="form1" align="left" style="margin-top: 30px">
+
+      <el-form-item label="用户ID:">
+        <el-input v-model="form1.userId" placeholder="用户ID" style="width:250px" clearable/>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" size="mini" icon="el-icon-search" @click="onGet">查询</el-button>
+      </el-form-item>
+
+      <el-form-item label="推广ID:">
+        <el-input v-model="form1.promotionId" placeholder="请输入正确推广ID" style="width:250px" clearable/>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" size="mini" @click="onGet">提交</el-button>
+      </el-form-item>
+
+    </el-form>
+
+    <!-- 表单2 -->
+    <el-form :inline="true" :model="form2" align="left" style="margin-top: 30px">
       <el-form-item label="日期:">
         <el-date-picker
-          v-model="form1.dpValue1"
+          v-model="form2.dpValue1"
           type="daterange"
           range-separator="~"
           start-placeholder="开始日期"
@@ -14,33 +35,25 @@
         />
       </el-form-item>
 
-      <el-form-item label="编号:">
-        <el-input v-model="form1.id" placeholder="编号" style="width:100px" clearable/>
+      <el-form-item label="用户ID:">
+        <el-input v-model="form2.userId" placeholder="用户ID" style="width:100px" clearable/>
       </el-form-item>
 
-      <el-form-item label="支行名称:">
-        <el-input v-model="form1.bankBranch" placeholder="支行名称" style="width:250px" clearable/>
+      <el-form-item label="修正人:">
+        <el-input v-model="form2.adminName" placeholder="修正人" style="width:150px" clearable/>
       </el-form-item>
 
-      <el-form-item label="收款人姓名:">
-        <el-input v-model="form1.cardholderName" placeholder="收款人姓名" style="width:150px" clearable/>
+      <el-form-item label="修正前推广:">
+        <el-input v-model="form2.promotionOld" placeholder="修正前推广ID" style="width:150px" clearable/>
       </el-form-item>
 
-      <el-form-item label="收款人手机:">
-        <el-input v-model="form1.cardholderMobile" placeholder="收款人手机" style="width:150px" clearable/>
-      </el-form-item>
-
-      <el-form-item label="备注关键字:">
-        <el-input v-model="form1.describe" placeholder="备注关键字" style="width:150px" clearable/>
+      <el-form-item label="修正后推广:">
+        <el-input v-model="form2.promotionNew" placeholder="修正后推广ID" style="width:150px" clearable/>
       </el-form-item>
 
       <el-form-item>
         <el-button type="primary" size="mini" icon="el-icon-search" @click="onGet">查询 (默认显示最近30天)</el-button>
       </el-form-item>
-
-      <!-- <el-form-item>
-        <el-button type="danger" size="mini" icon="el-icon-search" @click="dialogForm1Visible = true">创建新账户</el-button>
-      </el-form-item> -->
 
     </el-form>
 
@@ -50,26 +63,18 @@
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column min-width="10%" prop="id" label="编号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="bankcardNo" label="收款账号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="bankBranch" label="支行名称" sortable align="center"/>
-      <el-table-column min-width="10%" prop="cardholderName" label="收款人姓名" sortable align="center"/>
+      <el-table-column min-width="10%" prop="userId" label="用户ID" sortable align="center"/>
+      <el-table-column min-width="10%" prop="promotionId" label="目标推广ID" sortable align="center"/>
+      <el-table-column min-width="10%" prop="correctionTime" label="修正时间" sortable align="center"/>
+      <el-table-column min-width="10%" prop="adminName" label="修正者" sortable align="center"/>
 
-      <el-table-column min-width="10%" prop="cardholderMobile" label="收款人手机" sortable align="center"/>
-      <el-table-column min-width="10%" prop="customerType" label="客户类型" sortable align="center"/>
-      <el-table-column min-width="10%" prop="accountType" label="资产类型" sortable align="center"/>
-      <el-table-column min-width="18%" prop="headquartersBankId" label="收款银行卡总行联行号" sortable align="center"/>
+      <el-table-column min-width="10%" prop="correctionIp" label="修正者IP" sortable align="center"/>
+      <el-table-column min-width="10%" prop="promotionOld" label="原推广ID" sortable align="center"/>
+      <el-table-column min-width="10%" prop="promotionNew" label="结果推广ID" sortable align="center"/>
+      <el-table-column min-width="10%" prop="flag" label="修正结果" sortable align="center"/>
 
-      <el-table-column min-width="14%" prop="issueBankId" label="发卡行联行号" sortable align="center"/>
-      <el-table-column min-width="10%" prop="addTime" label="创建时间" sortable align="center"/>
-      <el-table-column min-width="10%" prop="addUser" label="创建人" sortable align="center"/>
-      <el-table-column min-width="10%" prop="status" label="状态" sortable align="center"/>
+      <el-table-column min-width="10%" prop="discribe" label="备注" sortable align="center"/>
 
-      <!-- <el-table-column min-width="10%" prop="cashWithdrawal" label="提现" sortable align="center">
-      <template>
-        <el-button type="text" szie="mini" @click="handleCashWithdrawal">提现</el-button>
-      </template>
-      </el-table-column> -->
     </el-table>
 
     <!-- 分页 -->
@@ -86,80 +91,22 @@
         />
       </el-col> -->
 
-    <!-- dialog1 创建新账户 -->
-    <el-dialog :visible.sync="dialogForm1Visible" title="" center>
-      <el-form ref="dialogForm1" :model="dialogForm1">
-
-        <el-form-item :rules="[{required:true, message: '收款账号不能为空'}]" label="收款账号:">
-          <el-input v-model="dialogForm1.bankcardNo" placeholder="收款账号" clearable/>
-        </el-form-item>
-
-        <el-form-item :rules="[{required:true, message: '银行名称不能为空'}]" label="银行名称:">
-          <el-input v-model="dialogForm1.bankBranch" placeholder="银行名称" clearable/>
-        </el-form-item>
-
-        <el-form-item :rules="[{required:true, message: '收款人姓名不能为空'}]" label="收款人姓名:">
-          <el-input v-model="dialogForm1.cardholderName" placeholder="收款人姓名" clearable/>
-        </el-form-item>
-
-        <el-form-item :rules="[{required:true, message: '收款人手机不能为空'}]" label="收款人手机:">
-          <el-input v-model="dialogForm1.cardholderMobile" placeholder="收款人手机" clearable/>
-        </el-form-item>
-
-        <el-form-item label="收款银行卡总行联行号:">
-          <el-input v-model="dialogForm1.headquartersBankId" placeholder="收款银行卡总行联行号" clearable/>
-        </el-form-item>
-
-        <el-form-item label="发卡行联行号:">
-          <el-input v-model="dialogForm1.issueBankId" placeholder="发卡行联行号" clearable/>
-        </el-form-item>
-
-        <el-form-item label="备注:">
-          <el-input v-model="dialogForm1.describe" :rows="2" type="textarea" placeholder="备注" clearable/>
-        </el-form-item>
-
-        <el-form-item :label-width="dialogForm1.form1LabelWidth" :rules="[{required:true, message: '客户类型不能为空'}]" label="客户类型:">
-          <el-select v-model="dialogForm1.selectCustomerType" placeholder="">
-            <el-option
-              v-for="item in dialogForm1.optionsCustomerType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label-width="dialogForm1.form1LabelWidth" :rules="[{required:true, message: '资产类型不能为空'}]" label="资产类型:">
-          <el-select v-model="dialogForm1.selectAccountType" placeholder="">
-            <el-option
-              v-for="item in dialogForm1.optionsAccountType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item align="center">
-          <el-button @click="dialogForm1Visible = false">取 消</el-button>
-          <el-button type="primary" @click="submitRuleForm('dialogForm1')">保 存</el-button>
-        </el-form-item>
-      </el-form>
-
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
-import { payAccountManageGet } from '@/api/finance'
-import { payAccountManageCreate } from '@/api/finance'
-import { payAccountManageCashWithdrawal } from '@/api/finance'
+import { promotionCorrectionGetId } from '@/api/finance'
+import { promotionCorrectionUpdate } from '@/api/finance'
+import { promotionCorrectionGetLog } from '@/api/finance'
 
 export default {
   data() {
     return {
       form1: {
+        userId: '',
+        promotionId: ''
+      },
+      form2: {
         dpValue1: ''
       },
 
@@ -167,46 +114,19 @@ export default {
       tableData: '',
 
       // 分页
-      currentPage: 4,
-
-      // dialog1 添加
-      dialogForm1Visible: false,
-      passGameName: '',
-      dialogForm1: {
-        form1LabelWidth: '120px',
-
-        // 客户类型
-        selectCustomerType: 1,
-        optionsCustomerType: [{
-          label: '个人',
-          value: 1
-        }, {
-          label: '企业',
-          value: 2
-        }],
-
-        // 资产类型
-        selectAccountType: 1,
-        optionsAccountType: [{
-          label: '借记卡',
-          value: 1
-        }, {
-          label: '企业对公账户',
-          value: 2
-        }]
-      }
+      currentPage: 4
     }
   },
 
   created() {
-    const dateRange = this.form1.dpValue1
-    const bankcardNo = this.form1.bankcardNo
-    const bankBranch = this.form1.bankBranch
-    const cardholderName = this.form1.cardholderName
-    const cardholderMobile = this.form1.cardholderMobile
-    const describe = this.form1.describe
+    // 获取修正日志
+    const dateRange = this.form2.dpValue1
+    const userId = this.form2.userId
+    const adminName = this.form2.adminName
+    const promotionOld = this.form2.promotionOld
+    const promotionNew = this.form2.promotionNew
 
-    payAccountManageGet(dateRange, bankcardNo, bankBranch, cardholderName, cardholderMobile, describe).then(response => {
+    promotionCorrectionGetLog(dateRange, userId, adminName, promotionOld, promotionNew).then(response => {
       if (response.code === 0) {
         this.tableData = response.data
       } else {
@@ -221,16 +141,15 @@ export default {
 
   methods: {
 
-    // 查询
+    // 获取修正日志
     onGet() {
-      const dateRange = this.form1.dpValue1
-      const bankcardNo = this.form1.bankcardNo
-      const bankBranch = this.form1.bankBranch
-      const cardholderName = this.form1.cardholderName
-      const cardholderMobile = this.form1.cardholderMobile
-      const describe = this.form1.describe
+      const dateRange = this.form2.dpValue1
+      const userId = this.form2.userId
+      const adminName = this.form2.adminName
+      const promotionOld = this.form2.promotionOld
+      const promotionNew = this.form2.promotionNew
 
-      payAccountManageGet(dateRange, bankcardNo, bankBranch, cardholderName, cardholderMobile, describe).then(response => {
+      promotionCorrectionGetLog(dateRange, userId, adminName, promotionOld, promotionNew).then(response => {
         if (response.code === 0) {
           this.tableData = response.data
         } else {
@@ -277,25 +196,6 @@ export default {
             title: '检验不通过, 请检查错误提示',
             message: '',
             type: 'warning'
-          })
-        }
-      })
-    },
-
-    // 提现
-    handleCashWithdrawal() {
-      payAccountManageCashWithdrawal().then(response => {
-        if (response.code === 0) {
-          this.$notify({
-            title: '提现成功',
-            message: '',
-            type: 'success'
-          })
-        } else {
-          this.$notify({
-            title: '提现失败',
-            message: '',
-            type: 'error'
           })
         }
       })

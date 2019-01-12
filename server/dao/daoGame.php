@@ -151,7 +151,7 @@ class daoGame {
             $pdoParam[':timeEnd'] = $dateEnd;
         }
 
-        $pdo = clsMysql::getInstance(mysqlConfig['gameHistory']);
+        $pdo = clsMysql::getInstance(mysqlConfig['casinogamehisdb']);
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;

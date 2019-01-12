@@ -187,17 +187,30 @@ class clsPromotion {
     }
 
     /**
-     * 推广ID修正 - 获取用户的推广id
+     * 推广ID修正 - 修正推广链id - 查询
      * @param $param
      * @param $data
      * @return int
      */
     public static function promotionCorrectionGetId($param, &$data) {
-        return daoPromotion::promotionCorrectionGetId($param, $data);
+        $errCode = daoPromotion::promotionCorrectionGetId($param, $data);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__.  ', ' . __LINE__ . ', daoPromotion::promotionCorrectionGetId fail, param = ' . json_encode($param));
+            return $errCode;
+        }
+
+        $data['channelName'] = '';
+        if ($data['channel_id'] == 0) {
+            $data['channelName'] = '集集棋牌';
+        } else {
+            $data['channelName'] = array_key_exists($data['channel_id'], channelList) ? channelList[$data['channel_id']]['name'] : '未知渠道';
+        }
+
+        return ERR_OK;
     }
 
     /**
-     * 推广ID修正 - 修正用户的推广id
+     * 推广ID修正 - 修正推广链id - 修正
      * @param $param
      * @param $data
      * @return int

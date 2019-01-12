@@ -20,8 +20,9 @@ require_once '../loadConfig.php';
 //];
 //
 //echo clsHttp::curlPost($url, $param);
-
-
+//
+//clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+//return ERR_MYSQL_EXCEPTION;
 
 //$pass = '111111';
 //$salt = '888';
@@ -32,26 +33,10 @@ require_once '../loadConfig.php';
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
 
-$a = [
-    1 => 1,
-    2 => 2,
-    3 => 3
-];
+function haha($b) {
+    $b = 100;
+}
 
-$b = [
-    4 => 4,
-    'a' => 1,
-    'b' => 2
-];
-
-$c = [
-    1 => 4,
-    2 => 5,
-];
-
-$d = [
-    4 => 4,
-    1 => 11
-];
-
-print_r($a + $c);
+$bb = 1;
+haha($bb);
+echo $bb;

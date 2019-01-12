@@ -14,6 +14,39 @@ class daoMember {
      * @return int
      */
     public static function getList($param, &$data) {
+        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = '';
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
+
+                $row['addChips'] = $addChips;
+                $row['minus'] = $row['addChips'] - $row['changeChips'];
+            }
+            unset($row);
+
+            $data = $rows;
+        }
+
         return ERR_OK;
     }
 

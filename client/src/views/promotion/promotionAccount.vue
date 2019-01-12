@@ -48,20 +48,24 @@
     <el-dialog :visible.sync="dialogForm1Visible" title="" center>
       <el-form ref="dialogForm1" :model="dialogForm1">
 
-        <el-form-item :rules="[{required:true, message: '收款账号不能为空'}]" label="收款账号:">
-          <el-input v-model="dialogForm1.bankcardNo" placeholder="收款账号" clearable/>
+        <el-form-item :rules="[{required:true, message: '登录账号不能为空'}]" label="登录账号:">
+          <el-input v-model="dialogForm1.bankcardNo" placeholder="请输入推广账号" clearable/>
         </el-form-item>
 
-        <el-form-item :rules="[{required:true, message: '银行名称不能为空'}]" label="银行名称:">
-          <el-input v-model="dialogForm1.bankBranch" placeholder="银行名称" clearable/>
+        <el-form-item :rules="[{required:true, message: '密码不能为空'}]" label="密码:">
+          <el-input v-model="dialogForm1.bankBranch" placeholder="请输入密码" clearable/>
         </el-form-item>
 
-        <el-form-item :rules="[{required:true, message: '收款人姓名不能为空'}]" label="收款人姓名:">
-          <el-input v-model="dialogForm1.cardholderName" placeholder="收款人姓名" clearable/>
+        <el-form-item :rules="[{required:true, message: '确认密码不能为空'}]" label="确认密码:">
+          <el-input v-model="dialogForm1.bankBranch" placeholder="请确认密码" clearable/>
         </el-form-item>
 
-        <el-form-item :rules="[{required:true, message: '收款人手机不能为空'}]" label="收款人手机:">
-          <el-input v-model="dialogForm1.cardholderMobile" placeholder="收款人手机" clearable/>
+        <el-form-item :rules="[{required:true, message: '登陆域名不能为空'}]" label="登陆域名:">
+          <el-input v-model="dialogForm1.cardholderName" placeholder="请输入登录域名, 多域名用,分隔, 不包含http://" clearable/>
+        </el-form-item>
+
+        <el-form-item :rules="[{required:true, message: '渠道名称不能为空'}]" label="渠道名称:">
+          <el-input v-model="dialogForm1.cardholderMobile" placeholder="请输入推广渠道名" clearable/>
         </el-form-item>
 
         <el-form-item label="收款银行卡总行联行号:">
