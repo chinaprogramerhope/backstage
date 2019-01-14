@@ -66,4 +66,24 @@ class clsMember {
     public static function addLv($param, &$data) {
         return daoMember::addLv($param, $data);
     }
+
+    /**
+     * 编辑等级
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function editLv($param, &$data) {
+        return daoMember::editLv($param, $data);
+    }
+
+    /**
+     * 删除等级
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function delLv($param, &$data) {
+        return daoMember::delLv($param, $data);
+    }
 }

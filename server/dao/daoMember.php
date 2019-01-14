@@ -79,7 +79,7 @@ class daoMember {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $sql = 'select name, upPrice from admin_user_lv limit ' . maxQueryNum;
+        $sql = 'select name, upPrice, templateId, note from admin_user_lv order by name asc limit ' . maxQueryNum;
         $stmt = $pdo->prepare($sql);
         $ret = $stmt->execute();
         if (!$ret) {
@@ -106,11 +106,16 @@ class daoMember {
             $row['userNum'] = $retNum;
         }
 
-        $data[] = [
+//        $data[] = [
+//            'name' => '普通用户',
+//            'upPrice' => 0,
+//            'userNum' => $retNum
+//        ];
+        $commonArr = [
             'name' => '普通用户',
             'upPrice' => 0,
-            'userNum' => $retNum
         ];
+        array_unshift($data, $commonArr); // todo 为何放在开头和结尾都是第一个显示
 
         return ERR_OK;
     }
@@ -122,6 +127,103 @@ class daoMember {
      * @return int
      */
     public static function addLv($param, &$data) {
+        $name = trim($param['name']);
+        $upPrice = intval($param['upPrice']);
+        $templateId = intval($param['templateId']);
+        $note = isset($param['note']) && !empty($param['note']) ? trim($param['note']) : '';
+
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [
+            ':name' => $name,
+            ':upPrice' => $upPrice,
+            ':templateId' => $templateId,
+            ':note' => $note
+        ];
+        $sql = 'insert into admin_user_lv(name, upPrice, templateId, note) values (:name, :upPrice, :templateId, :note)';
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute($pdoParam);
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName
+                . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 编辑等级
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function editLv($param, &$data) {
+        $name = trim($param['name']);
+        $upPrice = intval($param['upPrice']);
+        $templateId = intval($param['templateId']);
+        $note = isset($param['note']) && !empty($param['note']) ? trim($param['note']) : '';
+
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [
+            ':name' => $name,
+            ':upPrice' => $upPrice,
+            ':templateId' => $templateId,
+            ':note' => $note
+        ];
+        $sql = 'update admin_user_lv set upPrice = :upPrice, templateId = :templateId, note = :note';
+        $sql .= ' where name = :name';
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute($pdoParam);
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName
+                . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 删除等级
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function delLv($param, &$data) {
+        $name = trim($param['name']);
+
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [
+            ':name' => $name
+        ];
+        $sql = 'delete from admin_user_lv';
+        $sql .= ' where name = :name';
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute($pdoParam);
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName
+                . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
         return ERR_OK;
     }
 

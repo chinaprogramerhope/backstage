@@ -107,6 +107,14 @@ export const constantRouterMap = [
         meta: {
           title: '会员等级'
         }
+      },
+      {
+        path: 'betRecord',
+        component: () => import('@/views/game/betRecord'),
+        name: 'betRecord',
+        meta: {
+          title: '投注记录'
+        }
       }
     ]
   },
@@ -128,14 +136,6 @@ export const constantRouterMap = [
         name: 'gameList',
         meta: {
           title: '游戏列表'
-        }
-      },
-      {
-        path: 'betRecord',
-        component: () => import('@/views/game/betRecord'),
-        name: 'betRecord',
-        meta: {
-          title: '投注记录'
         }
       }
     ]

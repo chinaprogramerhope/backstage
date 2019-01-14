@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 /**
  * User: hanxiaolong
@@ -64,6 +64,47 @@ class svcMember {
      * @return int
      */
     public function addLv($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])
+            || !isset($param['upPrice']) || empty($param['upPrice'])
+            || !isset($param['templateId']) || empty($param['templateId'])
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsMember::addLv($param, $data);
+    }
+
+    /**
+     * 编辑等级
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function editLv($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])
+            || !isset($param['upPrice']) || empty($param['upPrice'])
+            || !isset($param['templateId']) || empty($param['templateId'])
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsMember::editLv($param, $data);
+    }
+
+    /**
+     * 删除等级
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function delLv($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsMember::delLv($param, $data);
     }
 }

@@ -120,15 +120,65 @@ export function getLv() {
 
 /**
  * 会员管理 - 新增等级
- * @param {*} dateRange
- * @param {*} gameId
- * @param {*} roomId
- * @param {*} userId
+ * @param {*} lvName - 等级名称
+ * @param {*} upPrice - 晋升条件
+ * @param {*} templateId - 出款稽核模板id
+ * @param {*} note - 备注
  */
-export function addLv() {
+export function addLv(name, upPrice, templateId, note) {
   const data = {
     cmd: 56,
     param: {
+      name: name,
+      upPrice: upPrice,
+      templateId: templateId,
+      note: note
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 会员管理 - 编辑等级
+ * @param {*} lvName - 等级名称
+ * @param {*} upPrice - 晋升条件
+ * @param {*} templateId - 出款稽核模板id
+ * @param {*} note - 备注
+ */
+export function editLv(name, upPrice, templateId, note) {
+  const data = {
+    cmd: 57,
+    param: {
+      name: name,
+      upPrice: upPrice,
+      templateId: templateId,
+      note: note
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 会员管理 - 删除等级
+ * @param {*} lvName - 等级名称
+ */
+export function delLv(name) {
+  const data = {
+    cmd: 58,
+    param: {
+      name: name
     }
   }
 
