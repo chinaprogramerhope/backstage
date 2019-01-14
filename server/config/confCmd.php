@@ -19,13 +19,18 @@ const cmdArr = [
 
     // 会员管理 51 - 100
     51 => ['svc' => 'svcMember', 'func' => 'getList'], // 获取会员列表
+
     52 => ['svc' => 'svcMember', 'func' => 'getLoginLog'], // 获取登陆日志
+
     53 => ['svc' => 'svcMember', 'func' => 'getLabel'], // 获取标签
     54 => ['svc' => 'svcMember', 'func' => 'addLabel'], // 添加标签
-    55 => ['svc' => 'svcMember', 'func' => 'getLv'], // 获取等级
-    56 => ['svc' => 'svcMember', 'func' => 'addLv'], // 新增等级
-    57 => ['svc' => 'svcMember', 'func' => 'editLv'], // 编辑等级
-    58 => ['svc' => 'svcMember', 'func' => 'delLv'], // 删除等级
+    55 => ['svc' => 'svcMember', 'func' => 'editLabel'], // 编辑标签
+    56 => ['svc' => 'svcMember', 'func' => 'delLabel'], // 删除标签
+
+    57 => ['svc' => 'svcMember', 'func' => 'getLv'], // 获取等级
+    58 => ['svc' => 'svcMember', 'func' => 'addLv'], // 新增等级
+    59 => ['svc' => 'svcMember', 'func' => 'editLv'], // 编辑等级
+    60 => ['svc' => 'svcMember', 'func' => 'delLv'], // 删除等级
 
     // 游戏管理 101 - 150
     101 => ['svc' => 'svcGame', 'func' => 'listGet'], // 游戏列表 - 获取游戏列表

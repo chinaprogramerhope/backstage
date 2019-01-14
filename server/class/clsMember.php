@@ -48,6 +48,26 @@ class clsMember {
     }
 
     /**
+     * 编辑标签
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function editLabel($param, &$data) {
+        return daoMember::editLabel($param, $data);
+    }
+
+    /**
+     * 删除标签
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function delLabel($param, &$data) {
+        return daoMember::delLabel($param, $data);
+    }
+
+    /**
      * 获取等级
      * @param $param
      * @param $data

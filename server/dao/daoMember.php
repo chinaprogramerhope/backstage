@@ -14,8 +14,6 @@ class daoMember {
      * @return int
      */
     public static function getList($param, &$data) {
-        clsLog::debug('ok111, param = ' . json_encode($param));
-
         if (isset($param['userId']) && !empty($param['userId'])) {
             $userId = intval($param['userId']);
             $indexArr = clsUtility::getUserDBPos($userId);
@@ -52,6 +50,38 @@ class daoMember {
      * @return int
      */
     public static function getLabel($param, &$data) {
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $sql = 'select id, name, sort, autoMoney from admin_user_label order by id desc limit ' . maxQueryNum;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql);
+            return ERR_MYSQL_EXCEPTION;
+        }
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $row['personNum'] = 0; // notice 测试数据
+            }
+            unset($row);
+
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql . ', dbName = ' . $dbName);
+        }
+
         return ERR_OK;
     }
 
@@ -62,6 +92,119 @@ class daoMember {
      * @return int
      */
     public static function addLabel($param, &$data) {
+        $name = trim($param['name']);
+        $sort = intval($param['sort']);
+        $autoMoney = isset($param['autoMoney']) && !empty($param['autoMoney']) ? intval($param['autoMoney']) : 1;
+
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [
+            ':name' => $name,
+            ':sort' => $sort,
+            ':autoMoney' => $autoMoney
+        ];
+        $sql = 'insert into admin_user_label(name, sort, autoMoney) values (:name, :sort, :autoMoney)';
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute($pdoParam);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName
+                    . ', pdoParam = ' . json_encode($pdoParam));
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 编辑标签
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function editLabel($param, &$data) {
+        $id = intval($param['id']);
+        $name = trim($param['name']);
+        $sort = intval($param['sort']);
+        $autoMoney = isset($param['autoMoney']) && !empty($param['autoMoney']) ? intval($param['autoMoney']) : 1;
+
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [
+            ':id' => $id,
+            ':name' => $name,
+            ':sort' => $sort,
+            ':autoMoney' => $autoMoney
+        ];
+        $sql = 'update admin_user_label set name = :name, sort = :sort, autoMoney = :autoMoney';
+        $sql .= ' where id = :id';
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute($pdoParam);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName
+                    . ', pdoParam = ' . json_encode($pdoParam));
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 删除标签
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function delLabel($param, &$data) {
+        $name = trim($param['name']);
+
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $pdoParam = [
+            ':name' => $name
+        ];
+        $sql = 'delete from admin_user_label';
+        $sql .= ' where name = :name';
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute($pdoParam);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName
+                    . ', pdoParam = ' . json_encode($pdoParam));
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXCEPTION;
+        }
+
         return ERR_OK;
     }
 
@@ -79,7 +222,7 @@ class daoMember {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $sql = 'select name, upPrice, templateId, note from admin_user_lv order by name asc limit ' . maxQueryNum;
+        $sql = 'select id, name, upPrice, templateId, note from admin_user_lv order by name asc limit ' . maxQueryNum;
         $stmt = $pdo->prepare($sql);
         $ret = $stmt->execute();
         if (!$ret) {
@@ -164,6 +307,7 @@ class daoMember {
      * @return int
      */
     public static function editLv($param, &$data) {
+        $id = intval($param['id']);
         $name = trim($param['name']);
         $upPrice = intval($param['upPrice']);
         $templateId = intval($param['templateId']);
@@ -177,13 +321,14 @@ class daoMember {
         }
 
         $pdoParam = [
+            ':id' => $id,
             ':name' => $name,
             ':upPrice' => $upPrice,
             ':templateId' => $templateId,
             ':note' => $note
         ];
-        $sql = 'update admin_user_lv set upPrice = :upPrice, templateId = :templateId, note = :note';
-        $sql .= ' where name = :name';
+        $sql = 'update admin_user_lv set name = :name, upPrice = :upPrice, templateId = :templateId, note = :note';
+        $sql .= ' where id = :id';
         $stmt = $pdo->prepare($sql);
         $ret = $stmt->execute($pdoParam);
         if (!$ret) {

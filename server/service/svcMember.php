@@ -44,7 +44,47 @@ class svcMember {
      * @return int
      */
     public function addLabel($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])
+            || !isset($param['sort']) || empty($param['sort'])
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsMember::addLabel($param, $data);
+    }
+
+    /**
+     * 编辑标签
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function editLabel($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])
+            || !isset($param['name']) || empty($param['name'])
+            || !isset($param['sort']) || empty($param['sort'])
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsMember::editLabel($param, $data);
+    }
+
+    /**
+     * 删除标签
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function delLabel($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsMember::delLabel($param, $data);
     }
 
     /**
@@ -82,7 +122,8 @@ class svcMember {
      * @return int
      */
     public function editLv($param, &$data) {
-        if (!isset($param['name']) || empty($param['name'])
+        if (!isset($param['id']) || empty($param['id'])
+            || !isset($param['name']) || empty($param['name'])
             || !isset($param['upPrice']) || empty($param['upPrice'])
             || !isset($param['templateId']) || empty($param['templateId'])
         ) {

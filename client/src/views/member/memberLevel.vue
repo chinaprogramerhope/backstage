@@ -188,6 +188,7 @@ export default {
 
       dialogFormEditVisible: false,
       dialogFormEdit: {
+        id: 0,
         name: '',
         upPrice: '',
         selectTemplate: '',
@@ -279,6 +280,7 @@ export default {
         }
       }
 
+      this.dialogFormEdit.id = theRow.id
       this.dialogFormEdit.name = theRow.name
       this.dialogFormEdit.upPrice = theRow.upPrice
       this.dialogFormEdit.selectTemplate = Number(theRow.templateId)
@@ -287,12 +289,13 @@ export default {
 
     // dialog 编辑等级
     handleEdit() {
+      const id = this.dialogFormEdit.id
       const name = this.dialogFormEdit.name
       const upPrice = this.dialogFormEdit.upPrice
       const templateId = this.dialogFormEdit.selectTemplate
       const note = this.dialogFormEdit.note
 
-      editLv(name, upPrice, templateId, note).then(response => {
+      editLv(id, name, upPrice, templateId, note).then(response => {
         if (response.code === 0) {
           this.$notify({
             title: '编辑等级成功',

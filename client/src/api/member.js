@@ -78,13 +78,63 @@ export function getLabel() {
 
 /**
  * 会员管理 - 添加标签
- * @param {*} gameName
- * @param {*} gameStatus
+ * @param {*} name
+ * @param {*} autoMoney
+ * @param {*} sort
  */
-export function addLabel() {
+export function addLabel(name, autoMoney, sort) {
   const data = {
     cmd: 54,
     param: {
+      name: name,
+      autoMoney: autoMoney,
+      sort: sort
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 会员管理 - 编辑标签
+ * @param {*} id
+ * @param {*} name
+ * @param {*} autoMoney
+ * @param {*} sort
+ */
+export function editLabel(id, name, autoMoney, sort) {
+  const data = {
+    cmd: 55,
+    param: {
+      id: id,
+      name: name,
+      autoMoney: autoMoney,
+      sort: sort
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 会员管理 - 删除标签
+ * @param {*} name
+ */
+export function delLabel(name) {
+  const data = {
+    cmd: 56,
+    param: {
+      name: name
     }
   }
 
@@ -105,7 +155,7 @@ export function addLabel() {
  */
 export function getLv() {
   const data = {
-    cmd: 55,
+    cmd: 57,
     param: {
     }
   }
@@ -120,14 +170,14 @@ export function getLv() {
 
 /**
  * 会员管理 - 新增等级
- * @param {*} lvName - 等级名称
+ * @param {*} name - 等级名称
  * @param {*} upPrice - 晋升条件
  * @param {*} templateId - 出款稽核模板id
  * @param {*} note - 备注
  */
 export function addLv(name, upPrice, templateId, note) {
   const data = {
-    cmd: 56,
+    cmd: 58,
     param: {
       name: name,
       upPrice: upPrice,
@@ -146,15 +196,17 @@ export function addLv(name, upPrice, templateId, note) {
 
 /**
  * 会员管理 - 编辑等级
- * @param {*} lvName - 等级名称
+ * @param {*} id - 等级id
+ * @param {*} name - 等级名称
  * @param {*} upPrice - 晋升条件
  * @param {*} templateId - 出款稽核模板id
  * @param {*} note - 备注
  */
-export function editLv(name, upPrice, templateId, note) {
+export function editLv(id, name, upPrice, templateId, note) {
   const data = {
-    cmd: 57,
+    cmd: 59,
     param: {
+      id: id,
       name: name,
       upPrice: upPrice,
       templateId: templateId,
@@ -172,11 +224,11 @@ export function editLv(name, upPrice, templateId, note) {
 
 /**
  * 会员管理 - 删除等级
- * @param {*} lvName - 等级名称
+ * @param {*} name - 等级名称
  */
 export function delLv(name) {
   const data = {
-    cmd: 58,
+    cmd: 60,
     param: {
       name: name
     }
