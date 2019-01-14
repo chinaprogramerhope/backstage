@@ -49,6 +49,7 @@ if (empty($_POST) && !empty($tmpParam)) {
 if (!isset($_POST['cmd']) || !array_key_exists($_POST['cmd'], cmdArr)) {
     clsLog::error(basename(__FILE__) . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($_POST));
     $ret['code'] = ERR_CLIENT;
+    $ret['msg'] = errMsg[$ret['code']];
     echo json_encode($ret);
     ob_flush();
     exit();
@@ -75,6 +76,7 @@ if (!is_int($code) || !is_array($data)) {
 
 $ret = [
     'code' => $code,
+    'msg' => array_key_exists($code, errMsg) ? errMsg[$code] : '',
     'data' => $data
 ];
 echo json_encode($ret);

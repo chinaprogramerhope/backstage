@@ -8,7 +8,7 @@
         <el-form :model="form1" style="margin-bottom: 10px; margin-top: 20px;" label-position="right" label-width="100px">
           <el-row :gutter="20">
 
-            <el-col :span="6"><el-form-item label="账号"><el-input placeholder="会员账号" clearable/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="用户ID"><el-input v-model="form1.id" placeholder="用户ID" clearable/></el-form-item></el-col>
 
             <el-col :span="6">
               <el-form-item label="会员状态">
@@ -45,11 +45,12 @@
             <el-col :span="7">
               <el-form-item label="注册日期">
                 <el-date-picker
-                  v-model="form1.date"
+                  v-model="form1.dateRange"
                   type="daterange"
                   range-separator="~"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                 />
               </el-form-item>
             </el-col>
@@ -71,19 +72,19 @@
 
             <el-col :span="3"><el-form-item><el-button @click="onSubmit">+新增</el-button></el-form-item></el-col>
 
-            <el-col :span="3"><el-form-item><el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button></el-form-item></el-col>
+            <el-col :span="3"><el-form-item><el-button type="primary" icon="el-icon-search" @click="onGetList">查询</el-button></el-form-item></el-col>
 
           </el-row>
 
           <el-row :gutter="20">
 
-            <el-col :span="6"><el-form-item label="会员ID"><el-input placeholder="" clearable/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="账号ID"><el-input v-model="form1.userEmail" placeholder="" clearable/></el-form-item></el-col>
 
-            <el-col :span="6"><el-form-item label="手机号码"><el-input placeholder="" clearable/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="手机号码"><el-input v-model="form1.mobileNumber" placeholder="" clearable/></el-form-item></el-col>
 
-            <el-col :span="6"><el-form-item label="真实姓名"><el-input placeholder="" clearable/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="支付宝姓名"><el-input v-model="form1.realName" placeholder="" clearable/></el-form-item></el-col>
 
-            <el-col :span="6"><el-form-item label="银行卡"><el-input placeholder="" clearable/></el-form-item></el-col>
+            <el-col :span="6"><el-form-item label="支付宝账号"><el-input v-model="form1.aliPayAccount" placeholder="" clearable/></el-form-item></el-col>
 
           </el-row>
 
@@ -96,13 +97,13 @@
           stripe
           style="width: 100%; margin-bottom: 20px">
           <el-table-column min-width="10%" prop="online" label="在线" align="center"/>
-          <el-table-column min-width="10%" prop="vipAccount" label="账号" align="center"/>
-          <el-table-column min-width="10%" prop="vipId" label="会员id" align="center"/>
-          <el-table-column min-width="10%" prop="realName" label="真实姓名" align="center"/>
+          <el-table-column min-width="10%" prop="id" label="用户id" align="center"/>
+          <el-table-column min-width="15%" prop="user_email" label="账号id" align="center"/>
+          <el-table-column min-width="10%" prop="alipay_real_name" label="真实姓名" align="center"/>
           <el-table-column min-width="10%" prop="upLine" label="上级" align="center"/>
           <el-table-column min-width="10%" prop="downLineNum" label="下级人数" align="center"/>
-          <el-table-column min-width="10%" prop="registerDate" label="注册日期" align="center"/>
-          <el-table-column min-width="10%" prop="status" label="状态" align="center"/>
+          <el-table-column min-width="15%" prop="registertime" label="注册日期" align="center" sortable/>
+          <el-table-column min-width="10%" prop="isBlack" label="状态" align="center"/>
           <el-table-column min-width="10%" prop="balance" label="账户余额" align="center"/>
           <el-table-column min-width="10%" prop="userStatus" label="玩家状态" align="center"/>
           <el-table-column min-width="15%" prop="operation" label="操作" align="center">
@@ -126,7 +127,7 @@
         </el-table>
 
         <!-- 分页 -->
-        <el-pagination
+        <!-- <el-pagination
           :current-page="currentPage"
           :page-sizes="[10, 20, 30, 40]"
           :page-size="10"
@@ -135,21 +136,29 @@
           align="center"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-        />
+        /> -->
+
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
+import { getList } from '@/api/member'
+
 export default {
   data() {
     return {
 
       form1: {
+        id: '',
         selectVipStatus: '',
         selectVipLv: '',
         date: '',
+        userEmail: '',
+        mobileNumber: '',
+        realName: '',
+        aliPayAccount: '',
         selectUserStatus: '',
         optionsVipStatus: [{
           label: '全部',
@@ -172,33 +181,58 @@ export default {
       },
 
       // tableData
-      tableData: [{
-        online: '2018-11-11 11:11:11',
-        timeEnd: '2018-11-11 11:11:11',
-        vipAccount: 'ok1',
-        gameName: '牛牛1',
-        gameRoom: '初级房',
-        bet: 11.11,
-        winAmount: 11.11,
-        winLose: 11.11,
-        tax: 11.11
-      }, {
-        online: '2018-11-11 11:11:12',
-        timeEnd: '2018-11-11 11:11:12',
-        vipAccount: 'ok2',
-        gameName: '牛牛2',
-        gameRoom: '初级房',
-        bet: 11.12,
-        winAmount: 11.12,
-        winLose: 11.12,
-        tax: 11.12
-      }],
+      tableData: '',
 
       // 分页
       currentPage: 1
     }
   },
+
+  created() {
+    const dateRange = this.form1.dateRange
+    const userId = this.form1.id
+    const isOnline = this.form1.isOnline
+    const userEmail = this.form1.userEmail
+    const mobileNumber = this.form1.mobileNumber
+    const realName = this.form1.realName
+    const aliPayAccount = this.form1.aliPayAccount
+
+    getList(dateRange, userId, isOnline, userEmail, mobileNumber, realName, aliPayAccount).then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
+  },
+
   methods: {
+    onGetList() {
+      const dateRange = this.form1.dateRange
+      const userId = this.form1.id
+      const isOnline = this.form1.isOnline
+      const userEmail = this.form1.userEmail
+      const mobileNumber = this.form1.mobileNumber
+      const realName = this.form1.realName
+      const aliPayAccount = this.form1.aliPayAccount
+
+      getList(dateRange, userId, isOnline, userEmail, mobileNumber, realName, aliPayAccount).then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
     obSubmit() {
       console.log('submit!')
     },

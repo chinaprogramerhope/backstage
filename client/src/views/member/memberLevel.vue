@@ -12,10 +12,19 @@
       style="width: 100%; margin-bottom: 24px"
       stripe
     >
-      <el-table-column prop="lvName" label="等级名称" align="center"/>
-      <el-table-column prop="incrCondition" label="晋升条件" align="center"/>
-      <el-table-column prop="vipNum" label="会员数" align="center"/>
-      <el-table-column prop="operation" label="操作" align="center"/>
+      <el-table-column prop="name" label="等级名称" align="center"/>
+      <el-table-column prop="upPrice" label="晋升条件" align="center"/>
+      <el-table-column prop="userNum" label="用户数" align="center"/>
+      <el-table-column prop="operation" label="操作" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.name==='普通用户'">
+            <el-tag size="mini">默认等级, 不可操作</el-tag>
+          </div>
+          <div v-else>
+            <el-button size="mini" type="primary" @click="handleEdit()">编辑</el-button>
+          </div>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 分页 -->
@@ -77,6 +86,8 @@
 </template>
 
 <script>
+import { getLv } from '@/api/member'
+
 export default {
   data() {
     return {
@@ -96,23 +107,39 @@ export default {
       dialogForm1Visible: false,
 
       // tableData
-      tableData: [{
-        lvName: '2018-11-11 11:11:11',
-        timeEnd: '2018-11-11 11:11:11',
-        vipAccount: 'ok1',
-        gameName: '牛牛1'
-      }, {
-        lvName: '2018-11-11 11:11:12',
-        timeEnd: '2018-11-11 11:11:12',
-        vipAccount: 'ok2',
-        gameName: '牛牛2'
-      }],
+      tableData: '',
 
       // 分页
       currentPage: 4
     }
   },
+
+  created() {
+    getLv().then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
+  },
+
   methods: {
+
+    // 新增
+    handleAdd() {
+
+    },
+
+    // 编辑
+    handleEdit() {
+
+    },
+
     // dialog
     submitRuleForm(formName) {
       this.$refs[formName].validate((valid) => {

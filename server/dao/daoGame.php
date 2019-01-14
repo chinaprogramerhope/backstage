@@ -27,7 +27,7 @@ class daoGame {
         }
         $gameIdStatusArr = $redis->hGetAll($key);
 
-        // 根据$searchStr(模糊查询), gameStatus 查询
+        // 根据$searchStr(模糊查询), gameStatus 查询 todo now
         foreach (gameIdName as $gameId => $gameName) {
             clsGame::listGetLogic1($searchStr, $gameId, $gameName, $gameStatus, $gameIdStatusArr, $retArr);
         }
@@ -151,7 +151,7 @@ class daoGame {
             $pdoParam[':timeEnd'] = $dateEnd;
         }
 
-        $pdo = clsMysql::getInstance(mysqlConfig['casinogamehisdb']);
+        $pdo = clsMysql::getInstance('casinogamehisdb');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;

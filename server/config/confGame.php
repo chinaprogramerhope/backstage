@@ -9,7 +9,7 @@
 /**
  * mysql 相关
  */
-const maxQueryNum = 1000; // 最大查询数量
+const maxQueryNum = 10; // 最大查询数量
 
 /**
  * 公共常量
@@ -580,3 +580,7 @@ const messageChannel = [
     messageChannel2 => '渠道2',
     messageChannel3 => '渠道3',
 ];
+
+/**
+ * 用户管理
+ */

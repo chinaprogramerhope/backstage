@@ -21,7 +21,7 @@ class daoMessage {
             $timeBegin = $timeEnd = -1;
         }
 
-        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        $pdo = clsMysql::getInstance('new_admin');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -110,7 +110,7 @@ class daoMessage {
         $publishTime = $status === 1 ? $timeNow : 0;
         $editTime = 0;
 
-        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        $pdo = clsMysql::getInstance('new_admin');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -162,7 +162,7 @@ class daoMessage {
         $timeNow = date('Y-m-d H:i:s');
         $publishTime = $status === 1 ? $timeNow : 0;
 
-        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        $pdo = clsMysql::getInstance('new_admin');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -208,7 +208,7 @@ class daoMessage {
      */
     public static function announceListDel($param, &$data) {
         $id = intval($param['id']);
-        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        $pdo = clsMysql::getInstance('new_admin');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;

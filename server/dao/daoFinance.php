@@ -99,7 +99,7 @@ class daoFinance {
             $dateEnd = date('Ymd', $tomorrowTs);
         }
 
-        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        $pdo = clsMysql::getInstance('new_admin');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -173,13 +173,13 @@ class daoFinance {
         $dateYesterday = date('Ymd', time() - daySeconds);
         $dateToday = date('Ymd');
 
-        $pdoSmc = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $pdoSmc = clsMysql::getInstance('db_smc');
         if ($pdoSmc === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['db_smc']));
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $pdoCasinostatdb = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $pdoCasinostatdb = clsMysql::getInstance('casinostatdb');
         if ($pdoCasinostatdb === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['casinostatdb']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -337,7 +337,7 @@ class daoFinance {
             return ERR_OK;
         }
 
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $pdo = clsMysql::getInstance('db_smc');
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -459,7 +459,7 @@ class daoFinance {
         $tsEnd = strtotime($dateEnd);
 
         // 第一个库
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $pdo = clsMysql::getInstance('db_smc');
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -554,7 +554,7 @@ class daoFinance {
             $dateEnd = date('Ymd', $tomorrowTs);
         }
 
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $pdo = clsMysql::getInstance('casinostatdb');
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -580,7 +580,7 @@ class daoFinance {
      * @return int
      */
     public static function reconciliationReportGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $pdo = clsMysql::getInstance('casinostatdb');
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -620,7 +620,7 @@ class daoFinance {
      * @return int
      */
     public static function payAccountManageGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $pdo = clsMysql::getInstance('db_smc');
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -731,7 +731,7 @@ class daoFinance {
      * @return int
      */
     public static function payAccountManageCreate($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $pdo = clsMysql::getInstance('db_smc');
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -804,7 +804,7 @@ class daoFinance {
      * @return int
      */
     public static function payOrderManageGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $pdo = clsMysql::getInstance('db_smc');
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -1030,7 +1030,7 @@ class daoFinance {
     }
 
     private static function getCashNum($dateBegin, $dateEnd) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']); // todo 库1和库2相加; count(*)是否可以, 之前后台不是这样计算
+        $pdo = clsMysql::getInstance('db_smc'); // todo 库1和库2相加; count(*)是否可以, 之前后台不是这样计算
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
