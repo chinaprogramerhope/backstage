@@ -99,7 +99,8 @@ class daoFinance {
             $dateEnd = date('Ymd', $tomorrowTs);
         }
 
-        $pdo = clsMysql::getInstance('new_admin');
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
@@ -120,7 +121,7 @@ class daoFinance {
                 sum(ddz_choushui+huanle_ddz_choushui+laizi_ddz_choushui+zjh_choushui+niuniu_choushui+qiangzhuang_niuniu_choushui+buyu_choushui+fruit_money+bao_money+fruit_compare_money+zjh_bairen_choushui+lhp_choushui+malai_niuniu_choushui+sangong_choushui+hongheidz_choushui)/100 as pumpTotal
                 from casinobusinessstatistics
                 where statistics_date >= :dateBegin and statistics_date <= :dateEnd
-                group by chahnelid
+                group by channelid
                 ';
 
             $sql .= ' limit ' . maxQueryNum;
@@ -323,10 +324,10 @@ class daoFinance {
         $payType = $param['payType'];
 
         $tsBegin = strtotime($dateBegin);
-        $tsEnd = strtotime();
+        $tsEnd = strtotime($dateEnd);
 
         $platFormArr = [];
-        $ret = self::getPlatformArr($dateBegin, $dateEnd, $channelId, $payType, $platFormArr); // todo
+        $ret = self::getPlatformArr($tsBegin, $tsEnd, $channelId, $payType, $platFormArr); // todo
         if ($ret !== ERR_OK) {
             clsLog::error(__METHOD__ . ', self::getPlatformArr fail, param = ' . json_encode($param)
                 . ', errCode = ' . $ret);
@@ -515,7 +516,7 @@ class daoFinance {
             return ERR_MYSQL_EXCEPTION;
         }
 
-        $data = [ // todo 第一个库和第二个库数据相加  我们现在只有一个库吧 phphoutai withdrawalTotal.php
+        $data = [[ // todo 第一个库和第二个库数据相加  我们现在只有一个库吧 phphoutai withdrawalTotal.php
             'cmTotal' => number_format($tmpArr['cm'] + $tmpArr['man'], 2, '.', ' '), // 总提现(平台)
             'feeTotal' => number_format($tmpArr['fee'] + $tmpArr['manfee'], 2, '.', ' '), // 总手续费(平台)
             'man' => number_format($tmpArr['man'], 2, '.', ' '), // 手动处理的金额
@@ -526,7 +527,7 @@ class daoFinance {
             'art' => number_format($tmpArr['art'], 2, '.', ' '), // 支付宝总提现
             'af' => number_format($tmpArr['af'], 2, '.', ' '), // 支付宝总手续费
             'cashMinus' => number_format($tmpArr['art'] - $tmpArr['af'], 2, '.', ' ') // 提现金额 减 手续费(支付宝)
-        ];
+        ]];
 
         return ERR_OK;
     }
@@ -560,7 +561,7 @@ class daoFinance {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $data = [
+        $data = [[
             'channelName' => '全部',
             'totalPay' => self::getTotalPay($pdo, -1, $dateBegin, $dateEnd),
             'totalCash' => self::getTotalCash($pdo, -1, $dateBegin, $dateEnd),
@@ -568,7 +569,7 @@ class daoFinance {
             'totalChoushui' => self::getTotalChoushui($pdo, -1, $dateBegin, $dateEnd),
 
             'totalCashNum' => self::getCashNum($dateBegin, $dateEnd),
-        ];
+        ]];
 
         return ERR_OK;
     }
@@ -580,7 +581,8 @@ class daoFinance {
      * @return int
      */
     public static function reconciliationReportGet($param, &$data) {
-        $pdo = clsMysql::getInstance('casinostatdb');
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -591,13 +593,18 @@ class daoFinance {
         $sql .= ' from casinoreconciliation';
         $sql .= ' order by listorder desc limit 5';
 
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exeption, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
         }
-        $rows = $stmt->fetchAll();
         if (!empty($rows)) {
             foreach ($rows as &$row) {
                 $addChips = $row ['rechargeChips'] - $row ['cashChips'] - $row ['choushuiChips'] + $row ['registerChips'] + $row ['bindPhoneChips'];
@@ -608,6 +615,8 @@ class daoFinance {
             unset($row);
 
             $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql . ', dbName = ' . $dbName);
         }
 
         return ERR_OK;
@@ -707,13 +716,18 @@ class daoFinance {
         $sql .= ' limit ' . maxQueryNum;
 
 
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
         }
-        $rows = $stmt->fetchAll();
         if (!empty($rows)) {
             $data = $rows;
         } else {
@@ -804,7 +818,8 @@ class daoFinance {
      * @return int
      */
     public static function payOrderManageGet($param, &$data) {
-        $pdo = clsMysql::getInstance('db_smc');
+        $dbName = 'db_smc';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -836,11 +851,18 @@ class daoFinance {
         $orderStatus = isset($param['orderStatus']) && !empty($param['orderStatus']) ? trim($param['orderStatus']) : '';
         $payPlatform = isset($param['payPlatform']) && !empty($param['payPlatform']) ? trim($param['payPlatform']) : '';
 
+//        $sql = 'select res_code as orderStatus, amount, bankcard_no as bankcardNo, bank_branch as bankBranch,';
+//        $sql .= ' cardholder_name as cardholderName, cardholder_mobile as cardholderMobile, notify_cardholder as notifyCardholder,';
+//        $sql .= ' customer_type as customerType, account_type as accountType, headquarters_bank_id as headquartersBankId,';
+//        $sql .= ' issue_bank_id as issueBankId, pay_platform as payPlatform, addtime as addTime, out_trade_no as outTradeNo,';
+//        $sql .= ' platform_orderid as platformOrderId, opertime as operTime, res_msg as resMsg';
+//        $sql .= ' from smc_task_form';
+
+        // todo customer_type等字段 原后台错误
         $sql = 'select res_code as orderStatus, amount, bankcard_no as bankcardNo, bank_branch as bankBranch,';
         $sql .= ' cardholder_name as cardholderName, cardholder_mobile as cardholderMobile, notify_cardholder as notifyCardholder,';
-        $sql .= ' customer_type as customerType, account_type as accountType, headquarters_bank_id as headquartersBankId,';
-        $sql .= ' issue_bank_id as issueBankId, pay_platform as payPlatform, addtime as addTime, out_trade_no as outTradeNo,';
-        $sql .= ' platform_orderid as platformOrderId, opertime as operTime, res_msg as resMsg';
+        $sql .= ' pay_platform as payPlatform, addtime as addTime, out_trade_no as outTradeNo,';
+        $sql .= ' opertime as operTime';
         $sql .= ' from smc_task_form';
 
         $sql .= ' where addtime >= :dateBegin and addtime <= :dateEnd';
@@ -857,29 +879,34 @@ class daoFinance {
             $sql .= ' and out_trade_no like :outTradeNo';
             $paramPdo[':outTradeNo'] = '%' . $outTradeNo . '%';
         }
-        if (!empty($messageNotify)) {
+        if (!empty($messageNotify) && $messageNotify != -1) {
             $sql .= ' and notify_cardholder like :messageNotify';
             $paramPdo[':messageNotify'] = '%' . $messageNotify . '%';
         }
-        if (!empty($orderStatus)) {
+        if (!empty($orderStatus) && $orderStatus != -1) {
             $sql .= ' and res_code like :orderStatus';
             $paramPdo[':orderStatus'] = '%' . $orderStatus . '%';
         }
-        if (!empty($payPlatform)) {
+        if (!empty($payPlatform) && $payPlatform != -1) {
             $sql .= ' and pay_platform like :payPlatform';
             $paramPdo[':payPlatform'] = '%' . $payPlatform . '%';
         }
 
         $sql .= ' limit ' . maxQueryNum;
 
-
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute($paramPdo);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql . ', dbName = ' . $dbName);
+            return ERR_MYSQL_EXCEPTION;
         }
-        $rows = $stmt->fetchAll();
         $payPlatformList = aliPayPay + wxPay + officialAliPayPay;
         if (!empty($rows)) {
             foreach ($rows as &$row) {
@@ -917,8 +944,57 @@ class daoFinance {
         return ERR_OK;
     }
 
-    public static function getPlatformArr() { // todo
+    /**
+     * @param $tsBegin
+     * @param $tsEnd
+     * @param $channelId
+     * @param $payType
+     * @param $platFormArr
+     * @return int
+     */
+    public static function getPlatformArr($tsBegin, $tsEnd, $channelId, $payType, &$platFormArr) {
+        $dbName = 'db_smc';
+        $pdo = clsMysql::getInstance('db_smc');
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
 
+        $sql = 'select GROUP_CONCAT(DISTINCT pay_platform) pay_platform_str from smc_order';
+        $sql .= ' where status = 1';
+        if (!empty($channelId)) {
+            $sql .= ' and channel_id = ' . $channelId;
+        }
+        if (!empty($payType)) {
+            $sql .= ' and pay_type = ' . $payType;
+        }
+        $sql .= " and ((add_time>=$tsBegin and add_time<=$tsEnd) or (pay_success_time>=$tsBegin and pay_success_time<=$tsEnd))";
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__.  ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', dbName = ' . $dbName);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $rows = $stmt->fetchAll();
+            if (!empty($rows)) {
+                $payPlatFormStr = '';
+                foreach ($rows as $row) {
+                    $payPlatFormStr = $row['pay_platform_str'];
+                    break;
+                }
+                if (!empty($payPlatFormStr)) {
+                    $platFormArr = explode(',', $payPlatFormStr);
+                }
+            } else {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql . ', dbName = ' . $dbName);
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        return ERR_OK;
     }
 
     private static function getTotalPay(&$pdo, $channelId, $dateBegin, $dateEnd) {
@@ -949,7 +1025,7 @@ class daoFinance {
     }
 
     private static function getTotalCash(&$pdo, $channelId, $dateBegin, $dateEnd) {
-        $sql = 'sum(cash_money+cash_money1) as xx';
+        $sql = 'select sum(cash_money+cash_money1) as xx';
         $sql .= ' from casinobusinessstatistics';
         $sql .= ' where statistics_date >= ' . $dateBegin . ' and statistics_date <= ' . $dateEnd;
         if ($channelId >= 0) {
@@ -959,13 +1035,18 @@ class daoFinance {
                 $sql .= ' and channelid != ' . $k;
             }
         }
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $row = $stmt->fetch();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
         }
-        $row = $stmt->fetch();
 
         $ret = 0.00;
         if (!empty($row)) {
@@ -976,7 +1057,7 @@ class daoFinance {
     }
 
     private static function getTotalCashChoushui(&$pdo, $channelId, $dateBegin, $dateEnd) {
-        $sql = 'sum(choushui_money+choushui_money1) as xx';
+        $sql = 'select sum(choushui_money+choushui_money1) as xx';
         $sql .= ' from casinobusinessstatistics';
         $sql .= ' where statistics_date >= ' . $dateBegin . ' and statistics_date <= ' . $dateEnd;
         if ($channelId >= 0) {
@@ -986,13 +1067,18 @@ class daoFinance {
                 $sql .= ' and channelid != ' . $k;
             }
         }
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $row = $stmt->fetch();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
         }
-        $row = $stmt->fetch();
 
         $ret = 0.00;
         if (!empty($row)) {
@@ -1003,7 +1089,7 @@ class daoFinance {
     }
 
     private static function getTotalChoushui(&$pdo, $channelId, $dateBegin, $dateEnd) {
-        $sql = 'sum(ddz_choushui+huanle_ddz_choushui+laizi_ddz_choushui+zjh_choushui+niuniu_choushui+qiangzhuang_niuniu_choushui+buyu_choushui+fruit_money+bao_money+fruit_compare_money+zjh_bairen_choushui+lhp_choushui+malai_niuniu_choushui+sangong_choushui+hongheidz_choushui) as xx';
+        $sql = 'select sum(ddz_choushui+huanle_ddz_choushui+laizi_ddz_choushui+zjh_choushui+niuniu_choushui+qiangzhuang_niuniu_choushui+buyu_choushui+fruit_money+bao_money+fruit_compare_money+zjh_bairen_choushui+lhp_choushui+malai_niuniu_choushui+sangong_choushui+hongheidz_choushui) as xx';
         $sql .= ' from casinobusinessstatistics';
         $sql .= ' where statistics_date >= ' . $dateBegin . ' and statistics_date <= ' . $dateEnd;
         if ($channelId >= 0) {
@@ -1013,13 +1099,18 @@ class daoFinance {
                 $sql .= ' and channelid != ' . $k;
             }
         }
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $row = $stmt->fetch();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
         }
-        $row = $stmt->fetch();
 
         $ret = 0.00;
         if (!empty($row)) {
@@ -1039,13 +1130,18 @@ class daoFinance {
         $sql = 'select count(*) as xx';
         $sql .= ' from smc_cash_order';
         $sql .= ' where add_time >= ' . $dateBegin . ' and add_time <= ' . $dateEnd;
-        $stmt = $pdo->prepare($sql);
-        $ret = $stmt->execute();
-        if (!$ret) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
-            return ERR_MYSQL_EXECUTE_FAIL;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $num = $stmt->fetchColumn(); // todo
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
         }
-        $num = $stmt->fetchColumn(); // todo
 
         $ret = empty($num) ? 0 : intval($num);
 

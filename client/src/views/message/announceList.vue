@@ -195,8 +195,8 @@ import { announceListDel } from '@/api/message'
 const areaOptions = [{ key: 1, value: '收件箱' }, { key: 2, value: '走马灯' }]
 const channelOptions = [{ key: 1, value: '渠道1' }, { key: 2, value: '渠道2' }, { key: 3, value: '渠道3' }]
 
-// 编辑所在行的id
-var idEdit = 0
+const messageStatus = { '启用': 1, '禁用': 2 }
+const messageCarousel = { '是': 1, '否': 2 }
 
 export default {
   data() {
@@ -347,14 +347,36 @@ export default {
       })
     },
 
+    // 打开编辑页面
+    handleOpenEdit(id) {
+      this.dialogFormEditVisible = true
+
+      var theRow = ''
+
+      for (const v in this.tableData) {
+        if (this.tableData[v].id === id) {
+          theRow = this.tableData[v]
+          break
+        }
+      }
+
+      this.dialogFormEdit.id = theRow.id
+      this.dialogFormEdit.title = theRow.title
+      this.dialogFormEdit.content = theRow.content
+      this.dialogFormEdit.selectStatus = messageStatus.theRow.status
+      this.dialogFormEdit.selectCarousel = messageCarousel.theRow.carousel
+      this.dialogFormEdit.note = theRow.note
+    },
+
     // 编辑公告
     handleEdit() {
+      const id = this.dialogFormEdit.id
       const title = this.dialogFormEdit.title
       const content = this.dialogFormEdit.content
       const status = this.dialogFormEdit.selectStatus
       const carousel = this.dialogFormEdit.selectCarousel
       const note = this.dialogFormEdit.note
-      announceListEdit(this.idEdit, title, content, status, carousel, note).then(response => {
+      announceListEdit(id, title, content, status, carousel, note).then(response => {
         if (response.code === 0) {
           this.$notify({
             title: '编辑公告成功',
@@ -396,12 +418,6 @@ export default {
           })
         }
       })
-    },
-
-    // 打开编辑页面
-    handleOpenEdit(id) {
-      this.dialogFormEditVisible = true
-      this.idEdit = id
     },
 
     // 分页

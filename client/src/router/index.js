@@ -304,7 +304,7 @@ export const constantRouterMap = [
     redirect: '/promotion/index',
     alwaysShow: true,
     meta: {
-      title: '推广管理',
+      title: '推广管理 - 未开放',
       icon: 'promotion'
     },
     children: [
@@ -382,7 +382,7 @@ export const constantRouterMap = [
     redirect: '/system/index',
     alwaysShow: true,
     meta: {
-      title: '系统设置',
+      title: '系统设置 - 未开放',
       icon: 'set'
     },
     children: [
@@ -444,7 +444,7 @@ export const constantRouterMap = [
     redirect: '/operation/index',
     alwaysShow: true,
     meta: {
-      title: '运营管理',
+      title: '运营管理 - 未开放',
       icon: 'mouse'
     },
     children: [
@@ -482,7 +482,7 @@ export const constantRouterMap = [
     redirect: '/activity/index',
     alwaysShow: true,
     meta: {
-      title: '活动管理',
+      title: '活动管理 - 未开放',
       icon: 'gift'
     },
     children: [
@@ -520,7 +520,7 @@ export const constantRouterMap = [
     redirect: '/website/index',
     alwaysShow: true,
     meta: {
-      title: '网站管理',
+      title: '网站管理 - 未开放',
       icon: 'web'
     },
     children: [

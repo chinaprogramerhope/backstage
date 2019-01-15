@@ -100,11 +100,13 @@ export function financeReportGet() {
 
 /**
  * 对账统计 - 获取
+ * @param {*} dateRange
  */
-export function reconciliationReportGet() {
+export function reconciliationReportGet(dateRange) {
   const data = {
     cmd: 163,
     param: {
+      dateRange: dateRange
     }
   }
 

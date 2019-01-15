@@ -77,7 +77,7 @@ export default {
         this.tableData = response.data
       } else {
         this.$notify({
-          title: '获取数据失败',
+          title: '获取数据失败: ' + response.msg,
           message: '',
           type: 'error'
         })
@@ -93,7 +93,7 @@ export default {
           this.tableData = response.data
         } else {
           this.$notify({
-            title: '获取数据失败',
+            title: '获取数据失败: ' + response.msg,
             message: '',
             type: 'error'
           })
@@ -108,7 +108,7 @@ export default {
           this.tableData = response.data
         } else {
           this.$notify({
-            title: '获取数据失败',
+            title: '获取数据失败: ' + response.msg,
             message: '',
             type: 'error'
           })

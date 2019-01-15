@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { financeReportGet } from '@/api/finance'
+import { reconciliationReportGet } from '@/api/finance'
 
 export default {
   data() {
@@ -73,19 +73,19 @@ export default {
       tableData: '',
 
       // 分页
-      currentPage: 4
+      currentPage: 1
     }
   },
 
   created() {
     const dateRange = this.form1.dpValue1
 
-    financeReportGet(dateRange).then(response => {
+    reconciliationReportGet(dateRange).then(response => {
       if (response.code === 0) {
         this.tableData = response.data
       } else {
         this.$notify({
-          title: '获取数据失败',
+          title: '获取数据失败: ' + response.msg,
           message: '',
           type: 'error'
         })
@@ -99,12 +99,12 @@ export default {
     onGet() {
       const dateRange = this.form1.dpValue1
 
-      financeReportGet(dateRange).then(response => {
+      reconciliationReportGet(dateRange).then(response => {
         if (response.code === 0) {
           this.tableData = response.data
         } else {
           this.$notify({
-            title: '获取数据失败',
+            title: '获取数据失败: ' + response.msg,
             message: '',
             type: 'error'
           })
