@@ -157,7 +157,6 @@ class clsGame {
         $tsBegin = strtotime($dateBegin);
         $tsEnd = strtotime($dateEnd);
         if ($dateBegin !== -1) {
-            clsLog::debug('ok111');
             for ($i = $tsBegin; $i <= $tsEnd; $i += 86400) {
                 $tableSuffix = date('Ymd', $i);
 
@@ -165,13 +164,11 @@ class clsGame {
                 $sql .= $oneDaySql;
             }
         } else { // 如果没有选择日期, 默认取最近30天的数据
-            clsLog::debug('ok112');
             $todayTs = strtotime(date('Ymd'));
             $dateMonthAgoTs = $todayTs - 2592000;
             for ($i = $dateMonthAgoTs; $i <= $todayTs; $i += 86400) {
                 $tableSuffix = date('Ymd', $i);
 
-                // test
                 clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', tableSuffix = ' . $tableSuffix);
 
                 $oneDaySql = self::getOneDaySql($pdo, $gameId, $roomId, $userId, $tableSuffix);

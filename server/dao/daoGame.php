@@ -129,8 +129,6 @@ class daoGame {
      * @return int
      */
     public static function betRecordGet($param, &$data) {
-        // test
-        clsLog::debug('ok11, param = ' . json_encode($param));
         if (isset($param['dateRange']) && !empty($param['dateRange'])) {
             $dateBegin = $param['dateRange'][0];
             $dateEnd = $param['dateRange'][1];
@@ -151,15 +149,12 @@ class daoGame {
             $pdoParam[':timeEnd'] = $dateEnd;
         }
 
-        $pdo = clsMysql::getInstance('casinogamehisdb');
+        $dbName = 'casinogamehisdb';
+        $pdo = clsMysql::getInstance($dbName);
         if ($pdo === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbconfig = ' . json_encode(mysqlConfig['new_admin']));
             return ERR_MYSQL_CONNECT_FAIL;
         }
-
-        // test
-        $currentDate = '20190103';
-//        $currentDate = date('Ymd');
 
         $sql = clsGame::betRecordGetGenerateSql($pdo, $dateBegin, $dateEnd, $gameId, $roomId, $userId);
 
@@ -206,8 +201,6 @@ class daoGame {
 //        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', rows = ' . json_encode($rows));
 
         $data = !empty($rows) ? $rows : [];
-
-        clsLog::debug('ok12, data = ' . json_encode($data) . ', sql = ' . $sql);
 
         return ERR_OK;
     }

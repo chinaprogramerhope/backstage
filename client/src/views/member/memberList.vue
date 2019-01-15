@@ -57,7 +57,7 @@
 
             <el-col :span="6">
               <el-form-item label="玩家状态">
-                <el-select v-model="form1.selectUserStatus" placeholder="请选择" clearable>
+                <el-select v-model="form1.selectUserStatus" placeholder="请选择" clearable disabled>
                   <el-option
                     v-for="item in form1.optionsUserStatus"
                     :key="item.value"
@@ -68,9 +68,9 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="3"><el-form-item><el-button @click="onSubmit">更多条件</el-button></el-form-item></el-col>
+            <!-- <el-col :span="3"><el-form-item><el-button @click="onSubmit">更多条件</el-button></el-form-item></el-col>
 
-            <el-col :span="3"><el-form-item><el-button @click="onSubmit">+新增</el-button></el-form-item></el-col>
+            <el-col :span="3"><el-form-item><el-button @click="onSubmit">+新增</el-button></el-form-item></el-col> -->
 
             <el-col :span="3"><el-form-item><el-button type="primary" icon="el-icon-search" @click="onGetList">查询</el-button></el-form-item></el-col>
 
@@ -103,9 +103,27 @@
           <el-table-column min-width="10%" prop="upLine" label="上级" align="center"/>
           <el-table-column min-width="10%" prop="downLineNum" label="下级人数" align="center"/>
           <el-table-column min-width="15%" prop="registertime" label="注册日期" align="center" sortable/>
-          <el-table-column min-width="10%" prop="isBlack" label="状态" align="center"/>
+          <el-table-column min-width="10%" prop="isBlack" label="状态" align="center">
+            <template slot-scope="scope">
+              <div v-if="1">
+                <el-tag size="small" type="success" @click="xx">启用</el-tag>
+              </div>
+              <div v-else>
+                <el-tag size="small" type="danger" @click="xx">禁用</el-tag>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column min-width="10%" prop="balance" label="账户余额" align="center"/>
-          <el-table-column min-width="10%" prop="userStatus" label="玩家状态" align="center"/>
+          <el-table-column min-width="10%" prop="userStatus" label="玩家状态" align="center">
+            <template slot-scope="scope">
+              <div v-if="1">
+                <el-tag size="small" type="success" @click="xx">在线</el-tag>
+              </div>
+              <div v-else>
+                <el-tag size="small" type="danger" @click="xx">离线</el-tag>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column min-width="15%" prop="operation" label="操作" align="center">
             <template slot-scope="scope">
               <el-row :gutter="40">

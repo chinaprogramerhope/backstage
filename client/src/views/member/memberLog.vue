@@ -33,6 +33,7 @@
         <el-table
           :data="tableData"
           :default-sort="{prop: 'timeBegin', order:'descending'}"
+          stripe
           style="width: 100%; margin-bottom: 24px">
           <el-table-column prop="last_login_time" label="最后登录时间" align="center"/>
           <el-table-column prop="id" label="用户ID" align="center"/>

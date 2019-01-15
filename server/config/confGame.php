@@ -9,7 +9,7 @@
 /**
  * mysql 相关
  */
-const maxQueryNum = 10; // 最大查询数量
+const maxQueryNum = 30; // 最大查询数量
 
 /**
  * 公共常量
