@@ -112,6 +112,9 @@ class daoAdmin {
                 ':userName' => $adminName
             ]);
             $row = $stmt->fetch();
+
+            // test
+            clsLog::info('ok111, row = ' . json_encode($data) . ', sql = ' . $sql . ', username= ' . $adminName);
         } catch (PDOException $e) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception: ' . $e->getMessage());
             return ERR_MYSQL_EXCEPTION;
