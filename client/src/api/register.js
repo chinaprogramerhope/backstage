@@ -19,13 +19,10 @@ export function register(userName, pass, passRepeat, verifyCode) {
   }
 
   var ret = request({
-    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })
 
-  // test todo 这里为什么是空对象, 而gameGroup.vue中调用方法获取的不是空
-  console.log('ret1 = ' + JSON.stringify(ret))
   return ret
 }
 
@@ -40,12 +37,9 @@ export function getVerifyCode() {
   }
 
   var ret = request({
-    url: 'http://47.244.177.7:8091/index.php',
     method: 'post',
     data
   })
 
-  // test todo 这里为什么是空对象, 而gameGroup.vue中调用方法获取的不是空
-  console.log('ret1 = ' + JSON.stringify(ret))
   return ret
 }
