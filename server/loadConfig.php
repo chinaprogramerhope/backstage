@@ -10,7 +10,7 @@ $files = scandir($configDir);
 $files = is_array($files) ? $files : [];
 if (!empty($files)) {
     foreach ($files as $file) {
-        if (!($file == '.' || $file == '..')) {
+        if (!($file == '.' || $file == '..') && substr($file, -4) === '.php') {
             require_once $configDir . $file;
         }
     }

@@ -59,7 +59,8 @@ class daoAdmin {
      * @return int
      */
     public static function register($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['new_admin']);
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -97,8 +98,8 @@ class daoAdmin {
     public static function getAdmin($param, &$data) {
         $adminName = isset($param['userName']) ? trim($param['userName']) : '';
 
-        $newAdminConfig = mysqlConfig['new_admin'];
-        $pdo = clsMysql::getInstance($newAdminConfig);
+        $dbName = 'new_admin';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
