@@ -33,10 +33,9 @@ require_once '../loadConfig.php';
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
 
-function haha($b) {
-    $b = 100;
-}
+$a = 3;
+$b = 2.2;
 
-$bb = 1;
-haha($bb);
-echo $bb;
+
+
+echo $a / $b;
