@@ -454,7 +454,7 @@ class daoPromotion {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $sql = 'p.id, p.promotion_url as promotionUrl, p.add_time as addTime, a.account, a.channel_name as channelName';
+        $sql = 'select p.id, p.promotion_url as promotionUrl, p.add_time as addTime, a.account, a.channel_name as channelName';
         $sql .= ' from smc_tg_promotion p left join smc_tg_account a';
         $sql .= ' on a.id = p.tg_account_id';
         $sql .= ' order by p.id';
@@ -469,7 +469,8 @@ class daoPromotion {
             }
             $rows = $stmt->fetchAll();
         } catch (PDOException $e) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql);
             return ERR_MYSQL_EXCEPTION;
         }
 

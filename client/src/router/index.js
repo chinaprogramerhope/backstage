@@ -456,11 +456,139 @@ export const constantRouterMap = [
     },
     children: [
       {
+        path: 'announceList',
+        component: () => import('@/views/message/announceList'),
+        name: 'announceList',
+        meta: {
+          title: '系统公告'
+        }
+      },
+      {
+        path: 'systemMaintenance',
+        component: () => import('@/views/operation/systemMaintenance'),
+        name: 'systemMaintenance',
+        meta: {
+          title: '系统维护'
+        }
+      },
+      {
+        path: 'packaeUpgrade',
+        component: () => import('@/views/operation/packaeUpgrade'),
+        name: 'packaeUpgrade',
+        meta: {
+          title: '整包升级服务器管理'
+        }
+      },
+      {
+        path: 'moduleUpgarde',
+        component: () => import('@/views/operation/moduleUpgarde'),
+        name: 'moduleUpgarde',
+        meta: {
+          title: '模块升级服务器管理'
+        }
+      },
+      {
+        path: 'gameSwitch',
+        component: () => import('@/views/operation/gameSwitch'),
+        name: 'gameSwitch',
+        meta: {
+          title: '游戏开关管理'
+        }
+      },
+      {
+        path: 'aliPayTransfer',
+        component: () => import('@/views/operation/aliPayTransfer'),
+        name: 'aliPayTransfer',
+        meta: {
+          title: '转账支付宝管理'
+        }
+      },
+      {
+        path: 'payment',
+        component: () => import('@/views/operation/payment'),
+        name: 'payment',
+        meta: {
+          title: '支付管理'
+        }
+      },
+      {
+        path: 'proxyIp',
+        component: () => import('@/views/operation/proxyIp'),
+        name: 'proxyIp',
+        meta: {
+          title: 'Proxy IP管理'
+        }
+      },
+      {
+        path: 'agentAccount',
+        component: () => import('@/views/operation/agentAccount'),
+        name: 'agentAccount',
+        meta: {
+          title: '代理账号管理'
+        }
+      },
+      {
+        path: 'stopServer',
+        component: () => import('@/views/operation/stopServer'),
+        name: 'stopServer',
+        meta: {
+          title: '紧急停服'
+        }
+      },
+      {
+        path: 'goldAddLog',
+        component: () => import('@/views/operation/goldAddLog'),
+        name: 'goldAddLog',
+        meta: {
+          title: '增加金币记录'
+        }
+      },
+      {
+        path: 'bindPhoneLog',
+        component: () => import('@/views/operation/bindPhoneLog'),
+        name: 'bindPhoneLog',
+        meta: {
+          title: '绑定手机记录'
+        }
+      },
+      {
+        path: 'bindAliPayLog',
+        component: () => import('@/views/operation/bindAliPayLog'),
+        name: 'bindAliPayLog',
+        meta: {
+          title: '绑定支付宝记录'
+        }
+      },
+      {
+        path: 'payLimit',
+        component: () => import('@/views/operation/payLimit'),
+        name: 'payLimit',
+        meta: {
+          title: '禁止支付管理'
+        }
+      },
+      {
+        path: 'rechargeLog',
+        component: () => import('@/views/operation/rechargeLog'),
+        name: 'rechargeLog',
+        meta: {
+          title: '账号及充值查询'
+        }
+      },
+      {
+        path: 'chongLingSwitch',
+        component: () => import('@/views/operation/chongLingSwitch'),
+        name: 'chongLingSwitch',
+        meta: {
+          title: '冲领开关'
+        }
+      },
+      {
         path: 'gameReport',
         component: () => import('@/views/operation/gameReport'),
         name: 'gameReport',
         meta: {
-          title: '游戏报表'
+          title: '游戏报表 - 未开放'
         }
       },
       {
@@ -468,7 +596,7 @@ export const constantRouterMap = [
         component: () => import('@/views/operation/moneyReport'),
         name: 'moneyReport',
         meta: {
-          title: '资金帐变'
+          title: '资金帐变 - 未开放'
         }
       },
       {
@@ -476,7 +604,7 @@ export const constantRouterMap = [
         component: () => import('@/views/operation/systemProfit'),
         name: 'systemProfit',
         meta: {
-          title: '系统利润'
+          title: '系统利润 - 未开放'
         }
       }
     ]
