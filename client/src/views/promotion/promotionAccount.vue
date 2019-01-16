@@ -119,6 +119,8 @@ import { promotionAccountAdd } from '@/api/promotion'
 import { promotionAccountEdit } from '@/api/promotion'
 import { promotionAccountOperationLogGet } from '@/api/promotion'
 import { promotionAccountIncomeGet } from '@/api/promotion'
+import { payAccountManageCreate } from '@/api/finance'
+import { payAccountManageCashWithdrawal } from '@/api/finance'
 
 export default {
   data() {

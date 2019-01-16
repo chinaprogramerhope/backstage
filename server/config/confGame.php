@@ -347,6 +347,8 @@ const gameIdPaoDeKuai = 321; // 跑得快
 const gameIdBenChiBaoMa = 350; // 奔驰宝马
 const gameIdDragonTiger = 351; // 龙虎斗
 const gameIdBaiJiaLe = 352; // 百家乐
+const gameId28Gang = 8888; // 二八杠 todo 暂无
+const gameIdSanGong = 8889; // 三公 todo 暂无
 
 
 // 游戏id => 游戏名
@@ -365,6 +367,8 @@ const gameIdName = [
     gameIdBenChiBaoMa => '奔驰宝马',
     gameIdDragonTiger => '龙虎斗',
     gameIdBaiJiaLe => '百家乐',
+    gameId28Gang => '二八杠',
+    gameIdSanGong => '三公'
 ];
 
 
@@ -394,13 +398,15 @@ const roomIdName = [
 const gameStatusNormal = 1; // 正常
 const gameStatusClose = 2; // 禁用
 const gameStatusMaintain = 3; // 维护中
+const gameStatusDevelop = 4; // 开发中
 
 
 // 游戏状态 => 状态名
 const gameStatusName = [
     gameStatusNormal => '正常',
     gameStatusClose => '禁用',
-    gameStatusMaintain => '维护中'
+    gameStatusMaintain => '维护中',
+    gameStatusDevelop => '开发中'
 ];
 
 
@@ -460,6 +466,12 @@ const gameIdLimit = [
         rooIdUnknown => '1.00 / 50.00',
     ],
     gameIdBaiJiaLe => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameId28Gang => [
+        rooIdUnknown => '1.00 / 50.00',
+    ],
+    gameIdSanGong => [
         rooIdUnknown => '1.00 / 50.00',
     ],
 ];
@@ -522,54 +534,13 @@ const gameBaseScore = [
     gameIdBaiJiaLe => [
         1.00,
     ],
+    gameId28Gang => [
+        1.00,
+    ],
+    gameIdSanGong => [
+        1.00,
+    ],
 ];
-
-
-// 游戏类型 - 游戏底分
-const gameType = [
-    1 => '0.01 / 1.00', // 经典斗地主 - 小资场
-    2 => '1.00 / 18.00', // 经典斗地主 - 老板场
-    3 => '5.00 / 120.00', // 经典斗地主 - 土豪场
-
-    4 => '0.01 / 1.00', // 欢乐斗地主 - 小资场
-    5 => '1.00 / 24.00', // 欢乐斗地主 - 老板场
-    6 => '5.00 / 120.00', // 欢乐斗地主 - 土豪场
-
-    7 => '0.01 / 1.00', // 癞子斗地主 - 小资场
-    8 => '1.00 / 18.00', // 癞子斗地主 - 老板场
-    9 => '5.00 / 120.00', // 癞子斗地主 - 土豪场
-
-    10 => '1 / 50.00', // 炸金花 - 小资场
-    11 => '5.00 / 300.00', // 炸金花 - 老板场
-    12 => '10.00 / 600.00', // 炸金花 - 土豪场
-
-    13 => '1.00 / 50.00', // 抢庄牛牛 - 小资场
-    14 => '5.00 / 300.00', // 抢庄牛牛 - 老板场
-    15 => '10.00 / 500.00', // 抢庄牛牛 - 土豪场
-
-    16 => '1.00 / 50.00', // 看牌牛牛 - 小资场
-    17 => '5.00 / 250.00', // 看牌牛牛 - 老板场
-    18 => '10.00 / 500.00', // 看牌牛牛 - 土豪场
-
-    19 => '1.00 / 50.00', // 德州扑克 - 小资场
-    20 => '5.00 / 200.00', // 德州扑克 - 老板场
-    21 => '50.00 / 2000.00', // 德州扑克 - 土豪场
-
-    22 => '1.00 / 50.00', // 十三水 - 小资场
-    23 => '5.00 / 400.00', // 十三水 - 老板场
-    24 => '10.00 / 1000.00', // 十三水 - 土豪场
-
-    25 => '1.00 / 50.00', // 龙虎斗
-
-    26 => '1.00 / 50.00', // 红黑大战
-
-    27 => '1.00 / 50.00', // 百人牛牛
-
-    28 => '1.00 / 50.00', // 奔驰宝马
-
-    29 => '1.00 / 50.00', // 百家乐
-];
-
 
 // 投注记录表, 游戏id => 表
 const gameHistoryTables = [

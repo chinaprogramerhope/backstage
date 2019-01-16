@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { promotionBalanceLogGet } from '@/api/finance'
+import { promotionBalanceLogGet } from '@/api/promotion'
 
 export default {
   data() {

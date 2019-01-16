@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { promotionStatisticsGet } from '@/api/finance'
+import { promotionStatisticsGet } from '@/api/promotion'
 
 export default {
   data() {

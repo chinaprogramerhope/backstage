@@ -95,9 +95,8 @@
 </template>
 
 <script>
-import { promotionCorrectionGetId } from '@/api/finance'
-import { promotionCorrectionUpdate } from '@/api/finance'
-import { promotionCorrectionGetLog } from '@/api/finance'
+import { promotionCorrectionGetLog } from '@/api/promotion'
+import { payAccountManageCreate } from '@/api/finance'
 
 export default {
   data() {

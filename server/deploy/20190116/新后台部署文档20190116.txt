@@ -1,0 +1,19 @@
+1. 复制server目录
+
+2. 
+	2.1 cp server/config/confDb.php.Prod server/config/confDb.php
+	2.2 若部署到nginx服务器, 为了解决跨域, 注释掉 server/index.php 中的这行: "header("Access-Control-Allow-Origin:*");"
+	2.3 运行脚本, 初始化redis中的游戏状态: /usr/local/php/5.6.36/bin/php server/script/initGameStatus.php
+
+3. 创建相关数据库和表, 在sql文件中
+
+4. 复制 client/config 和 client/src 目录
+	4.1 更改client/config/dev.env.js中的BASE_API, 改为server对应的ip和端口  "http://47.244.177.7:8091/index.php"
+	4.2 更改client/config/index.js 中的 host为 '0.0.0.0', port为'8090'
+
+5. 重启client服务器
+	5.1 关闭client服务器: 杀死npm进程
+	5.2 启动client服务器: 进入client目录, npm run dev (后台运行: nohup npm run dev > /dev/null &)
+
+6. 登录后台: http://47.244.177.7:8090/#/login   账号:admin   密码:111111
+

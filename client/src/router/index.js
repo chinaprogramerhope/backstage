@@ -292,15 +292,15 @@ export const constantRouterMap = [
         meta: {
           title: '公告列表'
         }
-      },
-      {
-        path: 'stationMessage',
-        component: () => import('@/views/message/stationMessage'),
-        name: 'stationMessage',
-        meta: {
-          title: '站内消息 - 未开放'
-        }
       }
+      // {
+      //   path: 'stationMessage',
+      //   component: () => import('@/views/message/stationMessage'),
+      //   name: 'stationMessage',
+      //   meta: {
+      //     title: '站内消息 - 未开放'
+      //   }
+      // }
     ]
   },
 
@@ -482,73 +482,73 @@ export const constantRouterMap = [
     ]
   },
 
-  // 活动管理
-  {
-    path: '/activity',
-    component: Layout,
-    redirect: '/activity/index',
-    alwaysShow: true,
-    meta: {
-      title: '活动管理 - 未开放',
-      icon: 'gift'
-    },
-    children: [
-      {
-        path: 'activityReport',
-        component: () => import('@/views/activity/activityReport'),
-        name: 'activityReport',
-        meta: {
-          title: '活动报表'
-        }
-      },
-      {
-        path: 'activityList',
-        component: () => import('@/views/activity/activityList'),
-        name: 'activityList',
-        meta: {
-          title: '活动列表'
-        }
-      },
-      {
-        path: 'commonActivity',
-        component: () => import('@/views/activity/commonActivity'),
-        name: 'commonActivity',
-        meta: {
-          title: '常规活动'
-        }
-      }
-    ]
-  },
+  // // 活动管理
+  // {
+  //   path: '/activity',
+  //   component: Layout,
+  //   redirect: '/activity/index',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: '活动管理 - 未开放',
+  //     icon: 'gift'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'activityReport',
+  //       component: () => import('@/views/activity/activityReport'),
+  //       name: 'activityReport',
+  //       meta: {
+  //         title: '活动报表'
+  //       }
+  //     },
+  //     {
+  //       path: 'activityList',
+  //       component: () => import('@/views/activity/activityList'),
+  //       name: 'activityList',
+  //       meta: {
+  //         title: '活动列表'
+  //       }
+  //     },
+  //     {
+  //       path: 'commonActivity',
+  //       component: () => import('@/views/activity/commonActivity'),
+  //       name: 'commonActivity',
+  //       meta: {
+  //         title: '常规活动'
+  //       }
+  //     }
+  //   ]
+  // },
 
-  // 网站管理
-  {
-    path: '/website',
-    component: Layout,
-    redirect: '/website/index',
-    alwaysShow: true,
-    meta: {
-      title: '网站管理 - 未开放',
-      icon: 'web'
-    },
-    children: [
-      {
-        path: 'bannerSetting',
-        component: () => import('@/views/website/bannerSetting'),
-        name: 'bannerSetting',
-        meta: {
-          title: '轮播图设置'
-        }
-      },
-      {
-        path: 'adsetting',
-        component: () => import('@/views/website/adsetting'),
-        name: 'adsetting',
-        meta: {
-          title: '广告图设置'
-        }
-      }
-    ]
-  },
+  // // 网站管理
+  // {
+  //   path: '/website',
+  //   component: Layout,
+  //   redirect: '/website/index',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: '网站管理 - 未开放',
+  //     icon: 'web'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'bannerSetting',
+  //       component: () => import('@/views/website/bannerSetting'),
+  //       name: 'bannerSetting',
+  //       meta: {
+  //         title: '轮播图设置'
+  //       }
+  //     },
+  //     {
+  //       path: 'adsetting',
+  //       component: () => import('@/views/website/adsetting'),
+  //       name: 'adsetting',
+  //       meta: {
+  //         title: '广告图设置'
+  //       }
+  //     }
+  //   ]
+  // },
 
   // 注册
   {

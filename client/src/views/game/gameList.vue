@@ -35,8 +35,11 @@
           <div v-else-if="scope.row.gameStatus==='维护中'">
             <el-tag type="warning" size="medium">{{ scope.row.gameStatus }}</el-tag>
           </div>
-          <div v-else>
+          <div v-else-if="scope.row.gameStatus==='开发中'">
             <el-tag type="danger" size="medium">{{ scope.row.gameStatus }}</el-tag>
+          </div>
+          <div v-else>
+            <el-tag type="info" size="medium">{{ scope.row.gameStatus }}</el-tag>
           </div>
         </template>
       </el-table-column>
@@ -108,6 +111,9 @@ export default {
       }, {
         'label': '维护中',
         'value': 3
+      }, {
+        'label': '开发中',
+        'value': 4
       }],
 
       // tableData
@@ -131,6 +137,9 @@ export default {
         }, {
           label: '维护中',
           value: 3
+        }, {
+          label: '开发中',
+          value: 4
         }]
       }
     }
@@ -185,21 +194,21 @@ export default {
           switch (gameStatus) {
             case 1:
               this.$notify({
-                title: '启用游戏成功',
+                title: '启用游戏失败',
                 message: '',
                 type: 'error'
               })
               break
             case 2:
               this.$notify({
-                title: '关闭游戏成功',
+                title: '关闭游戏失败',
                 message: '',
                 type: 'error'
               })
               break
             case 3:
               this.$notify({
-                title: '维护游戏成功',
+                title: '维护游戏失败',
                 message: '',
                 type: 'error'
               })
