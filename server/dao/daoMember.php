@@ -30,6 +30,163 @@ class daoMember {
     }
 
     /**
+     * 用户详情 - 获取用户详细信息
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function getDetail($param, &$data) {
+        $userId = intval($param['userId']);
+        $indexArr = clsUtility::getUserDBPos($userId);
+
+        if (!is_array($indexArr) || empty($indexArr)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getUserDBPos fail, userId = ' . $userId);
+            return ERR_INVALID_USER_ID;
+        }
+
+        $dbIndex = $indexArr['dbindex'];
+        $tableIndex = $indexArr['tableindex'];
+
+        $dbName = 'casinouserdb_' . $dbIndex;
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $tableName = 'casinouser_' . $tableIndex;
+
+        /**
+         * 用户基础信息 -
+         *
+         * 用户id - id
+         * 上级:
+         * 用户等级: 比如 普通会员, vip1, vip2 等
+         * 真实姓名: userIDCardName
+         * 用户状态: todo 是黑名单吗
+         * E-mail: user_email
+         * 手机号码: mobile_number
+         * 微信号码:
+         * QQ号码:
+         * 账户id: user_email
+         * 注册时间: registertime - timestamp
+         * 最后登录时间: last_login_time - bigint
+         * 密码: password
+         * 资金密码:
+         * 用户标签:
+         * 设备唯一标识码: todo user_device_id, uuid, mac 哪个是
+         * 备注:
+         *
+         * 账户信息 -
+         *
+         * 账户余额: wallet total_total_money todo
+         * 保险箱余额:
+         * 支付宝: alipay_account
+         * 银行卡:
+         * 银行名称:
+         * 充值次数: payBonusGameCount todo
+         * 充值金额: payContribution todo
+         * 提现次数:
+         * 提现金额:
+         * 返水金额:
+         *
+         * 会员权限设置 -
+         *
+         *
+         * 用户游戏信息 -
+         *
+         * 游戏:
+         * 游戏次数: total_competition_times todo
+         * 输赢:
+         * 最后游戏时间:
+         *
+         * 用户活动信息:
+         *
+         * 时间:
+         * IP: lastLoginIp
+         * 地址: location
+         * 行为: 比如 官方充值请求, 用户绑定实名信息, 微信登录 等
+         */
+        $sql = 'select id, userIDCardName, user_email, mobile_number, registertime, last_login_time, password, wallet,';
+        $sql .= ' alipay_account, payBonusGameCount, payContribution, total_competition_times, lastLoginIp, location';
+        $sql .= ' from ' . $tableName;
+        $sql .= ' where id = :userId';
+
+        $pdoParam = [
+            ':userId' => $userId
+        ];
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute($pdoParam);
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
+        $row = $stmt->fetch();
+        if (!empty($row)) {
+            $data = $row;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql
+                . ', pdoParam = ' . json_encode($pdoParam). ', dbIndex = ' . json_encode($dbIndex));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 用户详情 - 更新用户详细信息
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function updateDetail($param, &$data) {
+        $userId = intval($param['userId']);
+        $realName = $param['realName'];
+        $mobileNumber = $param['mobileNumber'];
+        $aliPayAccount = $param['aliPayAccount'];
+
+        $indexArr = clsUtility::getUserDBPos($userId);
+
+        if (!is_array($indexArr) || empty($indexArr)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getUserDBPos fail, userId = ' . $userId);
+            return ERR_INVALID_USER_ID;
+        }
+
+        $dbIndex = $indexArr['dbindex'];
+        $tableIndex = $indexArr['tableindex'];
+
+        $dbName = 'casinouserdb_' . $dbIndex;
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        $tableName = 'casinouser_' . $tableIndex;
+
+        $sql = 'update ' . $tableName;
+        $sql .= ' set userIDCardName = :realName, mobile_number = :mobileNumber, alipay_account = :aliPayAccount';
+        $sql .= ' where id = :userId';
+
+        $pdoParam = [
+            ':userId' => $userId,
+            ':realName' => $realName,
+            ':mobileNumber' => $mobileNumber,
+            ':aliPayAccount' => $aliPayAccount
+        ];
+        $stmt = $pdo->prepare($sql);
+        $ret = $stmt->execute($pdoParam);
+        if (!$ret) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXECUTE_FAIL;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
      * 获取登陆日志
      * @param $param
      * @param $data
@@ -411,7 +568,7 @@ class daoMember {
                 if (!empty($sql)) {
                     $sql .= ' union all ';
                 }
-                $sql .= 'select id, user_email, registertime, alipay_real_name';
+                $sql .= 'select id, user_email, registertime, userIDCardName';
                 $sql .= ' from ' . $tableName;
 
                 $haveWhere = false;
@@ -434,9 +591,9 @@ class daoMember {
 
                 if ($realName !== '') {
                     if ($haveWhere) {
-                        $sql .= ' and alipay_real_name like :realName';
+                        $sql .= ' and userIDCardName like :realName';
                     } else {
-                        $sql .= ' where alipay_real_name like :realName';
+                        $sql .= ' where userIDCardName like :realName';
                         $haveWhere = true;
                     }
                     $pdoParam[':realName'] = '%' . $realName . '%';
@@ -513,7 +670,7 @@ class daoMember {
 
         $tableName = 'casinouser_' . $tableIndex;
 
-        $sql = 'select id, user_email, registertime, alipay_real_name';
+        $sql = 'select id, user_email, registertime, userIDCardName';
         $sql .= ' from ' . $tableName;
         $sql .= ' where id = :userId';
 

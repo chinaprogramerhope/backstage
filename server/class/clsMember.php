@@ -106,4 +106,24 @@ class clsMember {
     public static function delLv($param, &$data) {
         return daoMember::delLv($param, $data);
     }
+
+    /**
+     * 用户详情 - 获取用户详细信息
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function getDetail($param, &$data) {
+        return daoMember::getDetail($param, $data);
+    }
+
+    /**
+     * 用户详情 - 更新用户详细信息
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function updateDetail($param, &$data) {
+        return daoMember::updateDetail($param, $data);
+    }
 }

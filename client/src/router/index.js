@@ -84,6 +84,13 @@ export const constantRouterMap = [
         }
       },
       {
+        path: 'memberDetail',
+        component: () => import('@/views/member/memberDetail'),
+        name: 'memberDetail',
+        meta: { title: 'memberDetail', noCache: true },
+        hidden: true
+      },
+      {
         path: 'memberLog',
         component: () => import('@/views/member/memberLog'),
         name: 'memberLog',

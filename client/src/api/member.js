@@ -241,3 +241,49 @@ export function delLv(name) {
 
   return ret
 }
+
+/**
+ * 会员管理 - 获取用户详细信息
+ * @param {*} userId - 用户id
+ */
+export function getDetail(userId) {
+  const data = {
+    cmd: 61,
+    param: {
+      userId: userId
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 会员管理 - 更新用户详细信息
+ * @param {*} userId
+ * @param {*} realName
+ * @param {*} mobileNumber
+ * @param {*} aliPayAccount
+ */
+export function updateDetail(userId, realName, mobileNumber, aliPayAccount) {
+  const data = {
+    cmd: 62,
+    param: {
+      userId: userId,
+      realName: realName,
+      mobileNumber: mobileNumber,
+      aliPayAccount: aliPayAccount
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}

@@ -51,6 +51,7 @@
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   value-format="yyyy-MM-dd HH:mm:ss"
+                  style="width:250px"
                 />
               </el-form-item>
             </el-col>
@@ -99,7 +100,7 @@
           <el-table-column min-width="10%" prop="online" label="在线" align="center"/>
           <el-table-column min-width="10%" prop="id" label="用户id" align="center"/>
           <el-table-column min-width="15%" prop="user_email" label="账号id" align="center"/>
-          <el-table-column min-width="10%" prop="alipay_real_name" label="真实姓名" align="center"/>
+          <el-table-column min-width="10%" prop="userIDCardName" label="真实姓名" align="center"/>
           <el-table-column min-width="10%" prop="upLine" label="上级" align="center"/>
           <el-table-column min-width="10%" prop="downLineNum" label="下级人数" align="center"/>
           <el-table-column min-width="15%" prop="registertime" label="注册日期" align="center" sortable/>
@@ -128,7 +129,10 @@
             <template slot-scope="scope">
               <el-row :gutter="40">
                 <el-col :span="6">
-                  <el-button size="mini" @click="handleDetail()">详情</el-button>
+                  <!-- <router-link :to="'/member/memberDetail'"> -->
+                  <router-link :to="{path:'/member/memberDetail', query:{userId:scope.row.id}}">
+                    <el-button type="primary" size="mini" @click="handleDetail()">详情</el-button>
+                  </router-link>
                 </el-col>
                 <el-col :span="6">
                   <div v-if="scope.row.status==='黑名单'">

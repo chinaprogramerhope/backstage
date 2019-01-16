@@ -32,6 +32,9 @@ const cmdArr = [
     59 => ['svc' => 'svcMember', 'func' => 'editLv'], // 编辑等级
     60 => ['svc' => 'svcMember', 'func' => 'delLv'], // 删除等级
 
+    61 => ['svc' => 'svcMember', 'func' => 'getDetail'], // 用户详情 - 获取用户详细信息
+    62 => ['svc' => 'svcMember', 'func' => 'updateDetail'], // 用户详情 - 更新用户详细信息
+
     // 游戏管理 101 - 150
     101 => ['svc' => 'svcGame', 'func' => 'listGet'], // 游戏列表 - 获取游戏列表
     102 => ['svc' => 'svcGame', 'func' => 'listChangeStatus'], // 游戏列表 - 编辑(更改游戏状态) - 废弃
@@ -44,6 +47,7 @@ const cmdArr = [
     109 => ['svc' => 'svcGame', 'func' => 'groupCancelPopular'], // 游戏分组 - 取消热门
     110 => ['svc' => 'svcGame', 'func' => 'betRecordGet'], // 投注记录 - 获取
     111 => ['svc' => 'svcGame', 'func' => 'betRecordGetDetail'], // 投注记录 - 获取详细
+    112 => ['svc' => 'svcGame', 'func' => 'betRecordGetBaseScore'], // 投注记录 - 获取某游戏的底分
 
     // 财务管理 151 - 200
     151 => ['svc' => 'svcFinance', 'func' => 'manualOperate'], // 人工存提

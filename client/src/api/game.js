@@ -91,17 +91,37 @@ export function listChangeStatus(gameName, gameStatus) {
  * 投注记录 - 获取
  * @param {*} dateRange
  * @param {*} gameId
- * @param {*} roomId
+ * @param {*} baseScore
  * @param {*} userId
  */
-export function betRecordGet(dateRange, gameId, roomId, userId) {
+export function betRecordGet(dateRange, gameId, baseScore, userId) {
   const data = {
     cmd: 110,
     param: {
       dateRange: dateRange,
       gameId: gameId,
-      roomId: roomId,
+      baseScore: baseScore,
       userId: userId
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 投注记录 - 获取某游戏的底分
+ * @param {*} gameId
+ */
+export function betRecordGetBaseScore(gameId) {
+  const data = {
+    cmd: 112,
+    param: {
+      gameId: gameId
     }
   }
 

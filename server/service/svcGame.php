@@ -116,4 +116,19 @@ class svcGame {
     public function betRecordGetDetail($param, &$data) {
         return clsGame::betRecordGetDetail($param, $data);
     }
+
+    /**
+     * 投注记录 - 获取某游戏的底分
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function betRecordGetBaseScore($param, &$data) {
+        if (!isset($param['gameId']) || !array_key_exists(intval($param['gameId']), gameBaseScore)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsGame::betRecordGetBaseScore($param, $data);
+    }
 }

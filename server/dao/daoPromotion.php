@@ -104,11 +104,14 @@ class daoPromotion {
      * @return int
      */
     public static function promotionAccountGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $dbName = 'db_smc';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
         }
+
+        $param['parentId'] = isset($param['parentId']) ? $param['parentId'] : 0;
 
         $sql = 'select id, account, channel_name as channelName, agent_balance as agentBalance, balance,';
         $sql .= ' status, last_login_time as lastLoginTime, last_login_ip as lastLoginIp, level';
@@ -163,7 +166,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionAccountAdd($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -209,7 +213,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionAccountEdit($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -255,7 +260,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionAccountOperationLogGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -301,7 +307,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionAccountIncomeGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -347,7 +354,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionBalanceLogGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $dbName = 'db_smc';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -439,7 +447,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionStatisticsGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $dbName = 'db_smc';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -483,7 +492,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionStatisticsOneGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -529,7 +539,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionStatisticsOneQuery($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -580,7 +591,8 @@ class daoPromotion {
         $retTmp = [];
         try {
             // 1. proid_smc_user
-            $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+            $dbName = 'db_smc';
+            $pdo = clsMysql::getInstance($dbName);
             if (null === $pdo) {
                 clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
                 return ERR_MYSQL_CONNECT_FAIL;
@@ -607,7 +619,8 @@ class daoPromotion {
             }
 
             // 2. proid_user_channel
-            $pdo = clsMysql::getInstance(mysqlConfig['casinogamehisdb']);
+            $dbName = 'casinogamehisdb';
+            $pdo = clsMysql::getInstance($dbName);
             if (null === $pdo) {
                 clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
                 return ERR_MYSQL_CONNECT_FAIL;
@@ -682,7 +695,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionCorrectionUpdate($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinostatdb']);
+        $dbName = 'casinostatdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -728,7 +742,8 @@ class daoPromotion {
      * @return int
      */
     public static function promotionCorrectionGetLog($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['db_smc']);
+        $dbName = 'db_smc';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
@@ -843,7 +858,8 @@ class daoPromotion {
 
         clsLog::info(__METHOD__ . ', ' . __LINE__ . ', getChannelFromRegisTab, table = ' . $tabFrom);
 
-        $pdo = clsMysql::getInstance(mysqlConfig['casinogamehisdb']);
+        $dbName = 'casinogamehisdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return [];
@@ -878,7 +894,8 @@ class daoPromotion {
      * @return bool
      */
     private static function doAddChannelRecord($user_id, $channelid, $promotion_id = 0) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinogamehisdb']);
+        $dbName = 'casinogamehisdb';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return false;

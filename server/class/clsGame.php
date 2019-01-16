@@ -118,6 +118,16 @@ class clsGame {
     }
 
     /**
+     * 投注记录 - 获取某游戏的底分
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function betRecordGetBaseScore($param, &$data) {
+        return daoGame::betRecordGetBaseScore($param, $data);
+    }
+
+    /**
      * 根据roomId获取与该roomId对应的游戏房间名相同的所有roomId
      * @param $roomId
      * @return array
@@ -147,11 +157,11 @@ class clsGame {
      * @param $dateBegin
      * @param $dateEnd
      * @param $gameId
-     * @param $roomId
+     * @param $baseScore
      * @param $userId
      * @return string
      */
-    public static function betRecordGetGenerateSql(&$pdo, $dateBegin, $dateEnd, $gameId, $roomId, $userId) {
+    public static function betRecordGetGenerateSql(&$pdo, $dateBegin, $dateEnd, $gameId, $baseScore, $userId) {
         $sql = '';
 
         $tsBegin = strtotime($dateBegin);
@@ -160,7 +170,7 @@ class clsGame {
             for ($i = $tsBegin; $i <= $tsEnd; $i += 86400) {
                 $tableSuffix = date('Ymd', $i);
 
-                $oneDaySql = self::getOneDaySql($pdo, $gameId, $roomId, $userId, $tableSuffix);
+                $oneDaySql = self::getOneDaySql($pdo, $gameId, $baseScore, $userId, $tableSuffix);
                 $sql .= $oneDaySql;
             }
         } else { // 如果没有选择日期, 默认取最近30天的数据
@@ -171,7 +181,7 @@ class clsGame {
 
                 clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', tableSuffix = ' . $tableSuffix);
 
-                $oneDaySql = self::getOneDaySql($pdo, $gameId, $roomId, $userId, $tableSuffix);
+                $oneDaySql = self::getOneDaySql($pdo, $gameId, $baseScore, $userId, $tableSuffix);
                 $sql .= $oneDaySql;
             }
         }
@@ -185,12 +195,12 @@ class clsGame {
      * 生成 (投注记录 - 获取)方法 一天的sql
      * @param $pdo
      * @param $gameId
-     * @param $roomId
+     * @param $baseScore
      * @param $userId
      * @param $tableSuffix - 日期
      * @return string
      */
-    public static function getOneDaySql(&$pdo, $gameId, $roomId, $userId, $tableSuffix) {
+    public static function getOneDaySql(&$pdo, $gameId, $baseScore, $userId, $tableSuffix) {
         $sql = '';
 
         if ($gameId === -1) {
@@ -206,18 +216,25 @@ class clsGame {
                     if (clsUtility::checkTableExist($pdo, $tableName)) { // 表存在
                         $sql .= 'select user_id as userId, user_nickname as userNickname,';
                         $sql .= ' "' . $gameName . '" as gameName,';
-                        $sql .= ' room_id as roomId, game_number as gameNumber, user_game_result as userGameResult,';
+                        $sql .= ' game_number as gameNumber, (user_score_end - user_score_begin) as userGameResult,';
                         $sql .= ' user_table_fee as userTableFee, user_score_begin as userScoreBegin,';
                         $sql .= ' user_score_end as userScoreEnd, game_time as gameTime, record_timestamp as recordTimestamp';
+
+                        // 判断是否存在 room_basescore 字段 (bairen类的游戏表中不存在该字段, 且表结构跟其他不同)
+                        if (clsUtility::checkColumnExist('room_basescore', $tableName, $pdo)) {
+                            $sql .= ', room_basescore as roomBaseScore';
+                        } else {
+                            $sql .= ', ' . baiRenBaseScore . ' as roomBaseScore';
+                        }
+
                         $sql .= ' from ' . $tableName;
 
                         $haveWhere = false;
 
-                        if ($roomId !== -1) {
-                            $roomIdArr = clsGame::getRoomIdArr($roomId);
-                            if (!empty($roomIdArr)) {
-                                $in = implode(',', $roomIdArr);
-                                $sql .= ' where room_id in (' . $in . ')';
+                        if ($baseScore !== -1) {
+                            // 判断是否存在 room_basescore 字段 (bairen类的游戏表中不存在该字段, 且表结构跟其他不同)
+                            if (clsUtility::checkColumnExist('room_basescore', $tableName, $pdo)) {
+                                $sql .= ' where room_basescore = ' . $baseScore;
                                 $haveWhere = true;
                             }
                         }
@@ -257,18 +274,25 @@ class clsGame {
             if (clsUtility::checkTableExist($pdo, $tableName)) { // 表存在
                 $sql .= 'select user_id as userId, user_nickname as userNickname,';
                 $sql .= ' "' . $gameName . '" as gameName,';
-                $sql .= ' room_id as roomId, game_number as gameNumber, user_game_result as userGameResult,';
+                $sql .= ' game_number as gameNumber, user_game_result as userGameResult,';
                 $sql .= ' user_table_fee as userTableFee, user_score_begin as userScoreBegin,';
                 $sql .= ' user_score_end as userScoreEnd, game_time as gameTime, record_timestamp as recordTimestamp';
+
+                // 判断是否存在 room_basescore 字段 (bairen类的游戏表中不存在该字段, 且表结构跟其他不同)
+                if (clsUtility::checkColumnExist('room_basescore', $tableName, $pdo)) {
+                    $sql .= ', room_basescore as roomBaseScore';
+                } else {
+                    $sql .= ', ' . baiRenBaseScore . ' as roomBaseScore';
+                }
+
                 $sql .= ' from ' . $tableName;
 
                 $haveWhere = false;
 
-                if ($roomId !== -1) {
-                    $roomIdArr = clsGame::getRoomIdArr($roomId);
-                    if (!empty($roomIdArr)) {
-                        $in = implode(',', $roomIdArr);
-                        $sql .= ' where room_id in (' . $in . ')';
+                if ($baseScore !== -1) {
+                    // 判断是否存在 room_basescore 字段 (bairen类的游戏表中不存在该字段, 且表结构跟其他不同)
+                    if (clsUtility::checkColumnExist('room_basescore', $tableName, $pdo)) {
+                        $sql .= ' where room_basescore = ' . $baseScore;
                         $haveWhere = true;
                     }
                 }

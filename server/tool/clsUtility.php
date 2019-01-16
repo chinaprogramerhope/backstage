@@ -139,4 +139,33 @@ class clsUtility {
         );
         return $ret;
     }
+
+    /**
+     * 判断表中是否存在某字段
+     * @param $columnName
+     * @param $tableName
+     * @return bool
+     */
+    public static function checkColumnExist($columnName, $tableName, &$pdo) {
+        $sql  = 'desc ' . $tableName . ' ' . $columnName;
+        try {
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute();
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+            $row = $stmt->fetch();
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', sql = ' . $sql);
+            return false;
+        }
+        if (empty($row)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql);
+            return false;
+        }
+
+        return true;
+    }
 }

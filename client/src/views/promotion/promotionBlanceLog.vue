@@ -35,7 +35,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" size="mini" icon="el-icon-search" @click="onGet">查询 (默认显示最近30天)</el-button>
+        <el-button type="primary" size="mini" icon="el-icon-search" @click="onGet()">查询 (默认显示最近30天)</el-button>
       </el-form-item>
 
     </el-form>
@@ -81,7 +81,20 @@ export default {
   data() {
     return {
       form1: {
-        dpValue1: ''
+        dpValue1: '',
+        account: '',
+        useId: '',
+        selectLogType: -1,
+        optionsLogType: [{
+          label: '全部',
+          value: -1
+        }, {
+          label: '后台增减信用金',
+          value: 1
+        }, {
+          label: '推广代理充值',
+          value: 2
+        }]
       },
 
       // tableData

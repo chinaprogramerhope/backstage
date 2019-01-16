@@ -148,4 +148,37 @@ class svcMember {
 
         return clsMember::delLv($param, $data);
     }
+
+    /**
+     * 用户详情 - 获取用户详细信息
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function getDetail($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsMember::getDetail($param, $data);
+    }
+
+    /**
+     * 用户详情 - 更新用户详细信息
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function updateDetail($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])
+            || !isset($param['realName']) || empty($param['realName'])
+            || !isset($param['mobileNumber']) || empty($param['mobileNumber'])
+            || !isset($param['aliPayAccount']) || empty($param['aliPayAccount'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsMember::updateDetail($param, $data);
+    }
 }

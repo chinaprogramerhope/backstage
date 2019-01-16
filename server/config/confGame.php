@@ -26,101 +26,101 @@ const PAY_PLATFORM_JUBAOYUN = 3; // 聚宝云
 const PAY_PLATFORM_HUIONE = 4; // 汇旺
 const PAY_PLATFORM_YUFU = 5; // 裕付
 const PAY_PLATFORM_CHANGFU = 6; // 畅付云
-define('PAY_PLATFORM_PINFU', 11);	// 品付
-define('PAY_PLATFORM_ZFB_LUOKE', 12);	// 支付宝洛客
-define('PAY_PLATFORM_CAIHONG', 13);	// 彩虹
-define('PAY_PLATFORM_ZFB_JUNYING', 14);	// 支付宝君赢
-define('PAY_PLATFORM_ZFB_ZHIHUI', 15);	// 支付宝智慧
-define('PAY_PLATFORM_TMPAY', 16);	// TMPay
-define('PAY_PLATFORM_ABPAY', 17);	// 爱贝
-define('PAY_PLATFORM_YUFU_CARD', 18);	// 裕付卡支付
-define('PAY_PLATFORM_ZFB_QIANKUN', 19);	// 支付宝乾坤
-define('PAY_PLATFORM_ZFB_TRANSFER', 20);	// 支付宝转账
-define('PAY_PLATFORM_ZFB_TRANSFER_WEB', 21);	// 支付宝web转账
-define('PAY_PLATFORM_CHANGFU_CARD', 22);	// 畅付卡支付
-define('PAY_PLATFORM_ZFB_ZGY', 23);	// 支付宝众根源
-define('PAY_PLATFORM_ZFB_YD', 24);	// 支付宝勇度
-define('PAY_PLATFORM_ZFB_LEIZ', 25);	// 支付宝雷正
-define('PAY_PLATFORM_ZFB_LONGZ', 26);	// 支付宝龙泽
-define('PAY_PLATFORM_ZFB_MYW', 27);	// 支付宝蚂蚁王
-define('PAY_PLATFORM_ZFB_SHDKJ', 28);	// 支付宝盛恒达科技
-define('PAY_PLATFORM_ZFB_SKLKJ', 29);	// 支付宝顺科利科技
-define('PAY_PLATFORM_JMPAY', 30);	// 聚米支付
-define('PAY_PLATFORM_WEIPAY', 31);	// 微派支付
+define('PAY_PLATFORM_PINFU', 11);    // 品付
+define('PAY_PLATFORM_ZFB_LUOKE', 12);    // 支付宝洛客
+define('PAY_PLATFORM_CAIHONG', 13);    // 彩虹
+define('PAY_PLATFORM_ZFB_JUNYING', 14);    // 支付宝君赢
+define('PAY_PLATFORM_ZFB_ZHIHUI', 15);    // 支付宝智慧
+define('PAY_PLATFORM_TMPAY', 16);    // TMPay
+define('PAY_PLATFORM_ABPAY', 17);    // 爱贝
+define('PAY_PLATFORM_YUFU_CARD', 18);    // 裕付卡支付
+define('PAY_PLATFORM_ZFB_QIANKUN', 19);    // 支付宝乾坤
+define('PAY_PLATFORM_ZFB_TRANSFER', 20);    // 支付宝转账
+define('PAY_PLATFORM_ZFB_TRANSFER_WEB', 21);    // 支付宝web转账
+define('PAY_PLATFORM_CHANGFU_CARD', 22);    // 畅付卡支付
+define('PAY_PLATFORM_ZFB_ZGY', 23);    // 支付宝众根源
+define('PAY_PLATFORM_ZFB_YD', 24);    // 支付宝勇度
+define('PAY_PLATFORM_ZFB_LEIZ', 25);    // 支付宝雷正
+define('PAY_PLATFORM_ZFB_LONGZ', 26);    // 支付宝龙泽
+define('PAY_PLATFORM_ZFB_MYW', 27);    // 支付宝蚂蚁王
+define('PAY_PLATFORM_ZFB_SHDKJ', 28);    // 支付宝盛恒达科技
+define('PAY_PLATFORM_ZFB_SKLKJ', 29);    // 支付宝顺科利科技
+define('PAY_PLATFORM_JMPAY', 30);    // 聚米支付
+define('PAY_PLATFORM_WEIPAY', 31);    // 微派支付
 define('PAY_PLATFORM_KAIXIN', 32); // 凯新支付
-define('PAY_PLATFORM_ZHONGTIETONG',33);  // 中铁通付
-define('PAY_PLATFORM_ZHONGTIETONG_QQ',34);  // 中铁通付qq
-define('PAY_PLATFORM_FANQIE',35);  // 番茄支付
+define('PAY_PLATFORM_ZHONGTIETONG', 33);  // 中铁通付
+define('PAY_PLATFORM_ZHONGTIETONG_QQ', 34);  // 中铁通付qq
+define('PAY_PLATFORM_FANQIE', 35);  // 番茄支付
 define('PAY_PLATFORM_LUYI', 36); //路易支付
-define('PAY_PLATFORM_CHANGCHENGYUN',37);//长城云支付
-define('PAY_PLATFORM_ZFB_HYXXKJ',38); //支付宝汇亿信息科技
-define('PAY_PLATFORM_ZFB_HCWLKJ',39); //支付宝宏潮网络科技
-define('PAY_PLATFORM_ZFB_PXWLKJ',40); //支付宝鹏兴网络科技
-define('PAY_PLATFORM_ZFB_XWWLKJ',41); //支付宝兴旺网络科技
-define('PAY_PLATFORM_ZFB_XQXXKJ',42); //支付宝星祺信息科技
-define('PAY_PLATFORM_ZFB_CYXXKJ',43); //支付宝长远信息科技
-define('PAY_PLATFORM_ZFB_TSWLKJ',44); //支付宝天胜网络科技
-define('PAY_PLATFORM_ZFB_JKWLKJ',45); //支付宝吉凯网络科技
-define('PAY_PLATFORM_ZFB_XHWLKJ',46); //支付宝星瀚网络科技
-define('PAY_PLATFORM_JUHE',47);//聚合支付
-define('PAY_PLATFORM_HUIYI',48);//汇亿支付
-define('PAY_PLATFORM_LUYI_QQWAP',49);//路易QQWAP
-define('PAY_PLATFORM_ZFB_CSXXKJ',50);//支付宝常胜信息科技
-define('PAY_PLATFORM_CHANGCHENGQQH5',51);//长城QQ钱包
-define('PAY_PLATFORM_HAIFUPAY',52); //海富支付
-define('PAY_PLATFORM_ZFB_CHWLKJ',53);//支付宝晨海网络科技
-define('PAY_PLATFORM_ZFB_HYWLKJ',54); //支付宝红英网络科技
-define('PAY_PLATFORM_ZFB_FBWLKJ',55); //支付宝风暴网络科技
-define('PAY_PLATFORM_ZFB_MYWLKJ',56); //支付宝明月网络科技
-define('PAY_PLATFORM_ZFB_WXWLKJ',57); //支付宝温馨网络科技
-define('PAY_PLATFORM_HUICHAO_ALI',58); //汇潮支付
-define('PAY_PLATFORM_DUODEBAO_ALI',59); //多得宝支付
-define('PAY_PLATFORM_WEIQQ', 60);	// 微派QQ钱包
-define('PAY_PLATFORM_ZFB_DETXXKJ', 61);	// 支付宝达尔特信息科技
-define('PAY_PLATFORM_ZFB_KSYLWLKJ', 62);	// 支付宝凯盛亚利网络科技
-define('PAY_PLATFORM_ZFB_OTGYWLKJ', 63);	// 支付宝欧特格雅网络科技
-define('PAY_PLATFORM_LUYI_QQ99', 64);	// 路易QQ99
-define('PAY_PLATFORM_LUYI_JD155', 65);	// 路易JD155
-define('PAY_PLATFORM_CHANGCHENGYUN_JD', 66);	//长城云京东
-define('PAY_PLATFORM_CHANGCHENGYUN_WX', 67);	//长城云微信
-define('PAY_PLATFORM_YISHENG_JD', 68);	//易生京东
-define('PAY_PLATFORM_ZFB_MJXXKJ',69); //支付宝淼吉信息科技
-define('PAY_PLATFORM_ZFB_YYWLKJ',70); //支付宝盈悦网络科技
-define('PAY_PLATFORM_ZFB_XSWLKJ',71); //支付宝晓胜网络科技
-define('PAY_PLATFORM_JFT',72); //竣付通
-define('PAY_PLATFORM_CHANGCHENGYUN_BANK', 73);	//长城云银联
-define('PAY_PLATFORM_WEIPAY_5', 74);	// 微派支付
-define('PAY_PLATFORM_ZFB_LGWLKJ',75); 	//广州流光网络科技有限公司
-define('PAY_PLATFORM_DSPAY',76); 	//得仕支付
-define('PAY_PLATFORM_ZFB_MENJUNWLKJ',77); // 梦君网络科技
-define('PAY_PLATFORM_ZHIHUIFU',79); // 智汇付
+define('PAY_PLATFORM_CHANGCHENGYUN', 37);//长城云支付
+define('PAY_PLATFORM_ZFB_HYXXKJ', 38); //支付宝汇亿信息科技
+define('PAY_PLATFORM_ZFB_HCWLKJ', 39); //支付宝宏潮网络科技
+define('PAY_PLATFORM_ZFB_PXWLKJ', 40); //支付宝鹏兴网络科技
+define('PAY_PLATFORM_ZFB_XWWLKJ', 41); //支付宝兴旺网络科技
+define('PAY_PLATFORM_ZFB_XQXXKJ', 42); //支付宝星祺信息科技
+define('PAY_PLATFORM_ZFB_CYXXKJ', 43); //支付宝长远信息科技
+define('PAY_PLATFORM_ZFB_TSWLKJ', 44); //支付宝天胜网络科技
+define('PAY_PLATFORM_ZFB_JKWLKJ', 45); //支付宝吉凯网络科技
+define('PAY_PLATFORM_ZFB_XHWLKJ', 46); //支付宝星瀚网络科技
+define('PAY_PLATFORM_JUHE', 47);//聚合支付
+define('PAY_PLATFORM_HUIYI', 48);//汇亿支付
+define('PAY_PLATFORM_LUYI_QQWAP', 49);//路易QQWAP
+define('PAY_PLATFORM_ZFB_CSXXKJ', 50);//支付宝常胜信息科技
+define('PAY_PLATFORM_CHANGCHENGQQH5', 51);//长城QQ钱包
+define('PAY_PLATFORM_HAIFUPAY', 52); //海富支付
+define('PAY_PLATFORM_ZFB_CHWLKJ', 53);//支付宝晨海网络科技
+define('PAY_PLATFORM_ZFB_HYWLKJ', 54); //支付宝红英网络科技
+define('PAY_PLATFORM_ZFB_FBWLKJ', 55); //支付宝风暴网络科技
+define('PAY_PLATFORM_ZFB_MYWLKJ', 56); //支付宝明月网络科技
+define('PAY_PLATFORM_ZFB_WXWLKJ', 57); //支付宝温馨网络科技
+define('PAY_PLATFORM_HUICHAO_ALI', 58); //汇潮支付
+define('PAY_PLATFORM_DUODEBAO_ALI', 59); //多得宝支付
+define('PAY_PLATFORM_WEIQQ', 60);    // 微派QQ钱包
+define('PAY_PLATFORM_ZFB_DETXXKJ', 61);    // 支付宝达尔特信息科技
+define('PAY_PLATFORM_ZFB_KSYLWLKJ', 62);    // 支付宝凯盛亚利网络科技
+define('PAY_PLATFORM_ZFB_OTGYWLKJ', 63);    // 支付宝欧特格雅网络科技
+define('PAY_PLATFORM_LUYI_QQ99', 64);    // 路易QQ99
+define('PAY_PLATFORM_LUYI_JD155', 65);    // 路易JD155
+define('PAY_PLATFORM_CHANGCHENGYUN_JD', 66);    //长城云京东
+define('PAY_PLATFORM_CHANGCHENGYUN_WX', 67);    //长城云微信
+define('PAY_PLATFORM_YISHENG_JD', 68);    //易生京东
+define('PAY_PLATFORM_ZFB_MJXXKJ', 69); //支付宝淼吉信息科技
+define('PAY_PLATFORM_ZFB_YYWLKJ', 70); //支付宝盈悦网络科技
+define('PAY_PLATFORM_ZFB_XSWLKJ', 71); //支付宝晓胜网络科技
+define('PAY_PLATFORM_JFT', 72); //竣付通
+define('PAY_PLATFORM_CHANGCHENGYUN_BANK', 73);    //长城云银联
+define('PAY_PLATFORM_WEIPAY_5', 74);    // 微派支付
+define('PAY_PLATFORM_ZFB_LGWLKJ', 75);    //广州流光网络科技有限公司
+define('PAY_PLATFORM_DSPAY', 76);    //得仕支付
+define('PAY_PLATFORM_ZFB_MENJUNWLKJ', 77); // 梦君网络科技
+define('PAY_PLATFORM_ZHIHUIFU', 79); // 智汇付
 define('PAY_PLATFORM_JUHENEW', 80);// 新聚合支付
 define('PAY_PLATFORM_GUANGDA', 81);// 光大支付
 define('PAY_PLATFORM_OFDSC', 82);// OF商城
-define('PAY_PLATFORM_WEIJD', 83);	// 微派京东
-define('PAY_PLATFORM_ZHJH', 84);	// 兆行聚合
-define('PAY_PLATFORM_IMPAY', 85);	// im支付
-define('PAY_PLATFORM_JMWXPAY', 86);	// 聚米微信
-define('PAY_PLATFORM_PAIPAY', 87);	// 派支付
-define('PAY_PLATFORM_PFWXSM', 88);	// 品付微信扫码
-define('PAY_PLATFORM_WEENPAY', 89);	// ween支付
+define('PAY_PLATFORM_WEIJD', 83);    // 微派京东
+define('PAY_PLATFORM_ZHJH', 84);    // 兆行聚合
+define('PAY_PLATFORM_IMPAY', 85);    // im支付
+define('PAY_PLATFORM_JMWXPAY', 86);    // 聚米微信
+define('PAY_PLATFORM_PAIPAY', 87);    // 派支付
+define('PAY_PLATFORM_PFWXSM', 88);    // 品付微信扫码
+define('PAY_PLATFORM_WEENPAY', 89);    // ween支付
 define('PAY_PLATFORM_ZFB_GZJXXXJS', 90); // 广州爵星信息技术有限公司
-define('PAY_PLATFORM_RONGYINPAY', 91);	// 蓉银支付
-define('PAY_PLATFORM_JKWLKJ', 92);	//会昶支付
-define('PAY_PLATFORM_BLKYJF', 93);	//80卡云计费
-define('PAY_PLATFORM_GXZF', 94);	//广讯支付
-define('PAY_PLATFORM_BLKYJF_QQ', 95);	//80卡云计费QQ
-define('PAY_PLATFORM_JSF_ZFB', 96);	//及时付支付宝
-define('PAY_PLATFORM_JSF_BANK', 97);	//及时付银联
-define('PAY_PLATFORM_HFT_ZFB', 98);	//合付通支付宝
-define('PAY_PLATFORM_PROMOTION', 99);	//推广代理充值
-define('PAY_PLATFORM_JHT_ZFB', 100);	//金汇通
-define('PAY_PLATFORM_YUNBEI_ZFB', 101);	//云贝支付宝
-define('PAY_PLATFORM_MOSHANG_ZFB', 102);	//陌上支付宝
-define('PAY_PLATFORM_YBNEW_ZFB', 103);	//云贝新支付
-define('PAY_PLATFORM_WEEN_ZFB', 104);	//WEEN支付宝
-define('PAY_PLATFORM_YR_ZFB', 105);	// 永仁支付宝
-define('PAY_PLATFORM_521JB_ZFB', 106);	// 521jb支付宝
+define('PAY_PLATFORM_RONGYINPAY', 91);    // 蓉银支付
+define('PAY_PLATFORM_JKWLKJ', 92);    //会昶支付
+define('PAY_PLATFORM_BLKYJF', 93);    //80卡云计费
+define('PAY_PLATFORM_GXZF', 94);    //广讯支付
+define('PAY_PLATFORM_BLKYJF_QQ', 95);    //80卡云计费QQ
+define('PAY_PLATFORM_JSF_ZFB', 96);    //及时付支付宝
+define('PAY_PLATFORM_JSF_BANK', 97);    //及时付银联
+define('PAY_PLATFORM_HFT_ZFB', 98);    //合付通支付宝
+define('PAY_PLATFORM_PROMOTION', 99);    //推广代理充值
+define('PAY_PLATFORM_JHT_ZFB', 100);    //金汇通
+define('PAY_PLATFORM_YUNBEI_ZFB', 101);    //云贝支付宝
+define('PAY_PLATFORM_MOSHANG_ZFB', 102);    //陌上支付宝
+define('PAY_PLATFORM_YBNEW_ZFB', 103);    //云贝新支付
+define('PAY_PLATFORM_WEEN_ZFB', 104);    //WEEN支付宝
+define('PAY_PLATFORM_YR_ZFB', 105);    // 永仁支付宝
+define('PAY_PLATFORM_521JB_ZFB', 106);    // 521jb支付宝
 
 // 渠道
 const channelList = [
@@ -144,61 +144,61 @@ const payType = [
 ];
 
 const payPlatform = [ // add_time, pay_success_time
-    PAY_PLATFORM_JUBAOYUN=>'pay_success_time',// 3 聚宝云
-    PAY_PLATFORM_HUIONE=>'add_time',// 4 汇旺
-    PAY_PLATFORM_YUFU=>'add_time',// 5 裕付
-    PAY_PLATFORM_CHANGFU=>'add_time',// 6 畅付云
-    PAY_PLATFORM_PINFU=>'add_time',// 11 品付
-    PAY_PLATFORM_ZFB_LUOKE=>'pay_success_time',// 12 支付宝洛客
-    PAY_PLATFORM_CAIHONG=>'add_time',// 13 彩虹
-    PAY_PLATFORM_ZFB_JUNYING=>'pay_success_time',// 14 支付宝君赢
-    PAY_PLATFORM_ZFB_ZHIHUI=>'pay_success_time',// 15 支付宝智慧
-    PAY_PLATFORM_TMPAY=>'add_time',// 16 TMPay
-    PAY_PLATFORM_ABPAY=>'add_time',// 17 爱贝
-    PAY_PLATFORM_YUFU_CARD=>'add_time',// 18 裕付卡支付
-    PAY_PLATFORM_ZFB_QIANKUN=>'pay_success_time',// 19 支付宝乾坤
-    PAY_PLATFORM_ZFB_TRANSFER=>'add_time',// 20 支付宝转账
-    PAY_PLATFORM_ZFB_TRANSFER_WEB=>'pay_success_time',// 21 支付宝web转账
-    PAY_PLATFORM_CHANGFU_CARD=>'add_time',// 22 畅付卡支付
-    PAY_PLATFORM_ZFB_ZGY=>'pay_success_time',// 23 支付宝众根源
-    PAY_PLATFORM_ZFB_YD=>'pay_success_time',// 24 支付宝勇度
-    PAY_PLATFORM_ZFB_LEIZ=>'pay_success_time',// 25 支付宝雷正
-    PAY_PLATFORM_ZFB_LONGZ=>'pay_success_time',// 26 支付宝龙泽
-    PAY_PLATFORM_ZFB_MYW=>'pay_success_time',// 27 支付宝蚂蚁王
-    PAY_PLATFORM_ZFB_SHDKJ=>'pay_success_time',// 28 支付宝盛恒达科技
-    PAY_PLATFORM_ZFB_SKLKJ=>'pay_success_time',// 29 支付宝顺科利科技
-    PAY_PLATFORM_JMPAY=>'add_time',// 30 聚米支付
-    PAY_PLATFORM_WEIPAY=>'pay_success_time',//31 微派支付-到帐时间
-    PAY_PLATFORM_KAIXIN=>'add_time',// 32 凯新支付
-    PAY_PLATFORM_ZHONGTIETONG=>'add_time',// 33 中铁通付
-    PAY_PLATFORM_ZHONGTIETONG_QQ=>'add_time',// 34 中铁通付qq
-    PAY_PLATFORM_FANQIE=>'pay_success_time',// 35 番茄支付-到帐时间
-    PAY_PLATFORM_LUYI=>'pay_success_time',// 36 路易支付
-    PAY_PLATFORM_CHANGCHENGYUN=>'add_time',// 37 长城云支付
-    PAY_PLATFORM_ZFB_HYXXKJ=>'pay_success_time',// 38 支付宝汇亿信息科技
-    PAY_PLATFORM_ZFB_HCWLKJ=>'pay_success_time',// 39 支付宝宏潮网络科技
-    PAY_PLATFORM_ZFB_PXWLKJ=>'pay_success_time',// 40 支付宝鹏兴网络科技
-    PAY_PLATFORM_ZFB_XWWLKJ=>'pay_success_time',// 41 支付宝兴旺网络科技
-    PAY_PLATFORM_ZFB_XQXXKJ=>'pay_success_time',// 42 支付宝星祺信息科技
-    PAY_PLATFORM_ZFB_CYXXKJ=>'pay_success_time',// 43 支付宝长远信息科技
-    PAY_PLATFORM_ZFB_TSWLKJ=>'pay_success_time',// 44 支付宝天胜网络科技
-    PAY_PLATFORM_ZFB_JKWLKJ=>'pay_success_time',// 45 支付宝吉凯网络科技
-    PAY_PLATFORM_ZFB_XHWLKJ=>'pay_success_time',// 46 支付宝星瀚网络科技
-    PAY_PLATFORM_JUHE=>'pay_success_time',// 47聚合
-    PAY_PLATFORM_HUIYI=>'pay_success_time',// 48汇亿
-    PAY_PLATFORM_LUYI_QQWAP=>'pay_success_time',// 49路易QQWAP
-    PAY_PLATFORM_ZFB_CSXXKJ=>'pay_success_time',// 50支付宝常胜信息科技
-    PAY_PLATFORM_CHANGCHENGQQH5=>'add_time',// 51 长城QQ钱包
-    PAY_PLATFORM_HAIFUPAY=>'add_time',//52 海富支付
-    PAY_PLATFORM_ZFB_CHWLKJ=>'pay_success_time',//53 支付宝晨海网络科技
-    PAY_PLATFORM_ZFB_HYWLKJ=>'pay_success_time',//54 支付宝红英网络科技
-    PAY_PLATFORM_ZFB_FBWLKJ=>'pay_success_time',//55 支付宝风暴网络科技
-    PAY_PLATFORM_ZFB_MYWLKJ=>'pay_success_time',//56 支付宝明月网络科技
-    PAY_PLATFORM_ZFB_WXWLKJ=>'pay_success_time',//57 支付宝温馨网络科技
-    PAY_PLATFORM_LUYI_QQ99=>'pay_success_time',//路易QQ99
-    PAY_PLATFORM_WEIQQ=>'pay_success_time',// 60 微派QQ
-    99=>'add_time',
-    100=>'add_time',
+    PAY_PLATFORM_JUBAOYUN => 'pay_success_time',// 3 聚宝云
+    PAY_PLATFORM_HUIONE => 'add_time',// 4 汇旺
+    PAY_PLATFORM_YUFU => 'add_time',// 5 裕付
+    PAY_PLATFORM_CHANGFU => 'add_time',// 6 畅付云
+    PAY_PLATFORM_PINFU => 'add_time',// 11 品付
+    PAY_PLATFORM_ZFB_LUOKE => 'pay_success_time',// 12 支付宝洛客
+    PAY_PLATFORM_CAIHONG => 'add_time',// 13 彩虹
+    PAY_PLATFORM_ZFB_JUNYING => 'pay_success_time',// 14 支付宝君赢
+    PAY_PLATFORM_ZFB_ZHIHUI => 'pay_success_time',// 15 支付宝智慧
+    PAY_PLATFORM_TMPAY => 'add_time',// 16 TMPay
+    PAY_PLATFORM_ABPAY => 'add_time',// 17 爱贝
+    PAY_PLATFORM_YUFU_CARD => 'add_time',// 18 裕付卡支付
+    PAY_PLATFORM_ZFB_QIANKUN => 'pay_success_time',// 19 支付宝乾坤
+    PAY_PLATFORM_ZFB_TRANSFER => 'add_time',// 20 支付宝转账
+    PAY_PLATFORM_ZFB_TRANSFER_WEB => 'pay_success_time',// 21 支付宝web转账
+    PAY_PLATFORM_CHANGFU_CARD => 'add_time',// 22 畅付卡支付
+    PAY_PLATFORM_ZFB_ZGY => 'pay_success_time',// 23 支付宝众根源
+    PAY_PLATFORM_ZFB_YD => 'pay_success_time',// 24 支付宝勇度
+    PAY_PLATFORM_ZFB_LEIZ => 'pay_success_time',// 25 支付宝雷正
+    PAY_PLATFORM_ZFB_LONGZ => 'pay_success_time',// 26 支付宝龙泽
+    PAY_PLATFORM_ZFB_MYW => 'pay_success_time',// 27 支付宝蚂蚁王
+    PAY_PLATFORM_ZFB_SHDKJ => 'pay_success_time',// 28 支付宝盛恒达科技
+    PAY_PLATFORM_ZFB_SKLKJ => 'pay_success_time',// 29 支付宝顺科利科技
+    PAY_PLATFORM_JMPAY => 'add_time',// 30 聚米支付
+    PAY_PLATFORM_WEIPAY => 'pay_success_time',//31 微派支付-到帐时间
+    PAY_PLATFORM_KAIXIN => 'add_time',// 32 凯新支付
+    PAY_PLATFORM_ZHONGTIETONG => 'add_time',// 33 中铁通付
+    PAY_PLATFORM_ZHONGTIETONG_QQ => 'add_time',// 34 中铁通付qq
+    PAY_PLATFORM_FANQIE => 'pay_success_time',// 35 番茄支付-到帐时间
+    PAY_PLATFORM_LUYI => 'pay_success_time',// 36 路易支付
+    PAY_PLATFORM_CHANGCHENGYUN => 'add_time',// 37 长城云支付
+    PAY_PLATFORM_ZFB_HYXXKJ => 'pay_success_time',// 38 支付宝汇亿信息科技
+    PAY_PLATFORM_ZFB_HCWLKJ => 'pay_success_time',// 39 支付宝宏潮网络科技
+    PAY_PLATFORM_ZFB_PXWLKJ => 'pay_success_time',// 40 支付宝鹏兴网络科技
+    PAY_PLATFORM_ZFB_XWWLKJ => 'pay_success_time',// 41 支付宝兴旺网络科技
+    PAY_PLATFORM_ZFB_XQXXKJ => 'pay_success_time',// 42 支付宝星祺信息科技
+    PAY_PLATFORM_ZFB_CYXXKJ => 'pay_success_time',// 43 支付宝长远信息科技
+    PAY_PLATFORM_ZFB_TSWLKJ => 'pay_success_time',// 44 支付宝天胜网络科技
+    PAY_PLATFORM_ZFB_JKWLKJ => 'pay_success_time',// 45 支付宝吉凯网络科技
+    PAY_PLATFORM_ZFB_XHWLKJ => 'pay_success_time',// 46 支付宝星瀚网络科技
+    PAY_PLATFORM_JUHE => 'pay_success_time',// 47聚合
+    PAY_PLATFORM_HUIYI => 'pay_success_time',// 48汇亿
+    PAY_PLATFORM_LUYI_QQWAP => 'pay_success_time',// 49路易QQWAP
+    PAY_PLATFORM_ZFB_CSXXKJ => 'pay_success_time',// 50支付宝常胜信息科技
+    PAY_PLATFORM_CHANGCHENGQQH5 => 'add_time',// 51 长城QQ钱包
+    PAY_PLATFORM_HAIFUPAY => 'add_time',//52 海富支付
+    PAY_PLATFORM_ZFB_CHWLKJ => 'pay_success_time',//53 支付宝晨海网络科技
+    PAY_PLATFORM_ZFB_HYWLKJ => 'pay_success_time',//54 支付宝红英网络科技
+    PAY_PLATFORM_ZFB_FBWLKJ => 'pay_success_time',//55 支付宝风暴网络科技
+    PAY_PLATFORM_ZFB_MYWLKJ => 'pay_success_time',//56 支付宝明月网络科技
+    PAY_PLATFORM_ZFB_WXWLKJ => 'pay_success_time',//57 支付宝温馨网络科技
+    PAY_PLATFORM_LUYI_QQ99 => 'pay_success_time',//路易QQ99
+    PAY_PLATFORM_WEIQQ => 'pay_success_time',// 60 微派QQ
+    99 => 'add_time',
+    100 => 'add_time',
 ];
 
 const payTimeDelay = [];
@@ -228,8 +228,8 @@ const qqPay = [
     PAY_PLATFORM_WEENPAY => 'ween支付',
     PAY_PLATFORM_BLKYJF_QQ => '80卡云计费QQ',
     PAY_PLATFORM_LUYI_QQWAP => '路易QQWAP',
-    PAY_PLATFORM_CHANGCHENGQQH5=>'长城QQ钱包',
-    PAY_PLATFORM_WEIQQ=>'微派QQ钱包',
+    PAY_PLATFORM_CHANGCHENGQQH5 => '长城QQ钱包',
+    PAY_PLATFORM_WEIQQ => '微派QQ钱包',
     PAY_PLATFORM_LUYI_QQ99 => '路易QQ99',
     PAY_PLATFORM_PINFU => '品付',
     PAY_PLATFORM_JUBAOYUN => '聚宝云',
@@ -249,7 +249,7 @@ const wxPay = [
 
 const aliPayPay = [
     PAY_PLATFORM_CHANGCHENGYUN => '长城云',
-    PAY_PLATFORM_PAIPAY=>'派支付',
+    PAY_PLATFORM_PAIPAY => '派支付',
     PAY_PLATFORM_RONGYINPAY => '蓉银支付',
     PAY_PLATFORM_HFT_ZFB => '合付通支付宝',
     PAY_PLATFORM_MOSHANG_ZFB => '陌上支付宝',
@@ -268,12 +268,12 @@ const aliPayPay = [
     PAY_PLATFORM_WEIPAY => '微派',
     PAY_PLATFORM_ZHONGTIETONG => '中铁通',
     PAY_PLATFORM_LUYI => '路易支付',
-    PAY_PLATFORM_ZFB_TRANSFER=>'支付宝转账',
-    PAY_PLATFORM_ZFB_TRANSFER_WEB=>'支付宝web转账',
+    PAY_PLATFORM_ZFB_TRANSFER => '支付宝转账',
+    PAY_PLATFORM_ZFB_TRANSFER_WEB => '支付宝web转账',
     PAY_PLATFORM_HAIFUPAY => '海富支付',
     PAY_PLATFORM_JFT => '竣付通',
     PAY_PLATFORM_WEIPAY_5 => '微派（5点）',
-    PAY_PLATFORM_ZHJH=>'兆行聚合',
+    PAY_PLATFORM_ZHJH => '兆行聚合',
 ];
 
 const officialAliPayPay = [
@@ -283,7 +283,7 @@ const officialAliPayPay = [
     PAY_PLATFORM_ZFB_MJXXKJ => '支付宝淼吉信息科技',
     PAY_PLATFORM_ZFB_YYWLKJ => '支付宝盈悦网络科技',
     PAY_PLATFORM_ZFB_XSWLKJ => '支付宝晓胜网络科技',
-    PAY_PLATFORM_ZFB_OTGYWLKJ=>'支付宝欧特格雅网络科技',
+    PAY_PLATFORM_ZFB_OTGYWLKJ => '支付宝欧特格雅网络科技',
     PAY_PLATFORM_ZFB_LGWLKJ => '支付宝流光网络科技',
     PAY_PLATFORM_ZFB_MENJUNWLKJ => '支付宝梦君网络科技',
     PAY_PLATFORM_ZFB_GZJXXXJS => '支付宝爵星信息技术',
@@ -390,7 +390,6 @@ const roomIdName = [
 ];
 
 
-
 // 游戏状态
 const gameStatusNormal = 1; // 正常
 const gameStatusClose = 2; // 禁用
@@ -465,6 +464,66 @@ const gameIdLimit = [
     ],
 ];
 
+// 游戏底分
+const gameBaseScore = [
+    gameIdTexasPokerPuTong => [
+        1.00,
+        5.00,
+        50.00
+    ],
+    gameIdNiuNiuQiangZhuang => [
+        1.00,
+        5.00,
+        10.00
+    ],
+    gameIdNiuNiuSeenCardQZ => [
+        1.00,
+        5.00,
+        10.00
+    ],
+    gameIdNiuNiuBaiRen => [
+        1.00,
+    ],
+    gameIdZhaJinHua => [
+        1.00,
+        5.00,
+        10.00
+    ],
+    gameIdRedBlack => [
+        1.00,
+    ],
+    gameIdDouDiZhu => [
+        0.01,
+        1.00,
+        5.00
+    ],
+    gameIdDouDiZhuHuanLe => [
+        0.01,
+        1.00,
+        5.00
+    ],
+    gameIdShiSanZhang => [
+        1.00,
+        5.00,
+        10.00
+    ],
+    gameIdShiSanZhang_5 => [
+        1.00,
+    ],
+    gameIdPaoDeKuai => [
+        1.00,
+    ],
+    gameIdBenChiBaoMa => [
+        1.00,
+    ],
+    gameIdDragonTiger => [
+        1.00,
+    ],
+    gameIdBaiJiaLe => [
+        1.00,
+    ],
+];
+
 
 // 游戏类型 - 游戏底分
 const gameType = [
@@ -517,7 +576,7 @@ const gameHistoryTables = [
     1 => 'casinogamerecord_texaspoker_',
     18 => 'casinogamerecord_niuniuqiangzhuang_',
     20 => '',
-    21 =>'casinogamerecord_bairenniuniu_',
+    21 => 'casinogamerecord_bairenniuniu_',
     49 => 'casinogamerecord_zjh_',
     52 => '',
     97 => 'casinogamerecord_ddz_',
@@ -529,6 +588,9 @@ const gameHistoryTables = [
     351 => '',
     352 => ''
 ];
+
+// 百人游戏底分, 数据库中格式: 真实底分 * 100
+const baiRenBaseScore = 100;
 
 
 /**

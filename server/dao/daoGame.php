@@ -137,7 +137,7 @@ class daoGame {
         }
 
         $gameId = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
-        $roomId = isset($param['roomId']) ? intval($param['roomId']) : -1;
+        $baseScore = isset($param['baseScore']) && intval($param['baseScore']) > 0 ? intval($param['baseScore']) * 100 : -1;
         $userId = isset($param['userId']) && !empty($param['userId']) ? $param['userId'] : -1;
 
         $pdoParam = [];
@@ -156,7 +156,9 @@ class daoGame {
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
-        $sql = clsGame::betRecordGetGenerateSql($pdo, $dateBegin, $dateEnd, $gameId, $roomId, $userId);
+        $sql = clsGame::betRecordGetGenerateSql($pdo, $dateBegin, $dateEnd, $gameId, $baseScore, $userId);
+
+        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', baseScore = ' . $baseScore);
 
         if (!empty($sql)) {
             $sql .= ' limit ' . maxQueryNum;
@@ -179,28 +181,30 @@ class daoGame {
                 $rows = $stmt->fetchAll();
 
                 if (!empty($rows)) {
+
+                    clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', rows = ' . json_encode($rows) . ', sql = ' . $sql);
+
                     foreach ($rows as &$row) {
-                        $roomId = intval($row['roomId']);
-                        if (array_key_exists($roomId, roomIdName) && !empty(roomIdName[$roomId])) {
-                            $row['roomName'] = roomIdName[$roomId];
-                        } else {
-                            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', undefined roomId, roomId = ' . $roomId);
-                            $row['roomName'] = '';
-                        }
-                        unset($row['roomId']);
+                        $row['roomBaseScore'] = isset($row['roomBaseScore']) ? $row['roomBaseScore'] : baiRenBaseScore;
+                        $row['roomBaseScore'] = number_format($row['roomBaseScore'] / 100, 2, '.', ' ');
+
+                        $row['userGameResult'] = number_format($row['userGameResult'] / 100, 2, '.', ' ');
+                        $row['userScoreBegin'] = number_format($row['userScoreBegin'] / 100, 2, '.', ' ');
+                        $row['userScoreEnd'] = number_format($row['userScoreEnd'] / 100, 2, '.', ' ');
                     }
                     unset($row);
+
+                    $data = $rows;
                 }
             } catch (Exception $e) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                    . ', sql = ' . $sql);
                 return ERR_MYSQL_EXCEPTION;
             }
         }
 
 //        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
 //        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', rows = ' . json_encode($rows));
-
-        $data = !empty($rows) ? $rows : [];
 
         return ERR_OK;
     }
@@ -212,6 +216,19 @@ class daoGame {
      * @return int
      */
     public static function betRecordGetDetail($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 投注记录 - 获取某游戏的底分
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function betRecordGetBaseScore($param, &$data) {
+        $gameId = intval($param['gameId']);
+
+        $data = gameBaseScore[$gameId];
         return ERR_OK;
     }
 }
