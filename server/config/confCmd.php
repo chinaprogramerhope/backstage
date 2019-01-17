@@ -146,7 +146,8 @@ const cmdArr = [
 
     353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
 
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
+    354 => ['svc' => 'svcOperation', 'func' => 'systemMaintenance'], // 系统维护 - 提交
+
     353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
     353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
     353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取

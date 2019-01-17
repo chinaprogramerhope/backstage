@@ -451,7 +451,7 @@ export const constantRouterMap = [
     redirect: '/operation/index',
     alwaysShow: true,
     meta: {
-      title: '运营管理 - 未开放',
+      title: '运营管理',
       icon: 'mouse'
     },
     children: [
@@ -605,6 +605,352 @@ export const constantRouterMap = [
         name: 'systemProfit',
         meta: {
           title: '系统利润 - 未开放'
+        }
+      }
+    ]
+  },
+
+  // 客服管理
+  {
+    path: '/customer',
+    component: Layout,
+    redirect: '/customer/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '客服管理',
+      icon: 'horn'
+    },
+    children: [
+      {
+        path: 'userInfo',
+        component: () => import('@/views/customer/userInfo'),
+        name: 'userInfo',
+        meta: {
+          title: '用户信息管理'
+        }
+      },
+      {
+        path: 'userRegisterList',
+        component: () => import('@/views/customer/userRegisterList'),
+        name: 'userRegisterList',
+        meta: {
+          title: '用户注册列表'
+        }
+      },
+      {
+        path: 'blackList',
+        component: () => import('@/views/customer/blackList'),
+        name: 'blackList',
+        meta: {
+          title: '黑名单信息管理'
+        }
+      },
+      {
+        path: 'gameLog',
+        component: () => import('@/views/customer/gameLog'),
+        name: 'gameLog',
+        meta: {
+          title: '玩家游戏记录'
+        }
+      },
+      {
+        path: 'goldLog',
+        component: () => import('@/views/customer/goldLog'),
+        name: 'goldLog',
+        meta: {
+          title: '玩家金豆变化记录'
+        }
+      },
+      {
+        path: 'goldLog24',
+        component: () => import('@/views/customer/goldLog24'),
+        name: 'goldLog24',
+        meta: {
+          title: '玩家金豆变化记录(24小时内)'
+        }
+      },
+      {
+        path: 'orderInfo',
+        component: () => import('@/views/customer/orderInfo'),
+        name: 'orderInfo',
+        meta: {
+          title: '玩家订单查询'
+        }
+      },
+      {
+        path: 'aliPayTransferCheck',
+        component: () => import('@/views/customer/aliPayTransferCheck'),
+        name: 'aliPayTransferCheck',
+        meta: {
+          title: '支付宝转账订单审核'
+        }
+      },
+      {
+        path: 'aliPayTransferFailLog',
+        component: () => import('@/views/customer/aliPayTransferFailLog'),
+        name: 'aliPayTransferFailLog',
+        meta: {
+          title: '支付宝转账出错报告'
+        }
+      },
+      {
+        path: 'aliPayTransferCard',
+        component: () => import('@/views/customer/aliPayTransferCard'),
+        name: 'aliPayTransferCard',
+        meta: {
+          title: '支付宝转账卡号卡密'
+        }
+      },
+      {
+        path: 'clientBug',
+        component: () => import('@/views/customer/clientBug'),
+        name: 'clientBug',
+        meta: {
+          title: '客户端缺陷工单'
+        }
+      },
+      {
+        path: 'userReport',
+        component: () => import('@/views/customer/userReport'),
+        name: 'userReport',
+        meta: {
+          title: '举报管理'
+        }
+      },
+      {
+        path: 'onlineService',
+        component: () => import('@/views/customer/onlineService'),
+        name: 'onlineService',
+        meta: {
+          title: '在线客服'
+        }
+      },
+      {
+        path: 'aliPayCashManage',
+        component: () => import('@/views/customer/aliPayCashManage'),
+        name: 'aliPayCashManage',
+        meta: {
+          title: '提现支付宝管理'
+        }
+      },
+      {
+        path: 'cashOrder',
+        component: () => import('@/views/customer/cashOrder'),
+        name: 'cashOrder',
+        meta: {
+          title: '提现订单'
+        }
+      },
+      {
+        path: 'paramConfig',
+        component: () => import('@/views/customer/paramConfig'),
+        name: 'paramConfig',
+        meta: {
+          title: '参数设置'
+        }
+      },
+      {
+        path: 'aliPayBlacklist',
+        component: () => import('@/views/customer/aliPayBlacklist'),
+        name: 'aliPayBlacklist',
+        meta: {
+          title: '支付宝黑名单'
+        }
+      },
+      {
+        path: 'chatAutoReply',
+        component: () => import('@/views/customer/chatAutoReply'),
+        name: 'chatAutoReply',
+        meta: {
+          title: '自动回复设置'
+        }
+      },
+      {
+        path: 'gameAgent',
+        component: () => import('@/views/customer/gameAgent'),
+        name: 'gameAgent',
+        meta: {
+          title: '游戏代理查询'
+        }
+      },
+      {
+        path: 'manualRecharge',
+        component: () => import('@/views/customer/manualRecharge'),
+        name: 'manualRecharge',
+        meta: {
+          title: '客服手工充值'
+        }
+      },
+      {
+        path: 'manualRechargeInfo',
+        component: () => import('@/views/customer/manualRechargeInfo'),
+        name: 'manualRechargeInfo',
+        meta: {
+          title: '客服手工充值查询'
+        }
+      },
+      {
+        path: 'agentRechargeRegister',
+        component: () => import('@/views/customer/agentRechargeRegister'),
+        name: 'agentRechargeRegister',
+        meta: {
+          title: '客服代理充值注册'
+        }
+      }
+    ]
+  },
+
+  // 运维管理
+  {
+    path: '/admin',
+    component: Layout,
+    redirect: '/admin/index',
+    alwaysShow: true,
+    meta: {
+      title: '运维管理',
+      icon: 'gift'
+    },
+    children: [
+      {
+        path: 'adminList',
+        component: () => import('@/views/admin/adminList'),
+        name: 'adminList',
+        meta: {
+          title: '管理员列表'
+        }
+      },
+      {
+        path: 'roleList',
+        component: () => import('@/views/admin/roleList'),
+        name: 'roleList',
+        meta: {
+          title: '角色列表'
+        }
+      },
+      {
+        path: 'loginLog',
+        component: () => import('@/views/admin/loginLog'),
+        name: 'loginLog',
+        meta: {
+          title: '管理员登录日志'
+        }
+      }
+    ]
+  },
+
+  // 运营报表
+  {
+    path: '/operationReport',
+    component: Layout,
+    redirect: '/operationReport/index',
+    alwaysShow: true,
+    meta: {
+      title: '运营报表',
+      icon: 'gift'
+    },
+    children: [
+      {
+        path: 'master',
+        component: () => import('@/views/operationReport/master'),
+        name: 'master',
+        meta: {
+          title: '运营数据总表'
+        }
+      },
+      {
+        path: 'chongTiChouShuiCurve',
+        component: () => import('@/views/operationReport/chongTiChouShuiCurve'),
+        name: 'chongTiChouShuiCurve',
+        meta: {
+          title: '充提抽水曲线'
+        }
+      },
+      {
+        path: 'channelStatistics',
+        component: () => import('@/views/operationReport/channelStatistics'),
+        name: 'channelStatistics',
+        meta: {
+          title: '渠道统计'
+        }
+      },
+      {
+        path: 'fishMaster',
+        component: () => import('@/views/operationReport/fishMaster'),
+        name: 'fishMaster',
+        meta: {
+          title: '捕鱼运营总表'
+        }
+      },
+      {
+        path: 'gameCityMaster',
+        component: () => import('@/views/operationReport/gameCityMaster'),
+        name: 'gameCityMaster',
+        meta: {
+          title: '电玩城运营总表'
+        }
+      },
+      {
+        path: 'onlineNumCurrent',
+        component: () => import('@/views/operationReport/onlineNumCurrent'),
+        name: 'onlineNumCurrent',
+        meta: {
+          title: '当前在线人数'
+        }
+      },
+      {
+        path: 'onlineNumHistory',
+        component: () => import('@/views/operationReport/onlineNumHistory'),
+        name: 'onlineNumHistory',
+        meta: {
+          title: '历史在线人数'
+        }
+      },
+      {
+        path: 'fishOnlineNumHistory',
+        component: () => import('@/views/operationReport/fishOnlineNumHistory'),
+        name: 'fishOnlineNumHistory',
+        meta: {
+          title: '捕鱼历史在线人数'
+        }
+      },
+      {
+        path: 'goldAndSafeBox',
+        component: () => import('@/views/operationReport/goldAndSafeBox'),
+        name: 'goldAndSafeBox',
+        meta: {
+          title: '金豆和保险箱变化表'
+        }
+      },
+      {
+        path: 'rechargeStatistics',
+        component: () => import('@/views/operationReport/rechargeStatistics'),
+        name: 'rechargeStatistics',
+        meta: {
+          title: '充值数据统计'
+        }
+      },
+      {
+        path: 'customerStatistics',
+        component: () => import('@/views/operationReport/customerStatistics'),
+        name: 'customerStatistics',
+        meta: {
+          title: '客服数据统计'
+        }
+      },
+      {
+        path: 'areaStatistics',
+        component: () => import('@/views/operationReport/areaStatistics'),
+        name: 'areaStatistics',
+        meta: {
+          title: '玩家ip区域统计'
+        }
+      },
+      {
+        path: 'ChongTiLog',
+        component: () => import('@/views/operationReport/ChongTiLog'),
+        name: 'ChongTiLog',
+        meta: {
+          title: '充值提现记录'
         }
       }
     ]

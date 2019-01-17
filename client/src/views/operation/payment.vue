@@ -213,7 +213,6 @@
 </template>
 
 <script>
-import { getDetail } from '@/api/member'
 import { updateDetail } from '@/api/member'
 
 export default {
@@ -297,17 +296,7 @@ export default {
   },
 
   created() {
-    getDetail(this.$route.query.userId).then(response => {
-      if (response.code === 0) {
-        this.form1 = response.data
-      } else {
-        this.$notify({
-          title: '获取数据失败: ' + response.msg,
-          message: '',
-          type: 'error'
-        })
-      }
-    })
+
   },
 
   methods: {
