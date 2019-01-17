@@ -37,4 +37,3 @@ $a = 'xx.php';
 $b = substr($a, -4);
 echo $b;
 
-
