@@ -177,4 +177,7 @@ const cmdArr = [
 
     454 => ['svc' => 'svcWebsite', 'func' => 'adSettingUpload'], // 广告图设置 - 上传
     455 => ['svc' => 'svcWebsite', 'func' => 'adSettingSave'], // 广告图设置 - 保存
+
+    // 客服管理 501 - 550
+    501 => ['svc' => 'svcCustomer', 'func' => 'userDetailGet'], // 用户信息管理 - 获取用户详细信息
 ];
