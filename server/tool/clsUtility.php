@@ -244,7 +244,8 @@ class clsUtility {
                     $sql .= ' union all ';
                 }
                 $sql .= 'select * from ' . $tableName . $where;
-                $sql .= ' limit ' . maxQueryNum;
+//                $sql .= ' limit ' . maxQueryNum;
+                $sql .= ' limit 3'; // todo 分页 因为超级卡
             }
             try {
                 $stmt = $pdo->prepare($sql);

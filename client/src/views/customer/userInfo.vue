@@ -8,12 +8,12 @@
       label-position="right"
       label-width="100px">
 
-      <el-form-item label="账号id:">
-        <el-input v-model="form1.accountId" placeholder="账号id" clearable/>
-      </el-form-item>
-
       <el-form-item label="用户id:">
         <el-input v-model="form1.userId" placeholder="用户id" clearable/>
+      </el-form-item>
+
+      <el-form-item label="账号id:">
+        <el-input v-model="form1.accountId" placeholder="账号id" clearable/>
       </el-form-item>
 
       <el-form-item label="支付宝账号:">
@@ -65,13 +65,20 @@
     <el-table
       :data="tableData1"
       stripe
-      style="width: 100%; margin-bottom: 20px">
+      height="500"
+      style="width: 100%; margin-bottom: 20px"
+    >
 
-      <el-table-column label="账号" align="center">
-        <el-table-column label="内容" prop="user_email"/>
+      <el-table-column label="用户id" align="center">
+        <el-table-column label="内容" prop="id"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">封账号</el-button>
+            <el-row style="margin-bottom:20px">
+              <el-button type="text" size="mini">踢出</el-button>
+            </el-row>
+            <el-row>
+              <el-button type="text" size="mini">封充值</el-button>
+            </el-row>
           </template>
         </el-table-column>
       </el-table-column>
@@ -79,7 +86,7 @@
         <el-table-column label="内容" prop="nickname"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -87,7 +94,7 @@
         <el-table-column label="内容" prop="password"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -95,21 +102,16 @@
         <el-table-column label="内容" prop="registertime"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
 
-      <el-table-column label="用户id" align="center">
-        <el-table-column label="内容" prop="id"/>
+      <el-table-column label="账号" align="center">
+        <el-table-column label="内容" prop="user_email"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-row style="margin-bottom:20px">
-              <el-button type="danger" size="mini">踢出</el-button>
-            </el-row>
-            <el-row>
-              <el-button type="danger" size="mini">封充值</el-button>
-            </el-row>
+            <el-button type="text" size="mini">封账号</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -117,7 +119,7 @@
         <el-table-column label="内容" prop="user_sex"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -125,7 +127,7 @@
         <el-table-column label="内容" prop="lastLoginIp"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -133,7 +135,7 @@
         <el-table-column label="内容" prop="last_login_time"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -142,7 +144,7 @@
         <el-table-column label="内容" prop="mac" />
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">封mac</el-button>
+            <el-button type="text" size="mini">封mac</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -150,7 +152,7 @@
         <el-table-column label="内容" prop="win_game"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -158,7 +160,7 @@
         <el-table-column label="内容" prop="lose_game"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -166,7 +168,7 @@
         <el-table-column label="内容" prop="draw_game"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -175,7 +177,7 @@
         <el-table-column label="内容" prop="user_device_id"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -183,7 +185,7 @@
         <el-table-column label="内容" prop="alipay_account"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改db</el-button>
+            <el-button type="text" size="mini">修改db</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -192,10 +194,10 @@
         <el-table-column label="操作">
           <template scope="scope">
             <el-row style="margin-bottom:20px">
-              <el-button type="danger" size="mini">修改db</el-button>
+              <el-button type="text" size="mini">修改db</el-button>
             </el-row>
             <el-row>
-              <el-button type="danger" size="mini">封提现</el-button>
+              <el-button type="text" size="mini">封提现</el-button>
             </el-row>
           </template>
         </el-table-column>
@@ -204,7 +206,7 @@
         <el-table-column label="内容" prop="boundmobilenumber"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改db</el-button>
+            <el-button type="text" size="mini">修改db</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -213,7 +215,7 @@
         <el-table-column label="内容" prop="ip"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">封ip</el-button>
+            <el-button type="text" size="mini">封ip</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -229,7 +231,7 @@
         <el-table-column label="内容" prop="channel_id"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -238,7 +240,7 @@
         <el-table-column label="内容" prop="activate_device"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -246,7 +248,7 @@
         <el-table-column label="内容" prop="secondmoney"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改db</el-button>
+            <el-button type="text" size="mini">修改db</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -254,7 +256,7 @@
         <el-table-column label="内容" prop="is_reported"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -262,7 +264,7 @@
         <el-table-column label="内容" prop="user_chips"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -271,7 +273,7 @@
         <el-table-column label="内容" prop="notecarddeviceeffectivetime"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -279,7 +281,7 @@
         <el-table-column label="内容" prop="cofferchips"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -287,7 +289,7 @@
         <el-table-column label="内容" prop="cofferpassword"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改db</el-button>
+            <el-button type="text" size="mini">修改db</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -295,7 +297,7 @@
         <el-table-column label="内容" prop="gunindex"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -304,7 +306,7 @@
         <el-table-column label="内容" prop="skill1num"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -312,7 +314,7 @@
         <el-table-column label="内容" prop="skill2num"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -320,7 +322,7 @@
         <el-table-column label="内容" prop="payContribution"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -329,7 +331,7 @@
         <el-table-column label="内容" prop="periodwinscore"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -337,7 +339,7 @@
         <el-table-column label="内容" prop="periodgamecount"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -345,7 +347,7 @@
         <el-table-column label="内容" prop="dailywinscore"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -353,7 +355,7 @@
         <el-table-column label="内容" prop="totalplayscore"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -362,7 +364,7 @@
         <el-table-column label="内容" prop="totalwinscore"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -370,7 +372,7 @@
         <el-table-column label="内容" prop="totalshotcount"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -378,7 +380,7 @@
         <el-table-column label="内容" prop="dailyshotcount"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -386,7 +388,7 @@
         <el-table-column label="内容" prop="forcepool"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -395,7 +397,7 @@
         <el-table-column label="内容" prop="rewardpool"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -403,7 +405,7 @@
         <el-table-column label="内容" prop="id"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -411,7 +413,7 @@
         <el-table-column label="内容" prop="id"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -419,7 +421,7 @@
         <el-table-column label="内容" prop="id"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -428,7 +430,7 @@
         <el-table-column label="内容" prop="mobile_number"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -436,7 +438,7 @@
         <el-table-column label="内容" prop="consecutive_login"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="warning" size="mini">禁止</el-button>
+            <el-tag type="warning" size="mini">禁止</el-tag>
           </template>
         </el-table-column>
       </el-table-column>
@@ -444,7 +446,7 @@
         <el-table-column label="内容" prop="user_avatar_url"/>
         <el-table-column label="操作">
           <template scope="scope">
-            <el-button type="danger" size="mini">修改</el-button>
+            <el-button type="text" size="mini">修改</el-button>
           </template>
         </el-table-column>
       </el-table-column>
@@ -566,8 +568,33 @@ export default {
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
+    // 查询
+    handleGet() {
+      const accountId = this.form1.accountId
+      const userId = this.form1.userId
+      const aliPayAccount = this.form1.aliPayAccount
+      const aliPayName = this.form1.aliPayName
+
+      const mac = this.form1.mac
+      const ip = this.form1.ip
+      const bindPhone = this.form1.bindPhone
+      const isRecharge = this.form1.isRecharge
+
+      userDetailGet(accountId, userId, aliPayAccount, aliPayName, mac, ip, bindPhone, isRecharge).then(response => {
+        if (response.code === 0) {
+          this.tableData1 = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 金豆+保险箱最大的
+    handleGetMax() {
 
     }
   }

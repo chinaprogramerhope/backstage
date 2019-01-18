@@ -27,7 +27,7 @@ class daoCustomer {
         /*
          * 获取表 casinouserdb_x.casinouser_x 信息
          */
-        if (!empty($param['userId'])) {
+        if (!empty($userId)) {
             $errCode = clsUtility::getUserInfo($userId, $retUserInfoList);
             if ($errCode !== ERR_OK) {
                 clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getUserInfo fail, '
