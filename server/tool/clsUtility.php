@@ -246,4 +246,108 @@ class clsUtility {
 
         return $finalRet;
     }
+
+    /**
+     * 获取一个表的数据
+     * @param $dbName - 数据库名
+     * @param $sql
+     * $param $pdoParam
+     * @return array
+     */
+    public static function getData($dbName, $sql, $pdoParam) {
+        $finalRet = [];
+
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return [];
+        }
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            if (!empty($pdoParam)) {
+                $ret = $stmt->execute($pdoParam);
+            } else {
+                $ret = $stmt->execute();
+            }
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                    . ', dbName = ' . $dbName);
+                return [];
+            }
+
+            $rows = $stmt->fetchAll();
+
+            clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', dbName = ' . $dbName . ', rows = ' . json_encode($rows)
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+
+            if (empty($rows)) {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql
+                    . ', dbName = ' . $dbName . ', pdoParam = ' . json_encode($pdoParam));
+                return [];
+            } else {
+                $finalRet = $rows;
+                return $finalRet;
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', dbName = ' . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return [];
+        }
+    }
+
+    /**
+     * 更新/插入/删除 表的数据
+     * @param $dbName
+     * @param $sql
+     * @param $pdoParam
+     * @return int
+     */
+    public static function updateData($dbName, $sql, $pdoParam) {
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            if (!empty($pdoParam)) {
+                $ret = $stmt->execute($pdoParam);
+            } else {
+                $ret = $stmt->execute();
+            }
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                    . ', dbName = ' . $dbName);
+                return ERR_MYSQL_EXECUTE_FAIL;
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', dbName = ' . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_MYSQL_EXCEPTION;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 获取格式化日期 - 若开始和结束日期存在, 结束日期加一天; 若开始和结束日期不存在, 返回一个月内的开始和结束日期
+     * @param $param
+     * @return array
+     */
+    public static function getFormatDate(&$param) {
+        if (isset($param['dateRange']) && !empty($param['dateRange'])) {
+            $dateBegin = $param['dateRange'][0];
+            $dateEnd = date('Y-m-d', strtotime($param['dateRange'][1]) + daySeconds);
+        } else {
+            $dateBegin = date('Y-m-d', strtotime('last month'));
+            $dateEnd = date('Y-m-d', strtotime('+1 day'));
+        }
+
+        return [
+            'dateBegin' => $dateBegin,
+            'dateEnd' => $dateEnd
+        ];
+    }
 }

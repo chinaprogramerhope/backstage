@@ -33,18 +33,20 @@
       stripe
       style="width: 100%; margin-bottom: 20px">
       <el-table-column min-width="10%" prop="userid" label="用户id" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="用户账号" align="center"/>
+      <el-table-column min-width="15%" prop="account" label="用户账号" align="center"/>
       <el-table-column min-width="10%" prop="registertime" label="注册时间" align="center"/>
       <el-table-column min-width="10%" prop="registerip" label="注册ip" align="center"/>
-      <el-table-column min-width="10%" prop="registermac" label="注册mac" align="center"/>
+      <el-table-column min-width="15%" prop="registermac" label="注册mac" align="center"/>
       <el-table-column min-width="10%" prop="operator" label="渠道" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="是否游客" align="center"/>
+      <el-table-column min-width="10%" prop="guest" label="是否游客" align="center"/>
     </el-table>
 
   </div>
 </template>
 
 <script>
+import { userRegisterListGet } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -58,14 +60,34 @@ export default {
   },
 
   created() {
-
+    userRegisterListGet(this.form1.dateRange).then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
-
+    // 查询
+    handleGet() {
+      userRegisterListGet(this.form1.dateRange).then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

@@ -237,8 +237,6 @@ class daoCustomer {
             'jindu' => $jinDu
         ];
 
-        // test
-        clsLog::debug('ok411, data = ' . json_encode($data));
         return ERR_OK;
     }
 
@@ -256,16 +254,28 @@ class daoCustomer {
             $tsBegin = strtotime($dateBegin);
             $tsEnd = strtotime($dateEnd);
         } else {
-            $tsBegin = strtotime(date('Y-m-d'));
-            $tsEnd = $tsBegin + daySeconds;
+            $tsToday = strtotime(date('Y-m-d'));
+
+            $tsBegin = $tsToday - monthSeconds;
+            $tsEnd = $tsToday;
         }
 
         $dbName = 'casinogamehisdb';
-        $tableName = 'CASINOREGISTERHISTORY';
+        $tablePrefix = 'CASINOREGISTERHISTORY';
+        $pdo = clsMysql::getInstance($dbName);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
 
         $sqlArr = [];
         for ($i = $tsBegin; $i <= $tsEnd; $i += daySeconds) {
-            $sqlArr[] = '(select * from ' . $tableName . date('Ymd', $i) . ')';
+            $tableName = $tablePrefix . date('Ymd', $i);
+            if (clsUtility::checkTableExist($pdo, $tableName)) {
+                $sqlArr[] = '(select * from ' . $tableName . ')';
+            } else {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not exist, tableName = ' . $tableName . ', dbName = ' . $dbName);
+            }
         }
         if (empty($sqlArr)) {
             clsLog::error(__METHOD__ . ', ' . __METHOD__ . ', invalid param, sql empty, param = ' . json_encode($param));
@@ -273,13 +283,8 @@ class daoCustomer {
         }
 
         $sql = implode(' union all ', $sqlArr);
-        $sql .= ' order by registertime desc limit ' . maxQueryNumTest;
+        $sql .= ' order by registertime desc limit ' . maxQueryNum;
 
-        $pdo = clsMysql::getInstance($dbName);
-        if ($pdo === null) {
-            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
-            return ERR_MYSQL_CONNECT_FAIL;
-        }
         try {
             $stmt = $pdo->prepare($sql);
             $ret = $stmt->execute();
@@ -289,7 +294,11 @@ class daoCustomer {
             }
             $rows = $stmt->fetchAll();
             if (!empty($rows)) {
-                foreach ($rows as $)
+                foreach ($rows as &$row) {
+                    $row['guest'] = $row['guest'] ? '是' : '否';
+                    $row['channelid'] = array_key_exists($row['channelid'], channelList) ? channelList[$row['channelid']]['name'] : '';
+                }
+                unset($row);
 
                 $data = $rows;
             } else {
@@ -299,6 +308,141 @@ class daoCustomer {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception = ' . $e->getMessage());
             return ERR_MYSQL_EXCEPTION;
         }
+        return ERR_OK;
+    }
+
+    /**
+     * 黑名单信息管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function blacklistGet($param, &$data) {
+        $dateArr = clsUtility::getFormatDate($param);
+        $dateBegin = $dateArr['dateBegin'];
+        $dateEnd = $dateArr['dateEnd'];
+
+        $keyword = $param['keyword'];
+
+        $dbName = 'casinoblacklistdb';
+
+        $sql = 'select * from casinoipblacklist where userip = :userip and opertime >= :dateBegin and opertime <= :dateEnd';
+        $sql .= ' order by opertime desc limit ' . maxQueryNum;
+        $pdoParam = [
+            ':userip' => $keyword,
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd
+        ];
+        $m1 = clsUtility::getData($dbName, $sql, $pdoParam);
+
+        $sql = 'select * from casinoiprangeblacklist where opertime >= :dateBegin and opertime <= :dateEnd';
+        $sql .= ' order by opertime desc limit ' . maxQueryNum;
+        $pdoParam = [
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd
+        ];
+        $m2 = clsUtility::getData($dbName, $sql, $pdoParam);
+
+        $sql = 'select * from casinomacblacklist where usermac = :usermac and opertime >= :dateBegin and opertime <= :dateEnd';
+        $sql .= ' order by opertime desc limit ' . maxQueryNum;
+        $pdoParam = [
+            ':usermac' => $keyword,
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd
+        ];
+        $m3 = clsUtility::getData($dbName, $sql, $pdoParam);
+
+        $sql = 'select * from casinouseridblacklist where userid = :userid and opertime >= :dateBegin and opertime <= :dateEnd';
+        $sql .= ' order by opertime desc limit ' . maxQueryNum;
+        $pdoParam = [
+            ':userid' => $keyword,
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd
+        ];
+        $m4 = clsUtility::getData($dbName, $sql, $pdoParam);
+
+        $data = [
+            'm1' => $m1,
+            'm2' => $m2,
+            'm3' => $m3,
+            'm4' => $m4
+        ];
+
+        return ERR_OK;
+    }
+
+    /**
+     * 黑名单信息管理 - 解封批操作 youhua 改为一次删除多个
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function blacklistBatchDeBlock($param, &$data) {
+        $ipArr = $param['ipArr'];
+        $macArr = $param['macArr'];
+        $idArr = $param['idArr'];
+
+        if (!empty($ipArr)) {
+            foreach ($ipArr as $k => $v) {
+                self::delBlackList(1, $v);
+            }
+        }
+
+        if (!empty($macArr)) {
+            foreach ($macArr as $k => $v) {
+                self::delBlackList(2, $v);
+            }
+        }
+
+        if (!empty($idArr)) {
+            foreach ($idArr as $k => $v) {
+                self::delBlackList(3, $v);
+            }
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 黑名单信息管理 - 解封单个
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function blacklistDeBlock($param, &$data) {
+        $type = $param['type'];
+        $value = $param['value'];
+
+        return self::delBlackList($type, $value);
+    }
+
+    /**
+     * 黑名单信息管理 - 批量踢出相关用户id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function blacklistBatchBlock($param, &$data) {
+        $aliPayAccount = $param['aliPayAccount'];
+        $rows = self::getUserIdArrByAliPayAccount($aliPayAccount);
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', userIds = ' . json_encode($rows));
+
+        if (!empty($rows)) {
+            foreach ($rows as $k => $v) { // todo now
+                $userId = intval($v['user_id']);
+            }
+        }
+        return ERR_OK;
+    }
+
+    /**
+     * 黑名单信息管理 - 批量封用户id-恶劣密码
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function blacklistBatchBlockPass($param, &$data) {
         return ERR_OK;
     }
 
@@ -854,5 +998,112 @@ class daoCustomer {
         $pdoParam = [];
 
         return clsUtility::getAllData($dbPrefix, $tablePrefix, $search, $where, $pdoParam);
+    }
+
+    /**
+     * 删除黑名单
+     * @param $type
+     * @param $rid
+     * @return int
+     */
+    public static function delBlackList($type, $rid) {
+        // 删除游戏黑名单
+        $errCode = self::delBlackListGame($type, $rid);
+
+        if ($errCode == 0) {
+            // 删除后台黑名单
+            return self::delBlackListAdmin($type, $rid);
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 删除游戏黑名单  todo 封装这种同游戏服务器的交互为一个方法
+     * @param $type
+     * @param $rid
+     * @return bool
+     */
+    public static function delBlackListGame($type, $rid) {
+//        if ($type == '1') {
+//            $command = 80031;
+//            $query = new deleteIPBlackListReq();
+//            $query->set_userip($rid);
+//            $rsp = new deleteIPBlackListRsp();
+//        } elseif ($type == '2') {
+//            $command = 80035;
+//            $query = new deleteMACBlackListReq();
+//            $query->set_usermac($rid);
+//            $rsp = new deleteMACBlackListRsp();
+//        } elseif ($type == '3') {
+//            $command = 80033;
+//            $query = new deleteUserIDBlackListReq();
+//            $query->set_userID($rid);
+//            $rsp = new deleteUserIDBlackListRsp();
+//        }
+//
+//        $buf = $query->SerializeToString();
+//
+//        $ret = $this->_request_midlayer_res($buf, $command);
+//
+//        $rsp->ParseFromString($ret);
+//
+//        return $rsp->returncode();
+        return true;
+    }
+
+    /**
+     * 删除后台黑名单
+     * @param $type
+     * @param $rid
+     * @return int
+     */
+    public static function delBlackListAdmin($type, $rid) {
+        $dbName = 'casinoblacklistdb';
+        $pdo = clsMysql::getInstance($dbName);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return ERR_MYSQL_CONNECT_FAIL;
+        }
+        switch ($type) {
+            case 1: // ip
+                $sql = 'delete from casinoipblacklist where userip = :userip';
+                $pdoParam = [
+                    ':userip' => $rid
+                ];
+                break;
+            case 2: // mac
+                $sql = 'delete from casinomacblacklist where usermac = :usermac';
+                $pdoParam = [
+                    ':usermac' => $rid
+                ];
+                break;
+            case 3: // id
+                $sql = 'delete from casinouseridblacklist where userid = :userid';
+                $pdoParam = [
+                    ':userid' => $rid
+                ];
+                break;
+            default:
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid type, type = ' . $type);
+                return ERR_INVALID_PARAM;
+        }
+
+        return clsUtility::updateData($dbName, $sql, $pdoParam);
+    }
+
+    /**
+     * 获取aliPayAccount对应的所有userId
+     * @param $aliPayAccount
+     * @return array
+     */
+    public static function getUserIdArrByAliPayAccount($aliPayAccount) {
+        $dbName = 'db_smc';
+        $sql = 'select distinct user_id from smc_user where lower(alipay_account) = :alipay_account';
+        $pdoParam = [
+            ':alipay_account' => strtolower($aliPayAccount)
+        ];
+
+        return clsUtility::getData($dbName, $sql, $pdoParam);
     }
 }

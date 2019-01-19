@@ -64,11 +64,11 @@
       :default-sort="{prop: 'id', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 20px">
-      <el-table-column min-width="10%" prop="id" label="批处理" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="用户ip" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="内容" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="操作时间" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="操作" align="center">
+      <el-table-column min-width="10%" prop="" label="批处理" align="center"/>
+      <el-table-column min-width="10%" prop="userip" label="用户ip" align="center"/>
+      <el-table-column min-width="10%" prop="describecontent" label="内容" align="center"/>
+      <el-table-column min-width="10%" prop="opertime" label="操作时间" align="center"/>
+      <el-table-column min-width="10%" prop="" label="操作" align="center">
         <template slot-scope="scope1">
           <el-button type="primary" size="mini" @click="handleRecoveryIp()">恢复</el-button>
         </template>
@@ -81,11 +81,11 @@
       :default-sort="{prop: 'id', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 20px">
-      <el-table-column min-width="10%" prop="id" label="批处理" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="mac地址" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="描述" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="操作时间" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="操作" align="center">
+      <el-table-column min-width="10%" prop="" label="批处理" align="center"/>
+      <el-table-column min-width="10%" prop="usermac" label="mac地址" align="center"/>
+      <el-table-column min-width="10%" prop="describecontent" label="描述" align="center"/>
+      <el-table-column min-width="10%" prop="opertime" label="操作时间" align="center"/>
+      <el-table-column min-width="10%" prop="" label="操作" align="center">
         <template slot-scope="scope2">
           <el-button type="primary" size="mini" @click="handleRecoveryMac()">恢复</el-button>
         </template>
@@ -98,11 +98,11 @@
       :default-sort="{prop: 'id', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 20px">
-      <el-table-column min-width="10%" prop="id" label="批处理" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="用户id" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="描述" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="操作时间" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="操作" align="center">
+      <el-table-column min-width="10%" prop="" label="批处理" align="center"/>
+      <el-table-column min-width="10%" prop="userid" label="用户id" align="center"/>
+      <el-table-column min-width="10%" prop="describecontent" label="描述" align="center"/>
+      <el-table-column min-width="10%" prop="opertime" label="操作时间" align="center"/>
+      <el-table-column min-width="10%" prop="" label="操作" align="center">
         <template slot-scope="scope3">
           <el-button type="primary" size="mini" @click="handleRecoveryId()">恢复</el-button>
         </template>
@@ -113,6 +113,8 @@
 </template>
 
 <script>
+import { blacklistGet } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -144,9 +146,24 @@ export default {
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
+    // 查询
+    handleGet() {
+      const dateRange = this.form1.dateRange
+      const keyword = this.form1.keyWord
 
+      blacklistGet(dateRange, keyword).then(response => {
+        if (response.code === 0) {
+          this.tableDataIp = response.data['m1']
+          this.tableDataMac = response.data['m3']
+          this.tableDataId = response.data['m4']
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

@@ -170,4 +170,10 @@ const cmdArr = [
     503 => ['svc' => 'svcCustomer', 'func' => 'userDetailUpdate'], // 用户信息管理 - 更新操作
 
     504 => ['svc' => 'svcCustomer', 'func' => 'userRegisterListGet'], // 用户注册列表 - 获取
+
+    505 => ['svc' => 'svcCustomer', 'func' => 'blacklistGet'], // 黑名单信息管理 - 获取
+    506 => ['svc' => 'svcCustomer', 'func' => 'blacklistBatchDeBlock'], // 黑名单信息管理 - 解封批操作
+    507 => ['svc' => 'svcCustomer', 'func' => 'blacklistDeBlock'], // 黑名单信息管理 - 解封单个
+    508 => ['svc' => 'svcCustomer', 'func' => 'blacklistBatchBlock'], // 黑名单信息管理 - 批量踢出相关用户id
+    509 => ['svc' => 'svcCustomer', 'func' => 'blacklistBatchBlockPass'], // 黑名单信息管理 - 批量封用户id-恶劣密码
 ];

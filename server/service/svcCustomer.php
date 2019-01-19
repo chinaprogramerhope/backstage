@@ -48,4 +48,87 @@ class svcCustomer {
     public function userRegisterListGet($param, &$data) {
         return clsCustomer::userRegisterListGet($param, $data);
     }
+
+    /**
+     * 黑名单信息管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function blacklistGet($param, &$data) {
+        $keyword = isset($param['keyword']) && !empty($param['keyword']) ? trim($param['keyword']) : '';
+        $param['keyword'] = $keyword;
+        return clsCustomer::blacklistGet($param, $data);
+    }
+
+    /**
+     * 黑名单信息管理 - 解封批操作
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function blacklistBatchDeBlock($param, &$data) {
+        $ipArr = isset($param['ipArr']) && !empty($param['ipArr']) ? $param['ipArr'] : [];
+        $macArr = isset($param['macArr']) && !empty($param['macArr']) ? $param['macArr'] : [];
+        $idArr = isset($param['idArr']) && !empty($param['idArr']) ? $param['idArr'] : [];
+
+        if (empty($ipArr) && empty($macArr) && empty($idArr)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['ipArr'] = $ipArr;
+        $param['macArr'] = $macArr;
+        $param['idArr'] = $idArr;
+
+        return clsCustomer::blacklistBatchDeBlock($param, $data);
+    }
+
+    /**
+     * 黑名单信息管理 - 解封单个
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function blacklistDeBlock($param, &$data) {
+        $type = isset($param['type']) && !empty($param['type']) ? $param['type'] : 0;
+        $value = isset($param['value']) && !empty($param['value']) ? trim($param['value']) : '';
+
+        if ($type <= 0 || empty($value)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['type'] = $type;
+        $param['value'] = $value;
+
+        return clsCustomer::blacklistDeBlock($param, $data);
+    }
+
+    /**
+     * 黑名单信息管理 - 批量踢出相关用户id
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function blacklistBatchBlock($param, &$data) {
+        if (!isset($param['aliPayAccount']) || empty($param['aliPayAccount'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['aliPayAccount'] = trim($param['aliPayAccount']);
+
+        return clsCustomer::blacklistBatchBlock($param, $data);
+    }
+
+    /**
+     * 黑名单信息管理 - 批量封用户id-恶劣密码
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function blacklistBatchBlockPass($param, &$data) {
+        return clsCustomer::blacklistBatchBlockPass($param, $data);
+    }
 }

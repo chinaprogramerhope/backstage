@@ -46,7 +46,7 @@ class clsMysql {
 
                 self::$instance[$dbName] = $pdo;
             } catch (PDOException $e) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', create pdo fail: ' . $e->getMessage());
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', create pdo fail: ' . $e->getMessage() . ', dbName = ' . $dbName);
                 self::$instance[$dbName] = null;
             }
         }

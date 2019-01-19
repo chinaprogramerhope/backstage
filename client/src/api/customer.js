@@ -52,3 +52,44 @@ export function userDetailGetMax() {
   return ret
 }
 
+/**
+ * 用户注册列表 - 获取
+ * @param {*} dateRange
+ */
+export function userRegisterListGet(dateRange) {
+  const data = {
+    cmd: 504,
+    param: {
+      dateRange: dateRange
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 黑名单信息管理 - 获取
+ * @param {*} dateRange
+ * @param {*} keyword
+ */
+export function blacklistGet(dateRange, keyword) {
+  const data = {
+    cmd: 505,
+    param: {
+      dateRange: dateRange,
+      keyword: keyword
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}

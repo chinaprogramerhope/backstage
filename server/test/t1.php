@@ -33,11 +33,9 @@ require_once '../loadConfig.php';
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
 
-$a = [];
+$dbName = 'casinogamehisdb';
+$pdo = clsMysql::getInstance($dbName);
 
-$b = isset($a[0]['ss']) ? $a[0]['ss'] : 0;
 
-//$b = $a[0]['ss'];
-
-echo $b;
+echo json_encode($pdo);
 
