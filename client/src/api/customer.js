@@ -34,3 +34,21 @@ export function userDetailGet(accountId, userId, aliPayAccount, aliPayName, mac,
   return ret
 }
 
+/**
+ * 用户信息管理 - 获取用户详细信息
+ */
+export function userDetailGetMax() {
+  const data = {
+    cmd: 502,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+

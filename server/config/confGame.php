@@ -10,6 +10,7 @@
  * mysql 相关
  */
 const maxQueryNum = 30; // 最大查询数量
+const maxQueryNumTest = 3; // 最大查询数量 测试, 目前没分页, 数据太多会卡
 
 /**
  * 公共常量

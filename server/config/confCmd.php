@@ -148,20 +148,6 @@ const cmdArr = [
 
     354 => ['svc' => 'svcOperation', 'func' => 'systemMaintenance'], // 系统维护 - 提交
 
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
-    353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
 
     // 活动管理 401 - 450
     401 => ['svc' => 'svcActivity', 'func' => 'activityReportGet'], // 活动报表 - 获取
@@ -180,4 +166,8 @@ const cmdArr = [
 
     // 客服管理 501 - 550
     501 => ['svc' => 'svcCustomer', 'func' => 'userDetailGet'], // 用户信息管理 - 获取用户详细信息
+    502 => ['svc' => 'svcCustomer', 'func' => 'userDetailGetMax'], // 用户信息管理 - 金豆+保险箱最大的
+    503 => ['svc' => 'svcCustomer', 'func' => 'userDetailUpdate'], // 用户信息管理 - 更新操作
+
+    504 => ['svc' => 'svcCustomer', 'func' => 'userRegisterListGet'], // 用户注册列表 - 获取
 ];

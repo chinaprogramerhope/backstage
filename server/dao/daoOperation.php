@@ -34,26 +34,46 @@ class daoOperation {
      * @return int
      */
     public static function systemProfitGet($param, &$data) {
-        $pdo = clsMysql::getInstance(mysqlConfig['casinoglobalinfo']);
+        $dbName = 'casinoglobalinfo';
+        $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail');
             return ERR_MYSQL_CONNECT_FAIL;
         }
 
+        if (isset($param['dateRange']) && !empty($param['dateRange'])) {
+            $dateBegin = $param['dateRange'][0];
+            $dateEnd = date('Ymd', strtotime($param['dateRange'][1]) + daySeconds);
+        } else {
+//            $dateBegin = date('Ymd');
+//            $dateEnd = date('Ymd', time() + daySeconds);
+            $dateBegin = $dateEnd = -1;
+        }
+
         try {
-            $sql = 'select id, sdate as sDate, gametype as gameType, serverid as serverId, roomid as roomId, systemprofit as systemProfit from casinosystemprofit';
-            $sql .= ' limit ' . maxQueryNum;
+            $sql = 'select id, sdate as sDate, gametype as gameType, roomid as roomId, systemprofit as systemProfit from casinosystemprofit';
+            if ($dateBegin !== -1) {
+                $sql .= ' where str_to_date(sdate, "%Y%m%d") >= :dateBegin and str_to_date(sdate, "%Y%m%d") < :dateEnd';
+            }
+            $sql .= ' order by gametype asc, roomid asc';
 
             $stmt = $pdo->prepare($sql);
-            $ret = $stmt->execute();
+            $pdoParam = [
+                ':dateBegin' => $dateBegin,
+                ':dateEnd' => $dateEnd
+            ];
+            $ret = $stmt->execute($pdoParam);
             if (!$ret) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', param = ' . json_encode($param));
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql . ', param = ' . json_encode($param)
+                    . ', pdoParam = ' . json_encode($pdoParam));
                 return ERR_MYSQL_EXECUTE_FAIL;
             }
             $rows = $stmt->fetchAll();
+
             if (!empty($rows)) {
                 foreach ($rows as &$row) {
                     $row['systemProfit'] = number_format($row['systemProfit'], 2, '.', ' ');
+                    $row['gameType'] = array_key_exists($row['gameType'], gameIdName) ? gameIdName[$row['gameType']] : $row['gameType'];
                 }
                 unset($row);
 

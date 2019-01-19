@@ -18,7 +18,7 @@ class svcCustomer {
         $param['aliPayName'] = isset($param['aliPayName']) && !empty($param['aliPayName']) ? trim($param['aliPayName']) : '';
         $param['mac'] = isset($param['mac']) && !empty($param['mac']) ? trim($param['mac']) : '';
         $param['ip'] = isset($param['ip']) && !empty($param['ip']) ? trim($param['ip']) : '';
-        $param['bindPhone'] = isset($param['bindPhone']) && !empty($param['accountId']) ? trim($param['accountId']) : '';
+        $param['bindPhone'] = isset($param['bindPhone']) && !empty($param['bindPhone']) ? trim($param['bindPhone']) : '';
         $param['isRecharge'] = isset($param['isRecharge']) && !empty($param['isRecharge']) ? intval($param['isRecharge']) : '';
 
         if (isset($param['userId']) && !empty($param['userId']) && $param['userId'] <= 0) {
@@ -27,5 +27,25 @@ class svcCustomer {
         }
 
         return clsCustomer::userDetailGet($param, $data);
+    }
+
+    /**
+     * 用户信息管理 - 金豆+保险箱最大的
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function userDetailGetMax($param, &$data) {
+        return clsCustomer::userDetailGetMax($param, $data);
+    }
+
+    /**
+     * 用户注册列表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function userRegisterListGet($param, &$data) {
+        return clsCustomer::userRegisterListGet($param, $data);
     }
 }

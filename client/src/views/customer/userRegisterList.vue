@@ -32,11 +32,11 @@
       :default-sort="{prop: 'id', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 20px">
-      <el-table-column min-width="10%" prop="id" label="用户id" align="center"/>
+      <el-table-column min-width="10%" prop="userid" label="用户id" align="center"/>
       <el-table-column min-width="10%" prop="account" label="用户账号" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="注册时间" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="注册ip" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="注册mac" align="center"/>
+      <el-table-column min-width="10%" prop="registertime" label="注册时间" align="center"/>
+      <el-table-column min-width="10%" prop="registerip" label="注册ip" align="center"/>
+      <el-table-column min-width="10%" prop="registermac" label="注册mac" align="center"/>
       <el-table-column min-width="10%" prop="operator" label="渠道" align="center"/>
       <el-table-column min-width="10%" prop="account" label="是否游客" align="center"/>
     </el-table>
@@ -52,9 +52,7 @@ export default {
         dateRange: ''
       },
 
-      tableData: [{
-        id: '11'
-      }]
+      tableData: ''
 
     }
   },

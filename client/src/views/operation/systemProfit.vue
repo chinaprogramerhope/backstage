@@ -3,15 +3,16 @@
 
     <!-- 表单 -->
     <el-form :inline="true" :model="form1" align="left" style="margin-top: 30px">
-      <!-- <el-form-item label="日期:">
+      <el-form-item label="日期:">
         <el-date-picker
           v-model="form1.dpValue1"
           type="daterange"
           range-separator="~"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          value-format="yyyy-MM-dd HH:mm:ss"
         />
-      </el-form-item> -->
+      </el-form-item>
 
       <!-- <el-form-item label="渠道:">
         <el-select v-model="form1.selectChannel">
@@ -46,12 +47,11 @@
       :data="tableData"
       :default-sort="{prop: 'timeBegin', order:'descending'}"
       style="width: 100%; margin-bottom: 24px">
-      <el-table-column prop="id" label="id" sortable align="center"/>
-      <el-table-column prop="sDate" label="sdate" sortable align="center"/>
-      <el-table-column prop="gameType" label="游戏类型" sortable align="center"/>
-      <el-table-column prop="serverId" label="服务器id" sortable align="center"/>
-      <el-table-column prop="roomId" label="游戏房间id" sortable align="center"/>
-      <el-table-column prop="systemProfit" label="系统利润" sortable align="center"/>
+      <el-table-column prop="id" label="id" align="center"/>
+      <el-table-column prop="sDate" label="sdate" align="center"/>
+      <el-table-column prop="gameType" label="游戏类型" align="center"/>
+      <el-table-column prop="roomId" label="游戏房间id" align="center"/>
+      <el-table-column prop="systemProfit" label="系统利润(元)" align="center"/>
     </el-table>
 
     <!-- 分页 -->
@@ -121,7 +121,7 @@ export default {
   },
 
   created() {
-    systemProfitGet().then(response => {
+    systemProfitGet(this.form1.dpValue1).then(response => {
       if (response.code === 0) {
         this.tableData = response.data
       } else {
@@ -138,7 +138,7 @@ export default {
 
     // 查询
     onGet() {
-      systemProfitGet().then(response => {
+      systemProfitGet(this.form1.dpValue1).then(response => {
         if (response.code === 0) {
           this.tableData = response.data
         } else {

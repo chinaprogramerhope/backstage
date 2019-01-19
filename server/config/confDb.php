@@ -6,27 +6,6 @@
  * Time: 下午4:52
  */
 
-// mysql连接配置
-//const mysqlConfig = [
-//    'new_admin' => [
-//        'dsn' => 'mysql:dbname=admin;host=127.0.0.1;charset=utf8mb4', // charset=utf8mb4: 防止从mysql获取中文为?
-//        'user' => 'root',
-//        'pass' => 'root',
-//        'options' => [
-//            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-//        ]
-//    ],
-//
-//    'gameHistory' => [
-//        'dsn' => 'mysql:dbname=casinogamehisdb;host=127.0.0.1;charset=utf8mb4', // charset=utf8mb4: 防止从mysql获取中文为?
-//        'user' => 'root',
-//        'pass' => 'root',
-//        'options' => [
-//            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-//        ]
-//    ],
-//];
-
 const mysqlConfig = [
     'new_admin' => [
         'dsn' => 'mysql:dbname=vue_admin;host=192.168.1.119;charset=utf8mb4', // charset=utf8mb4: 防止从mysql获取中文为?

@@ -65,12 +65,14 @@
     <el-table
       :data="tableData1"
       stripe
-      height="500"
+      height="600"
       style="width: 100%; margin-bottom: 20px"
     >
 
-      <el-table-column label="用户id" align="center">
+      <el-table-column label="用户id" fixed="left" align="center">
         <el-table-column label="内容" prop="id"/>
+      </el-table-column>
+      <el-table-column label="用户id" align="center">
         <el-table-column label="操作">
           <template scope="scope">
             <el-row style="margin-bottom:20px">
@@ -402,7 +404,7 @@
         </el-table-column>
       </el-table-column>
       <el-table-column label="待增加" align="center">
-        <el-table-column label="内容" prop="id"/>
+        <el-table-column label="内容"/>
         <el-table-column label="操作">
           <template scope="scope">
             <el-tag type="warning" size="mini">禁止</el-tag>
@@ -410,7 +412,7 @@
         </el-table-column>
       </el-table-column>
       <el-table-column label="待增加" align="center">
-        <el-table-column label="内容" prop="id"/>
+        <el-table-column label="内容"/>
         <el-table-column label="操作">
           <template scope="scope">
             <el-tag type="warning" size="mini">禁止</el-tag>
@@ -418,7 +420,7 @@
         </el-table-column>
       </el-table-column>
       <el-table-column label="待增加" align="center">
-        <el-table-column label="内容" prop="id"/>
+        <el-table-column label="内容"/>
         <el-table-column label="操作">
           <template scope="scope">
             <el-tag type="warning" size="mini">禁止</el-tag>
@@ -500,11 +502,35 @@
       <el-table-column min-width="10%" prop="operation" label="玩家游戏版本查询" align="center"/>
       <el-table-column min-width="10%" prop="recordTime" label="最近一天总净分" align="center"/>
     </el-table> -->
+
+    <!-- dialog1 -->
+    <!-- <el-dialog :visible.sync="dialogForm1Visible" title="" center>
+      <el-form ref="dialogForm1" :model="dialogForm1">
+
+        <el-form-item :label-width="dialogForm1.form1LabelWidth" label="游戏状态:">
+          <el-select v-model="dialogForm1.selectStatus" placeholder="">
+            <el-option
+              v-for="item in dialogForm1.optionsStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item align="center">
+          <el-button @click="dialogForm1Visible = false">取 消</el-button>
+          <el-button type="primary" @click="handleDialog1Save">保 存</el-button>
+        </el-form-item>
+      </el-form>
+
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
 import { userDetailGet } from '@/api/customer'
+import { userDetailGetMax } from '@/api/customer'
 
 export default {
   data() {
@@ -530,13 +556,9 @@ export default {
         }]
       },
 
-      tableData1: [{
-        id: '11'
-      }],
+      tableData1: '',
 
-      tableData2: [{
-        id: '11'
-      }],
+      tableData2: '',
 
       tableData3: ''
     }
@@ -551,7 +573,7 @@ export default {
     const mac = this.form1.mac
     const ip = this.form1.ip
     const bindPhone = this.form1.bindPhone
-    const isRecharge = this.form1.isRecharge
+    const isRecharge = this.form1.selectIsRecharge
 
     userDetailGet(accountId, userId, aliPayAccount, aliPayName, mac, ip, bindPhone, isRecharge).then(response => {
       if (response.code === 0) {
@@ -578,7 +600,7 @@ export default {
       const mac = this.form1.mac
       const ip = this.form1.ip
       const bindPhone = this.form1.bindPhone
-      const isRecharge = this.form1.isRecharge
+      const isRecharge = this.form1.selectIsRecharge
 
       userDetailGet(accountId, userId, aliPayAccount, aliPayName, mac, ip, bindPhone, isRecharge).then(response => {
         if (response.code === 0) {
@@ -595,7 +617,18 @@ export default {
 
     // 金豆+保险箱最大的
     handleGetMax() {
-
+      userDetailGetMax().then(response => {
+        if (response.code === 0) {
+          alert(JSON.stringify(response.data['cofee']))
+          alert(JSON.stringify(response.data['jindu']))
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }
