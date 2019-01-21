@@ -4,12 +4,19 @@
 
 1.19 提升技术!!
     客服管理搞定
+    运营管理搞定
 
 
 
 ---------
     后台迁移功能的前端页面搞定; el-table 修改 改为 直接在表内修改;
     mysql(已搞定) 和redis 不同库解决
+    分页: todo 如果要做分页, 会用到总数量, 把sql作为数据源, 可以避免写两次sql, 如: select * from sql; select count(id) from sql;
+
+    todo 查询条件account:
+        查询都去掉用户账号, 用userId; 原后台 玩家金豆变化记录 同时输入userId和account时, 还用account再去middle server查userId, 好蛋疼的设定和操作
+        根据account获取userId是, 玩家订单查询在CASINOUSERDB_xx.CASINOUSER_xx表中获取, 玩家金豆变化记录通过middleserver获取, 好乱啊
+        完美: 当userId为空, account不为空时, 根据account获取db和table index, 然后获取userId且limit 1, 同服务端确认一个account貌似是对应多个userId;
 
 
 

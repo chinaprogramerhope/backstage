@@ -428,11 +428,51 @@ class daoCustomer {
 
         clsLog::info(__METHOD__ . ', ' . __LINE__ . ', userIds = ' . json_encode($rows));
 
+        $num = 0;
         if (!empty($rows)) {
-            foreach ($rows as $k => $v) { // todo now
+            foreach ($rows as $k => $v) {
                 $userId = intval($v['user_id']);
+                $indexArr = clsUtility::getUserDBPos($userId);
+                if (!is_array($indexArr) || empty($indexArr)) {
+                    clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getUserDBPos fail, invalid userId, userId = ' . $userId);
+                    continue;
+                }
+                $dbIndex = $indexArr['dbindex'];
+                $tableIndex = $indexArr['tableindex'];
+                $des = '恶劣支付宝' . $aliPayAccount . '关联 批量封号';
+
+                $dbName = 'casinouserdb_' . $dbIndex;
+                $pdo = clsMysql::getInstance($dbName);
+                if ($pdo === null) {
+                    clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+                    continue;
+                }
+                $tableUserBlack = 'casinoblackuser_' . $tableIndex;
+                $tableUser = 'casinouser_' . $tableIndex;
+                $sql = 'insert into ' . $tableUserBlack . '(userid, account, remarks) values';
+                $sql .= '(:userId, (select user_email from ' . $tableUser . ' where id = :userId), :des)';
+                $pdoParam = [
+                    ':userId' => $userId,
+                    ':des' => $des
+                ];
+                try {
+                    $stmt = $pdo->prepare($sql);
+                    $ret = $stmt->execute($pdoParam);
+                    if (!$ret) {
+                        clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, dbName = ' . $dbName
+                            . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+                        continue;
+                    }
+                } catch (PDOException $e) {
+                    clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception = ' . $e->getMessage() . ', dbName = ' . $dbName
+                        . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+                    continue;
+                }
+                $num++;
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', num = ' . $num . ', userId = ' . $userId);
             }
         }
+        $data['num'] = $num;
         return ERR_OK;
     }
 
@@ -443,6 +483,473 @@ class daoCustomer {
      * @return int
      */
     public static function blacklistBatchBlockPass($param, &$data) {
+        $num = 0;
+
+        $dbPrefix = 'casinouserdb_';
+        for ($i = 0; $i <= 15; $i++) {
+            $dbName = $dbPrefix . $i;
+            $pdo = clsMysql::getInstance($dbName);
+            if ($pdo === null) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+                continue;
+            }
+
+            for ($j = 0; $j <= 15; $j++) {
+                $tableTo = 'casinoblackuser_' . $j;
+                $tableFrom = 'casinouser_' . $j;
+                $remarks = '平安游戏-多账号恶意刷金币';
+                $nowStr = date('Y-m-d H:i:s');
+
+                $sql = " insert into $tableTo(userid,account,remarks,addtime) SELECT userid_base as userid,account,'$remarks' as remarks,'2017-09-13 00:00:00' as addtime from(
+					SELECT a.userid,b.userid as userid_base,b.account from $tableFrom a right JOIN
+					(select id as userid,user_email as account,'平安游戏-多账号恶意刷金币' as remarks,'$nowStr' as addtime from $tableFrom 
+					where registertime>='2017-09-09 00:00:00' and `password` in ('qq1111','qqq111','qwe123','qq123123','a123123','qqq222','qqq111','a123456','zxc123')) b
+					on a.userid=b.userid) x where x.userid is null;";
+                try {
+                    $stmt = $pdo->prepare($sql);
+                    $ret = $stmt->execute();
+                    if (!$ret) {
+                        clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, dbName = ' . $dbName
+                            . ', sql = ' . $sql);
+                        continue;
+                    }
+
+                    $num += $stmt->rowCount();
+                } catch (PDOException $e) {
+                    clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception = ' . $e->getMessage() . ', dbName = ' . $dbName
+                        . ', sql = ' . $sql);
+                    continue;
+                }
+            }
+        }
+
+        $data['num'] = $num;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 玩家游戏记录 - 查询
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameLogGet($param, &$data) {
+    }
+
+    /**
+     * 玩家游戏记录 - 查询游戏次数
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameLogGetTimes($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 玩家金豆变化记录 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function goldLogGet($param, &$data) {
+        $gameId = $param['gameId'];
+        $eventId = $param['eventId'];
+        $userId = $param['userId'];
+        $account = $param['account'];
+        $dateTimeBegin = $param['dateTimeRange']['dateTimeBegin'];
+        $dateTimeEnd = $param['dateTimeRange']['dateTimeEnd'];
+        $tsBegin = strtotime($dateTimeBegin);
+        $tsEnd = strtotime($dateTimeEnd);
+
+        $dbName = 'casinogamehisdb';
+        $sql = '';
+        for ($i = $tsBegin; $i <= $tsEnd; $i += daySeconds) {
+            $tableName = 'casinogamehistory' . date('Ymd', $i);
+
+            if (!clsUtility::checkTableExistByName($dbName, $tableName)) {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', table not exist, dbName = ' . $dbName
+                    . ', tableName = ' . $tableName);
+                continue;
+            }
+
+            if (!empty($sql)) {
+                $sql .= ' union all';
+            }
+            $sql .= ' select * from ' . $tableName . ' where happentime >= :dateTimeBegin and happentime <= :dateTimeEnd';
+            if (!empty($userId)) {
+                $sql .= ' and userid = :userid';
+            }
+            if ($gameId !== -1) {
+                $sql .= ' and gamecode = :gamecode';
+            }
+            if ($eventId !== -1) {
+                $sql .= ' and eventtype = :eventtype';
+            }
+        }
+
+        if (empty($sql)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', return empty, sql = ' . $sql
+                . ', dbName = ' . $dbName . ', param = ' . json_encode($param));
+
+            return ERR_OK;
+        }
+
+        $sql .= ' order by happentime desc limit ' . maxQueryNum;
+        $pdoParam = [
+            ':dateTimeBegin' => $dateTimeBegin,
+            ':dateTimeEnd' => $dateTimeEnd,
+            ':userid' => $userId,
+            ':gamecode' => $gameId,
+            ':eventtype' => $eventId
+        ];
+        $data = clsUtility::getData($dbName, $sql, $pdoParam);
+
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', return empty, sql = ' . $sql
+                . ', dbName = ' . $dbName . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 玩家金豆变化记录 - 导出
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function goldLogExport($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 玩家金豆变化(24小时内)
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function goldLog24Get($param, &$data) {
+        $userId = $param['userId'];
+
+        $db = 8; // todo 同游戏服务器确认; 在哪里保存的内容
+        $redis = clsRedis::getInstance($db);
+
+        // 从redis倒叙拿startIndex开始的20条数据
+        $key = $userId . '_score';
+        $ret = $redis->zRevRange($key, 0, 20);
+
+        if (!empty($ret)) {
+            $data = $ret;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', ret is empty, db = ' . $db . ', key = ' . $key);
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 玩家金豆变化记录 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function orderInfoGet($param, &$data) {
+        $account = $param['account'];
+        $userId = $param['userId'];
+        $orderId = $param['orderId'];
+        $thirdOrderId = $param['thirdOrderId'];
+
+        $dateTimeBegin = $param['dateTimeRange']['dateTimeBegin'];
+        $dateTimeEnd = $param['dateTimeRange']['dateTimeEnd'];
+        $tsBegin = strtotime($dateTimeBegin);
+        $tsEnd = strtotime($dateTimeEnd);
+
+        $payPlatformId = $param['payPlatformId'];
+        $orderStatus = $param['orderStatus'];
+        $gameId = $param['gameId'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_order';
+
+        $sql .= ' where add_time >= :tsBegin and add_time <= :tsEnd';
+        $pdoParam = [
+            ':tsBegin' => $tsBegin,
+            ':tsEnd' => $tsEnd
+        ];
+
+        if ($userId) {
+            $sql .= ' and user_id = :user_id';
+            $pdoParam[':user_id'] = $userId;
+        }
+        if ($orderId) {
+            $sql .= ' and order_sn = :order_sn';
+            $pdoParam[':order_sn'] = $orderId;
+        }
+        if ($thirdOrderId) {
+            $sql .= ' and third_order_sn = :third_order_sn';
+            $pdoParam[':third_order_sn'] = $thirdOrderId;
+        }
+        if ($payPlatformId !== -1) {
+            $sql .= ' and pay_platform = :pay_platform';
+            $pdoParam[':pay_platform'] = $payPlatformId;
+        }
+        if ($orderStatus !== -1) {
+            if ($orderStatus == 2) { // todo 原后台逻辑, 为什么
+                $orderStatus = 0;
+            }
+
+            $sql .= ' and status = :status';
+            $pdoParam[':status'] = $orderStatus;
+        }
+        if ($gameId !== -1) {
+            $sql .= ' and game_code = :game_code'; // todo 表中目前没这个字段
+            $pdoParam[':game_code'] = $gameId;
+        }
+        $sql .= ' order by id desc limit ' . maxQueryNum;
+
+        $orderList = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($orderList)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        } else {
+            foreach ($orderList as $k => &$v) {
+                $status = intval($v['status']);
+                switch ($status) {
+                    case 0:
+                        $v['status'] = '未支付';
+                        break;
+                    case 1:
+                        $v['status'] = '支付成功';
+                        break;
+                    default:
+                        $v['status'] = '支付失败';
+                }
+
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['pay_success_time'] = $v['pay_success_time'] ? date('Y-m-d H:i:s', $v['pay_success_time']) : ' - ';
+                $v['money'] = number_format($v['money'] / 100, 2, '.', ' ');
+
+                $v['before_chips'] = number_format($v ['before_chips'], 2, '.', ' ');
+                if ($status === 1) {
+                    $v['after_chips'] = number_format($v ['before_chips'] + $v ['money'], 2, '.', ' ');
+                } else {
+                    $v['after_chips'] = '--';
+                }
+                $v['refer'] = $v['refer'] == 2 ? 'Android' : 'Ios';
+
+//                $v['pay_platform'] = '';
+            }
+            unset($v);
+
+            $data = $orderList;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 玩家金豆变化记录 - 获取延时订单 todo 需要修改原始后台传入参数, 延时查询输入项单独搞一列, 因为实际传入参数不一致; 逻辑跟上面几乎一样
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function orderInfoGetDelay($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝转账订单审核 - 获取支付宝转账订单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayTransferCheckGet($param, &$data) {
+        $userId = $param['userId'];
+        $orderId = $param['orderId'];
+        $aliPayOrderId = $param['aliPayOrderId'];
+        $aliPayAccount = $param['aliPayAccount'];
+
+        $tsBegin = strtotime($param['dateTimeRange']['dateTimeBegin']);
+        $tsEnd = strtotime($param['dateTimeRange']['dateTimeEnd']);
+        $orderStatus = $param['orderStatus'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_order';
+
+        $sql .= ' where add_time >= :tsBegin and add_time <= :tsEnd';
+        $pdoParam = [
+            ':tsBegin' => $tsBegin,
+            ':tsEnd' => $tsEnd
+        ];
+
+        // todo 当前项目支付宝转账和支付宝网页转账对应的id
+        $sql .= ' and pay_platform = ' . PAY_PLATFORM_ZFB_TRANSFER . ' or pay_platform = ' . PAY_PLATFORM_ZFB_TRANSFER_WEB;
+
+        if ($userId) {
+            $sql .= ' and user_id = :user_id';
+            $pdoParam[':user_id'] = $userId;
+        }
+        if ($orderId) {
+            $sql .= ' and order_sn = :order_sn';
+            $pdoParam[':order_sn'] = $orderId;
+        }
+        if ($aliPayOrderId) {
+            $sql .= ' and third_order_sn = :third_order_sn';
+            $pdoParam[':third_order_sn'] = $aliPayOrderId;
+        }
+        if ($aliPayAccount) {
+            $sql .= ' and param = :param';
+            $pdoParam[':param'] = $aliPayAccount;
+        }
+        if ($orderStatus !== -1) {
+            $sql .= ' and status = :status';
+            $pdoParam[':status'] = $orderStatus;
+        }
+
+        $sql .= ' order by id desc limit ' . maxQueryNum;
+
+        $orderList = clsUtility::getData($dbName, $sql, $pdoParam);
+
+        if (empty($orderList)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_OK;
+        }
+
+        foreach ($orderList as $k => &$v) {
+            $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+            $v['pay_success_time'] = $v['pay_success_time'] ? date('Y-m-d H:i:s', $v['pay_success_time  ']) : ' - ';
+
+            $v['after_chips'] = $v['status'] == 1 ? $v ['before_chips'] + $v ['money'] : '--';
+        }
+        unset($v);
+        $data = $orderList;
+
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝转账订单审核 - 确认转账成功
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayTransferCheckConfirm($param, &$data) {
+        $orderId = $param['orderId'];
+
+        // 获取订单
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_order where order_sn = :order_sn limit 1';
+        $pdoParam = [':order_sn' => $orderId];
+        $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($rows) || empty($rows[0])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order not exist, orderId = ' . $orderId
+                . ', dbName = ' . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_ORDER_NOT_EXIST;
+        }
+
+        // notice 日志记录管理员id, 名字和订单id
+
+        $order = $rows[0];
+        $orderStatus = intval($order['status']);
+        if ($orderStatus !== 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order status wrong, orderId = ' . $orderId
+                . ', orderStatus = ' . $orderStatus);
+            return ERR_ORDER_STATUS_WRONG;
+        }
+
+        // 更新 todo
+        self::orderSuccess($order);
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', order transfer success, orderId = ' . $orderId);
+
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝转账订单审核 - 修改金额
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayTransferCheckModify($param, &$data) {
+        $orderId = $param['orderId'];
+        $money = $param['money'];
+
+        // 获取订单
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_order where order_sn = :order_sn limit 1';
+        $pdoParam = [':order_sn' => $orderId];
+        $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($rows) || empty($rows[0])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order not exist, orderId = ' . $orderId
+                . ', dbName = ' . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_ORDER_NOT_EXIST;
+        }
+
+        $order = $rows[0];
+        $orderStatus = intval($order['status']);
+        if ($orderStatus !== 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order status wrong, orderId = ' . $orderId
+                . ', orderStatus = ' . $orderStatus);
+            return ERR_ORDER_STATUS_WRONG;
+        }
+
+        // notice 日志记录管理员id, 名字和订单id
+
+        // 更新
+        $dbName = 'db_smc';
+        $sql = 'update smc_order set money = :money where order_sn = :order_sn';
+        $pdoParam = [':order_sn' => $orderId];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', order transfer fail, orderId = ' . $orderId);
+            return $errCode;
+        }
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', order transfer success, orderId = ' . $orderId);
+
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝转账订单审核 - 关闭订单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayTransferCheckClose($param, &$data) {
+        $orderId = $param['orderId'];
+        $reason = $param['reason'];
+
+        // 获取订单
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_order where order_sn = :order_sn limit 1';
+        $pdoParam = [':order_sn' => $orderId];
+        $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($rows) || empty($rows[0])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order not exist, orderId = ' . $orderId
+                . ', dbName = ' . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return ERR_ORDER_NOT_EXIST;
+        }
+
+        $order = $rows[0];
+        $orderStatus = intval($order['status']);
+        if ($orderStatus !== 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order status wrong, orderId = ' . $orderId
+                . ', orderStatus = ' . $orderStatus);
+            return ERR_ORDER_STATUS_WRONG;
+        }
+
+        // notice 日志记录管理员id, 名字和订单id
+
+        // 更新 todo
+        self::orderFail($order, $reason);
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', order transfer success, orderId = ' . $orderId);
+
         return ERR_OK;
     }
 
@@ -1105,5 +1612,39 @@ class daoCustomer {
         ];
 
         return clsUtility::getData($dbName, $sql, $pdoParam);
+    }
+
+    public static function orderSuccess($order) {
+
+    }
+
+    public static function orderFail($order, $reason) {
+        $dbName = 'db_smc';
+        $orderId = $order['order_sn'];
+        $timeNow = time();
+
+        $sql = 'update smc_order set status = :status, pay_success_time = :pay_success_time';
+        $pdoParam = [
+            ':status' => intval($order['status']),
+            ':pay_success_time' => $timeNow
+        ];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        // 需要发一段话
+        $autoReplyData = [
+            'content' => "您好，您的支付宝转账充值失败，订单号：{$order['third_order_sn']}, 失败原因：$reason",
+            'user_id' => $order['user_id'],
+            'add_time' => $timeNow + 5, // notice
+            'admin_id' => 1, // 表示管理员在说话
+            'is_recharge' => 1
+        ];
+//        $this->Chat_model->insertRMessage($autoReplyData);
+
+        return ERR_OK;
     }
 }

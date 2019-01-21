@@ -19,10 +19,10 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="途径:">
-        <el-select v-model="form1.selectWay" style="width: 150px">
+      <el-form-item label="事件:">
+        <el-select v-model="form1.selectEvent" style="width: 150px">
           <el-option
-            v-for="item in form1.optionsWay"
+            v-for="item in form1.optionsEvent"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -35,7 +35,7 @@
       </el-form-item>
 
       <el-form-item label="用户账号">
-        <el-input v-model="form1.account" placeholder="用户账号" clearable style="width: 150px"/>
+        <el-input v-model="form1.account" placeholder="用户账号" clearable style="width: 150px" disabled/>
       </el-form-item>
 
       <el-form-item label="时间:">
@@ -69,24 +69,26 @@
       :default-sort="{prop: 'id', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 20px">
-      <el-table-column min-width="10%" prop="id" label="玩家id" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="金豆变化" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="时间" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="结束金豆" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="起始金豆" align="center"/>
-      <el-table-column min-width="10%" prop="operator" label="底注" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="游戏类型" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="事件类型" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="ip" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="房间id" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="桌子id" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="作为id" align="center"/>
+      <el-table-column min-width="10%" prop="userid" label="玩家id" align="center"/>
+      <el-table-column min-width="10%" prop="chips" label="金豆变化" align="center"/>
+      <el-table-column min-width="10%" prop="happentime" label="时间" align="center"/>
+      <el-table-column min-width="10%" prop="finalchips" label="结束金豆" align="center"/>
+      <el-table-column min-width="10%" prop="originalchips" label="起始金豆" align="center"/>
+      <el-table-column min-width="10%" prop="basescore" label="底注" align="center"/>
+      <el-table-column min-width="10%" prop="gamecode" label="游戏类型" align="center"/>
+      <el-table-column min-width="10%" prop="eventtype" label="事件类型" align="center"/>
+      <el-table-column min-width="10%" prop="ipaddress" label="ip" align="center"/>
+      <el-table-column min-width="10%" prop="roomid" label="房间id" align="center"/>
+      <el-table-column min-width="10%" prop="tableid" label="桌子id" align="center"/>
+      <el-table-column min-width="10%" prop="seatid" label="座位id" align="center"/>
     </el-table>
 
   </div>
 </template>
 
 <script>
+import { goldLogGet } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -97,8 +99,8 @@ export default {
           value: -1
         }],
 
-        selectWay: -1,
-        optionsWay: [{
+        selectEvent: -1,
+        optionsEvent: [{
           label: '全部',
           value: -1
         }],
@@ -117,14 +119,45 @@ export default {
   },
 
   created() {
+    const dateTimeRange = this.form1.dateTimeRange
+    const gameId = this.form1.selectGame
+    const eventId = this.form1.selectEvent
+    const userId = this.form1.userId
+    const account = this.form1.account
 
+    goldLogGet(dateTimeRange, gameId, eventId, userId, account).then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {
+    // 查询
+    handleGet() {
+      const dateTimeRange = this.form1.dateTimeRange
+      const gameId = this.form1.selectGame
+      const eventId = this.form1.selectEvent
+      const userId = this.form1.userId
+      const account = this.form1.account
 
-    // 添加游戏版本
-    handleAdd() {
-
+      goldLogGet(dateTimeRange, gameId, eventId, userId, account).then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

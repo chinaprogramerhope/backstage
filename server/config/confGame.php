@@ -328,6 +328,11 @@ const payOrderStatus = [
     "10500" => '未知错误',
 ];
 
+// 订单状态
+const orderStatusNew = 0; // 新订单
+const orderStatusSuccess = 1; // 成功
+const orderStatusFail = 2; // 失败
+
 
 /**
  * 游戏管理

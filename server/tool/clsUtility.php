@@ -59,7 +59,47 @@ class clsUtility {
             return ERR_MYSQL_EXCEPTION;
         }
 
-        // test
+        clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', tableName = ' . $tableName
+            . ', row = ' . json_encode($row));
+
+        if (empty($row) || empty($row['table_name'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 检查表是否存在
+     * @param $dbName
+     * @param $tableName
+     * @return bool
+     */
+    public static function checkTableExistByName($dbName, $tableName) {
+        $pdo = clsMysql::getInstance($dbName);
+        if ($pdo === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', dbName = ' . $dbName);
+            return false;
+        }
+
+        try {
+            $sql = "select table_name from information_schema.tables where table_name=:tableName";
+            $stmt = $pdo->prepare($sql);
+            $ret = $stmt->execute([
+                ':tableName' => $tableName
+            ]);
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                    . ', pdo = ' . json_encode($pdo));
+                return false;
+            }
+
+            $row = $stmt->fetch();
+        } catch (Exception $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
+            return ERR_MYSQL_EXCEPTION;
+        }
+
         clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', sql = ' . $sql . ', tableName = ' . $tableName
             . ', row = ' . json_encode($row));
 
@@ -348,6 +388,26 @@ class clsUtility {
         return [
             'dateBegin' => $dateBegin,
             'dateEnd' => $dateEnd
+        ];
+    }
+
+    /**
+     * 获取格式化日期 - 若开始和结束日期存在, 结束日期加一天; 若开始和结束日期不存在, 返回一个月内的开始和结束日期
+     * @param $param
+     * @return array
+     */
+    public static function getFormatDateTime(&$param) {
+        if (isset($param['dateTimeRange']) && !empty($param['dateTimeRange'])) {
+            $dateTimeBegin = $param['dateTimeRange'][0];
+            $dateTimeEnd = date('Y-m-d H:i:s', strtotime($param['dateTimeRange'][1]) + daySeconds);
+        } else {
+            $dateTimeBegin = date('Y-m-d H:i:s', strtotime('last month'));
+            $dateTimeEnd = date('Y-m-d H:i:s', strtotime('+1 day'));
+        }
+
+        return [
+            'dateTimeBegin' => $dateTimeBegin,
+            'dateTimeEnd' => $dateTimeEnd
         ];
     }
 }

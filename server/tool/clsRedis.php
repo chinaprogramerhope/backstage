@@ -27,7 +27,7 @@ class clsRedis {
     private function __clone() {
     }
 
-    public static function getInstance() {
+    public static function getInstance($db = 0) {
         if (null === self::$instance) {
             try {
                 self::$instance = new Redis();
@@ -35,6 +35,7 @@ class clsRedis {
                 if (redis_pass) {
                     self::$instance->auth(redis_pass);
                 }
+                self::$instance->select($db);
             } catch (Exception $e) {
                 clsLog::error(__METHOD__ . ', ' . __LINE__ .', init redis fail: ' . $e->getMessage());
                 self::$instance = null;

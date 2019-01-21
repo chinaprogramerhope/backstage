@@ -131,4 +131,205 @@ class svcCustomer {
     public function blacklistBatchBlockPass($param, &$data) {
         return clsCustomer::blacklistBatchBlockPass($param, $data);
     }
+    /**
+     * 玩家游戏记录 - 查询
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameLogGet($param, &$data) {
+        return clsCustomer::gameLogGet($param, $data);
+    }
+
+    /**
+     * 玩家游戏记录 - 查询游戏次数
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameLogGetTimes($param, &$data) {
+        return clsCustomer::gameLogGetTimes($param, $data);
+    }
+
+    /**
+     * 玩家金豆变化记录 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function goldLogGet($param, &$data) {
+        $gameId = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
+        $eventId = isset($param['eventId']) && !empty($param['eventId']) ? intval($param['eventId']) : -1; // 金豆途径
+        $userId = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $account = isset($param['account']) && !empty($param['account']) ? trim($param['account']) : '';
+        $dateTimeRange = clsUtility::getFormatDateTime($param);
+
+        $param['gameId'] = $gameId;
+        $param['eventId'] = $eventId;
+        $param['userId'] = $userId;
+        $param['account'] = $account;
+        $param['dateTimeRange'] = $dateTimeRange;
+
+        return clsCustomer::goldLogGet($param, $data);
+    }
+
+    /**
+     * 玩家金豆变化记录 - 导出
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function goldLogExport($param, &$data) {
+        return clsCustomer::goldLogExport($param, $data);
+    }
+
+    /**
+     * 玩家金豆变化(24小时内)
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function goldLog24Get($param, &$data) {
+        $userId = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        if ($userId <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['userId'] = $userId;
+        return clsCustomer::goldLog24Get($param, $data);
+    }
+
+    /**
+     * 玩家金豆变化记录 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function orderInfoGet($param, &$data) {
+        $account = isset($param['account']) && !empty($param['account']) ? trim($param['account']) : '';
+        $userId = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $orderId = isset($param['orderId']) && !empty($param['orderId']) ? trim($param['orderId']) : '';
+        $thirdOrderId = isset($param['thirdOrderId']) && !empty($param['thirdOrderId']) ? trim($param['thirdOrderId']) : '';
+
+        $dateTimeRange = clsUtility::getFormatDateTime($param);
+        $payPlatformId = isset($param['payPlatformId']) && !empty($param['payPlatformId']) ? intval($param['payPlatformId']) : -1;
+        $orderStatus = isset($param['orderStatus']) && !empty($param['orderStatus']) ? intval($param['orderStatus']) : -1;
+        $gameId = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
+
+        $param['account'] = $account;
+        $param['userId'] = $userId;
+        $param['orderId'] = $orderId;
+        $param['thirdOrderId'] = $thirdOrderId;
+
+        $param['dateTimeRange'] = $dateTimeRange;
+        $param['payPlatformId'] = $payPlatformId;
+        $param['orderStatus'] = $orderStatus;
+        $param['gameId'] = $gameId;
+
+        return clsCustomer::orderInfoGet($param, $data);
+    }
+
+    /**
+     * 玩家金豆变化记录 - 获取延时订单 aliPayTransferCheckGet
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function orderInfoGetDelay($param, &$data) {
+        return clsCustomer::orderInfoGetDelay($param, $data);
+    }
+
+    /**
+     * 支付宝转账订单审核 - 获取支付宝转账订单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayTransferCheckGet($param, &$data) {
+        $userId = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $orderId = isset($param['orderId']) && !empty($param['orderId']) ? trim($param['orderId']) : '';
+        $aliPayOrderId = isset($param['aliPayOrderId']) && !empty($param['aliPayOrderId']) ? trim($param['aliPayOrderId']) : '';
+        $aliPayAccount = isset($param['aliPayAccount']) && !empty($param['aliPayAccount']) ? trim($param['aliPayAccount']) : 0;
+
+        $dateTimeRange = clsUtility::getFormatDateTime($param);
+        $orderStatus = isset($param['orderStatus']) && !empty($param['orderStatus']) ? intval($param['orderStatus']) : -1;
+
+        if ($userId < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['userId'] = $userId;
+        $param['orderId'] = $orderId;
+        $param['aliPayOrderId'] = $aliPayOrderId;
+        $param['aliPayAccount'] = $aliPayAccount;
+
+        $param['dateTimeRange'] = $dateTimeRange;
+        $param['orderStatus'] = $orderStatus;
+
+        return clsCustomer::aliPayTransferCheckGet($param, $data);
+    }
+
+    /**
+     * 支付宝转账订单审核 - 确认转账成功
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayTransferCheckConfirm($param, &$data) {
+        if (!isset($param['orderId']) || empty($param['orderId'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['orderId'] = trim($param['orderId']);
+
+        return clsCustomer::aliPayTransferCheckConfirm($param, $data);
+    }
+
+    /**
+     * 支付宝转账订单审核 - 修改金额
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayTransferCheckModify($param, &$data) {
+        if (!isset($param['orderId']) || empty($param['orderId'])
+            || !isset($param['money']) || empty($param['money'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $money = intval($param['money']);
+        if ($money <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+        $orderId = trim($param['orderId']);
+
+        $param['orderId'] = $orderId;
+        $param['money'] = $money;
+        return clsCustomer::aliPayTransferCheckModify($param, $data);
+    }
+
+    /**
+     * 支付宝转账订单审核 - 关闭订单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayTransferCheckClose($param, &$data) {
+        if (!isset($param['orderId']) || empty($param['orderId'])
+            || !isset($param['reason']) || empty($param['reason'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['orderId'] = trim($param['orderId']);
+        $param['reason'] = trim($param['reason']);
+
+        return clsCustomer::aliPayTransferCheckClose($param, $data);
+    }
+
 }

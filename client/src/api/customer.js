@@ -93,3 +93,278 @@ export function blacklistGet(dateRange, keyword) {
 
   return ret
 }
+
+/**
+ * 黑名单信息管理 - 解封批操作
+ * @param {*} dateRange
+ * @param {*} keyword
+ */
+export function blacklistBatchDeBlock() {
+  const data = {
+    cmd: 506,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 黑名单信息管理 - 解封单个
+ * @param {*} dateRange
+ * @param {*} keyword
+ */
+export function blacklistDeBlock() {
+  const data = {
+    cmd: 507,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 黑名单信息管理 - 批量踢出相关用户id
+ * @param {*} dateRange
+ * @param {*} keyword
+ */
+export function blacklistBatchBlock(dateRange, keyword) {
+  const data = {
+    cmd: 508,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 黑名单信息管理 - 批量封用户id-恶劣密码
+ * @param {*} dateRange
+ * @param {*} keyword
+ */
+export function blacklistBatchBlockPass() {
+  const data = {
+    cmd: 509,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 玩家金豆变化记录 - 获取
+ * @param {*} dateTimeRange
+ * @param {*} gameId
+ * @param {*} eventId
+ * @param {*} userId
+ * @param {*} account
+ */
+export function goldLogGet(dateTimeRange, gameId, eventId, userId, account) {
+  const data = {
+    cmd: 512,
+    param: {
+      dateTimeRange: dateTimeRange,
+      gameId: gameId,
+      eventId: eventId,
+      userId: userId,
+      account: account
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 玩家金豆变化记录 - 导出excel
+ */
+export function goldLogExport() {
+  const data = {
+    cmd: 513,
+    param: {
+
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 玩家金豆变化(24小时内)
+ * @param {*} userId
+ */
+export function goldLog24Get(userId) {
+  const data = {
+    cmd: 514,
+    param: {
+      userId: userId
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 玩家订单查询 - 获取
+ */
+export function orderInfoGet() {
+  const data = {
+    cmd: 515,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 玩家订单查询 - 获取延时订单
+ */
+export function orderInfoGetDelay() {
+  const data = {
+    cmd: 516,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 支付宝转账订单审核 - 获取支付宝转账订单
+ * @param {*} userId
+ * @param {*} orderId
+ * @param {*} aliPayOrderId
+ * @param {*} aliPayAccount
+ * @param {*} dateTimeRange
+ * @param {*} orderStatus
+ */
+export function aliPayTransferCheckGet(userId, orderId, aliPayOrderId, aliPayAccount, dateTimeRange, orderStatus) {
+  const data = {
+    cmd: 517,
+    param: {
+      userId: userId,
+      orderId: orderId,
+      aliPayOrderId: aliPayOrderId,
+      aliPayAccount: aliPayAccount,
+      dateTimeRange: dateTimeRange,
+      orderStatus: orderStatus
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 支付宝转账订单审核 - 确认转账成功
+ */
+export function aliPayTransferCheckConfirm() {
+  const data = {
+    cmd: 518,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 支付宝转账订单审核 - 修改金额
+ * @param {*} orderId
+ * @param {*} money
+ */
+export function aliPayTransferCheckModify(orderId, money) {
+  const data = {
+    cmd: 519,
+    param: {
+      orderId: orderId,
+      money: money
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 支付宝转账订单审核 - 关闭订单
+ * @param {*} orderId
+ * @param {*} reason
+ */
+export function aliPayTransferCheckClose(orderId, reason) {
+  const data = {
+    cmd: 520,
+    param: {
+      orderId: orderId,
+      reason: reason
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}

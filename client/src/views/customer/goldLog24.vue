@@ -36,44 +36,52 @@
 </template>
 
 <script>
+import { goldLog24Get } from '@/api/customer'
+
 export default {
   data() {
     return {
       form1: {
-        selectGame: -1,
-        optionsGame: [{
-          label: '全部',
-          value: -1
-        }],
-
-        selectWay: -1,
-        optionsWay: [{
-          label: '全部',
-          value: -1
-        }],
-
-        userId: '',
-        accuont: '',
-        dateTimeRange: ''
+        userId: ''
       },
 
-      tableData: [{
-        id: '11'
-      }],
-
-      tableDataSum: ''
+      tableData: ''
     }
   },
 
   created() {
+    const userId = this.form1.userId
 
+    goldLog24Get(userId).then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
+    // 查询
+    handleGet() {
+      const userId = this.form1.userId
 
+      goldLog24Get(userId).then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

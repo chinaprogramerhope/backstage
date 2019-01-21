@@ -176,4 +176,20 @@ const cmdArr = [
     507 => ['svc' => 'svcCustomer', 'func' => 'blacklistDeBlock'], // 黑名单信息管理 - 解封单个
     508 => ['svc' => 'svcCustomer', 'func' => 'blacklistBatchBlock'], // 黑名单信息管理 - 批量踢出相关用户id
     509 => ['svc' => 'svcCustomer', 'func' => 'blacklistBatchBlockPass'], // 黑名单信息管理 - 批量封用户id-恶劣密码
+
+    510 => ['svc' => 'svcCustomer', 'func' => 'gameLogGet'], // 玩家游戏记录(就是投注记录) - 查询
+    511 => ['svc' => 'svcCustomer', 'func' => 'gameLogGetTimes'], // 玩家游戏记录(就是投注记录) - 查询游戏次数
+
+    512 => ['svc' => 'svcCustomer', 'func' => 'goldLogGet'], // 玩家金豆变化记录 - 获取
+    513 => ['svc' => 'svcCustomer', 'func' => 'goldLogExport'], // 玩家金豆变化记录 - 导出excel
+
+    514 => ['svc' => 'svcCustomer', 'func' => 'goldLog24Get'], // 玩家金豆变化(24小时内)
+
+    515 => ['svc' => 'svcCustomer', 'func' => 'orderInfoGet'], // 玩家订单查询 - 获取
+    516 => ['svc' => 'svcCustomer', 'func' => 'orderInfoGetDelay'], // 玩家订单查询 - 获取延时订单
+
+    517 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckGet'], // 支付宝转账订单审核 - 获取支付宝转账订单
+    518 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckConfirm'], // 支付宝转账订单审核 - 确认转账成功
+    519 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckModify'], // 支付宝转账订单审核 - 修改金额
+    520 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckClose'], // 支付宝转账订单审核 - 关闭订单
 ];

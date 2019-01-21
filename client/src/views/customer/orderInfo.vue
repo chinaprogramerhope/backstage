@@ -85,20 +85,20 @@
       :default-sort="{prop: 'id', order:'descending'}"
       stripe
       style="width: 100%; margin-bottom: 20px">
-      <el-table-column min-width="10%" prop="id" label="userId" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="金额" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="充值前金币" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="充值后金币" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="订单号" align="center"/>
-      <el-table-column min-width="10%" prop="operator" label="第三方订单号" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="参数" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="提交时间" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="到账时间" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="状态" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="来源" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="支付方式" align="center"/>
+      <el-table-column min-width="10%" prop="user_id" label="userId" align="center"/>
+      <el-table-column min-width="10%" prop="money" label="金额(元)" align="center"/>
+      <el-table-column min-width="10%" prop="before_chips" label="充值前金币" align="center"/>
+      <el-table-column min-width="10%" prop="after_chips" label="充值后金币" align="center"/>
+      <el-table-column min-width="10%" prop="order_sn" label="订单号" align="center"/>
+      <el-table-column min-width="10%" prop="third_order_sn" label="第三方订单号" align="center"/>
+      <el-table-column min-width="10%" prop="param" label="参数" align="center"/>
+      <el-table-column min-width="10%" prop="add_time" label="提交时间" align="center"/>
+      <el-table-column min-width="10%" prop="pay_success_time" label="到账时间" align="center"/>
+      <el-table-column min-width="10%" prop="status" label="状态" align="center"/>
+      <el-table-column min-width="10%" prop="refer" label="来源" align="center"/>
+      <el-table-column min-width="10%" prop="pay_type" label="支付方式" align="center"/>
       <el-if show-platform>
-        <el-table-column min-width="10%" prop="operation" label="支付方式" align="center"/>
+        <el-table-column min-width="10%" prop="pay_type" label="支付方式" align="center"/>
       </el-if>
       <el-table-column min-width="10%" prop="operation" label="备注" align="center"/>
     </el-table>
@@ -107,6 +107,9 @@
 </template>
 
 <script>
+import { orderInfoGet } from '@/api/customer'
+import { orderInfoGetDelay } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -147,14 +150,49 @@ export default {
   },
 
   created() {
-
+    orderInfoGet().then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
+    // 查询
+    handleGet() {
+      orderInfoGet().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
+    },
 
+    // 查询延时订单
+    handleGetDelay() {
+      orderInfoGetDelay().then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

@@ -645,12 +645,20 @@ export const constantRouterMap = [
           title: '黑名单信息管理'
         }
       },
+      // {
+      //   path: 'gameLog',
+      //   component: () => import('@/views/customer/gameLog'),
+      //   name: 'gameLog',
+      //   meta: {
+      //     title: '玩家游戏记录'
+      //   }
+      // },
       {
-        path: 'gameLog',
-        component: () => import('@/views/customer/gameLog'),
-        name: 'gameLog',
+        path: 'betRecord',
+        component: () => import('@/views/game/betRecord'),
+        name: 'betRecord',
         meta: {
-          title: '玩家游戏记录'
+          title: '投注记录'
         }
       },
       {
