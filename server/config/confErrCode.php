@@ -32,11 +32,13 @@ const ERR_ADMIN_REGISTER_REPEAT_USERNAME = 305; // 注册 - 该账号已被注�
 
 // 会员管理 400 - 500
 const ERR_INVALID_USER_ID = 400; // 用户id错误
+const ERR_USER_NOT_EXIST = 401; // 用户不存在
 
 // 客服管理 501 - 600
 const ERR_ORDER_NOT_EXIST = 501; // 订单不存在
 const ERR_ORDER_STATUS_WRONG = 502; // 订单状态错误
 const ERR_SCORE_OPERATION_FAIL = 503; // score operation fail
+const ERR_ORDER_ALREADY_EXIST = 504; // 订单已存在
 
 
 
@@ -63,6 +65,7 @@ const errMsg = [
     ERR_ADMIN_REGISTER_REPEAT_USERNAME => '注册 - 该账号已被注册',
 
     ERR_INVALID_USER_ID => '用户id错误',
+    ERR_USER_NOT_EXIST => '用户不存在',
 
     ERR_ORDER_NOT_EXIST => '订单不存在',
     ERR_ORDER_STATUS_WRONG => '订单状态错误',

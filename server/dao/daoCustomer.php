@@ -28,12 +28,13 @@ class daoCustomer {
          * 获取表 casinouserdb_x.casinouser_x 信息
          */
         if (!empty($userId)) {
-            $errCode = self::getUserInfo($userId, $retUserInfoList);
-            if ($errCode !== ERR_OK) {
-                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', self::getUserInfo fail, '
-                    . ' userId = ' . $userId . ', errCode = ' . $errCode);
-                return $errCode;
+            $userInfo = self::getUserInfo($userId);
+            if (empty($userInfo)) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', user not exist, userId = ' . $userId);
+                return ERR_USER_NOT_EXIST;
             }
+
+            $retUserInfoList[] = $userInfo;
         } else {
             $condition = [];
             $where = ' ';
@@ -1685,6 +1686,63 @@ class daoCustomer {
      * @return int
      */
     public static function manualRecharge($param, &$data) {
+        $userId = $param['userId'];
+        $money = $param['money'] * 100;
+        $thirdOrderId = $param['thirdOrderId'];
+
+        $userInfo = self::getUserInfo($userId);
+        if (empty($userInfo)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', user not exist, userId = ' . $userId);
+            return ERR_USER_NOT_EXIST;
+        }
+
+        // 检测订单是否已存在
+        if ($thirdOrderId !== '') {
+            $dbName = 'db_smc';
+            $pdoParam = [];
+            $sql = 'select id from smc_order where third_order_sn = :third_order_sn limit 1';
+            $pdoParam[':third_order_sn'] = $thirdOrderId;
+            $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+            if (!empty($rows)) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order already exist, thirdOrderId = ' . $thirdOrderId);
+                return ERR_ORDER_ALREADY_EXIST;
+            }
+        }
+
+        // 充值
+        $errCode = self::score_operation_by_kefu_recharge($userId, $money);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', 充值失败, self::score_operation_by_kefu_recharge fail, param = ' . json_encode($param));
+            return $errCode;
+        }
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', 充值成功, userId = ' . $userId . ', money = ' . $money);
+
+        // 更新后台数据库
+        $tsNow = time();
+        $dbName = 'db_smc';
+        $sql = 'insert into smc_order (user_id, order_sn, add_time, pay_success_time, money, pay_type, refer, third_order_sn, channel_id, before_chips, pay_platform, status)';
+        $sql .= ' values (:user_id, :order_sn, :add_time, :pay_success_time, :money, :pay_type, :refer, :third_order_sn, :channel_id, :before_chips, :pay_platform, :status)';
+        $pdoParam = [
+            ':user_id' => $userId,
+            ':order_sn' => clsUtility::generateOrderId($userId),
+            ':add_time' => $tsNow,
+            ':pay_success_time' => $tsNow,
+            ':money' => $money,
+            ':pay_type' => 'kefu_recharge',
+            ':refer' => 'testAdmin', // todo
+            ':third_order_sn' => $thirdOrderId,
+            ':channel_id' => $userInfo ['channel_id'],
+            ':before_chips' => $userInfo ['user_chips'],
+            ':pay_platform' => 98, // todo
+            ':status' => 1
+        ];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = ' . $dbName
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
         return ERR_OK;
     }
 
@@ -1693,14 +1751,13 @@ class daoCustomer {
     /**
      * 获取用户信息 - 根据userId
      * @param $userId
-     * @param $data
-     * @return int
+     * @return array
      */
-    public static function getUserInfo($userId, &$data) {
+    public static function getUserInfo($userId) {
         $indexArr = clsUtility::getUserDBPos($userId);
         if (!is_array($indexArr) || empty($indexArr)) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getUserDBPos fail, invalid userId, userId = ' . $userId);
-            return ERR_INVALID_USER_ID;
+            return [];
         }
 
         $dbIndex = $indexArr['dbindex'];
@@ -1710,7 +1767,7 @@ class daoCustomer {
         $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
-            return ERR_MYSQL_CONNECT_FAIL;
+            return [];
         }
 
         $tableName = 'casinouser_' . $tableIndex;
@@ -1725,18 +1782,17 @@ class daoCustomer {
         if (!$ret) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
                 . ', pdoParam = ' . json_encode($pdoParam));
-            return ERR_MYSQL_EXECUTE_FAIL;
+            return [];
         }
 
         $row = $stmt->fetchAll();
-        if (!empty($row)) {
-            $data = $row;
-        } else {
+        if (empty($row)) {
             clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql
                 . ', pdoParam = ' . json_encode($pdoParam) . ', dbIndex = ' . json_encode($dbIndex));
+            return [];
         }
 
-        return ERR_OK;
+        return $row;
     }
 
     /**
@@ -2598,5 +2654,32 @@ class daoCustomer {
         }
 
         return $finalRet;
+    }
+
+    /**
+     * 客服充值 todo
+     * @param $uid
+     * @param $chip
+     * @return bool
+     */
+    public static function score_operation_by_kefu_recharge($uid, $chip) {
+//        //  $this->_require('pb_proto_clientgameserver');
+//
+//        $scoreoper = new GameServerMiddleLayerServerScoreOperation();
+//        $scoreoper->set_userID($uid);
+//        $scoreoper->set_score($chip);
+//        $scoreoper->set_gameCode('999994');
+//        $scoreoper->set_addtype(EnumAddScoreType::enumAddScoreType_BackgroundAdd);
+//
+//        $buf = $scoreoper->SerializeToString();
+//
+//        $ret = $this->_request_midlayer_res1($buf,60002, DISPATCH_SERVER_IP, DISPATCH_SERVER_PORT);
+//
+//        $rsp = new GameServerMiddleLayerServerScoreOperationRsp();
+//        $rsp->ParseFromString($ret);
+//
+//        return $rsp->returncode() === EnumResult::enumResultSucc ;
+
+        return ERR_OK;
     }
 }

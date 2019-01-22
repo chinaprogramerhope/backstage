@@ -826,6 +826,25 @@ class svcCustomer {
      * @return int
      */
     public function manualRecharge($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])
+            || !isset($param['userIdAgain']) || empty($param['userIdAgain'])
+            || !isset($param['money']) || empty($param['money'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $userId = intval($param['userId']);
+        $userIdAgain = intval($param['userIdAgain']);
+        $money = intval($param['money']);
+        if ($userId <= 0 || $userId !== $userIdAgain || $money <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['userId'] = $userId;
+        $param['money'] = $money;
+        $param['thirdOrderId'] = isset($param['thirdOrderId']) && !empty($param['thirdOrderId']) ? trim($param['thirdOrderId']) : '';
+
         return clsCustomer::manualRecharge($param, $data);
     }
 }
