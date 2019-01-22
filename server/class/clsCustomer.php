@@ -226,32 +226,72 @@ class clsCustomer {
     }
 
     /**
-     * 客户端缺陷工单 - 创建缺陷工单
+     * 客户端缺陷工单 - 单个工单 - 创建
      * @param $param
      * @param $data
      * @return int
      */
-    public static function clientBugBatchCreate($param, &$data) {
-        return daoCustomer::clientBugBatchCreate($param, $data);
+    public static function clientBugOneCreate($param, &$data) {
+        return daoCustomer::clientBugOneCreate($param, $data);
     }
 
     /**
-     * 客户端缺陷工单 - 操作 - 处理
+     * 客户端缺陷工单 - 单个工单 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public static function clientBugOperationHandle($param, &$data) {
-        return daoCustomer::clientBugOperationHandle($param, $data);
+    public static function clientBugOneGet($param, &$data) {
+        return daoCustomer::clientBugOneGet($param, $data);
     }
 
     /**
-     *  客户端缺陷工单 - 操作 - 查看
+     *  客户端缺陷工单 - 单个工单 - 关闭
      * @param $param
      * @param $data
      * @return int
      */
-    public static function clientBugOperationGet($param, &$data) {
-        return daoCustomer::clientBugOperationGet($param, $data);
+    public static function clientBugOneUpdate($param, &$data) {
+        return daoCustomer::clientBugOneUpdate($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 单个工单 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugOneDel($param, &$data) {
+        return daoCustomer::clientBugOneDel($param, $data);
+    }
+
+    /**
+     * 举报管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function userReportGet($param, &$data) {
+        return daoCustomer::userReportGet($param, $data);
+    }
+
+    /**
+     * 举报管理 - 回放
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function userReportPlayback($param, &$data) {
+        return daoCustomer::userReportPlayback($param, $data);
+    }
+
+    /**
+     * 举报管理 - 回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function userReportReply($param, &$data) {
+        return daoCustomer::userReportReply($param, $data);
     }
 }

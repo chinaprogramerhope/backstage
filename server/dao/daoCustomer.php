@@ -1100,36 +1100,208 @@ class daoCustomer {
      * @return int
      */
     public static function clientBugBatchClose($param, &$data) {
+        $idArr = $param['idArr'];
+
+        $currentAdmin = ''; // todo 当前管理员
+        $status = 1;
+        $tsNow = time();
+
+        $dbName = 'db_smc';
+        $sql = 'update smc_client_bug set status = :status, update_user = :update_user, update_time = :update_time';
+        $sql .= ' where id = :id';
+        $pdoParam = [
+            ':status' => $status,
+            ':update_user' => $currentAdmin,
+            ':update_time' => $tsNow
+        ];
+
+        foreach ($idArr as $id) {
+            $pdoParam[':id'] = $id;
+            $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+            if ($errCode !== ERR_OK) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                    . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+                continue;
+            }
+        }
+
         return ERR_OK;
     }
 
     /**
-     * 客户端缺陷工单 - 创建缺陷工单
+     * 客户端缺陷工单 - 单个工单 - 创建
      * @param $param
      * @param $data
      * @return int
      */
-    public static function clientBugBatchCreate($param, &$data) {
+    public static function clientBugOneCreate($param, &$data) {
+        $pdoParam = [
+            'user_id' => $param['userId'],
+            'phonesystem' => $param['phoneSystem'],
+            'phonemodel' => $param['phoneModel'],
+            'networktype' => $param['networkType'],
+
+            'address' => $param['address'],
+            'appsize' => $param['appSize'],
+            'appsource' => $param['appSource'],
+            'bugtype' => $param['bugType'],
+
+            'describe' => $param['describe'],
+            'operuser' => $param['recorder'],
+            'status' => 0, // 默认开启状态
+            'uuid' => md5(uniqid())
+        ];
+        $dbName = 'db_smc';
+        $sql = 'insert into smc_client_bug(user_id, phonesystem, phonemodel, networktype, address, appsize, appsource, bugtype, describe, operuser, status, uuid)';
+        $sql .= ' values (:user_id, :phonesystem, :phonemodel, :networktype, :address, :appsize, :appsource, :bugtype, :describe, :operuser, :status, :uuid)';
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
         return ERR_OK;
     }
 
     /**
-     * 客户端缺陷工单 - 操作 - 处理
+     * 客户端缺陷工单 - 单个工单 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public static function clientBugOperationHandle($param, &$data) {
+    public static function clientBugOneGet($param, &$data) {
+        $id = $param['id'];
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_client_bug where id = :id limit 1';
+        $pdoParam = [':id' => $id];
+        $data = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
         return ERR_OK;
     }
 
     /**
-     *  客户端缺陷工单 - 操作 - 查看
+     *  客户端缺陷工单 - 单个工单 - 关闭
      * @param $param
      * @param $data
      * @return int
      */
-    public static function clientBugOperationGet($param, &$data) {
+    public static function clientBugOneUpdate($param, &$data) {
+        $id = $param['id'];
+        $dbName = 'db_smc';
+        $sql = 'update smc_client_bug set status = :status where id = :id';
+        $pdoParam = [':id' => $id, ':status' => 1];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = ' . $dbName
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客户端缺陷工单 - 单个工单 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugOneDel($param, &$data) {
+        $id = $param['id'];
+        $dbName = 'db_smc';
+        $sql = 'delete from smc_client_bug where id = :id';
+        $pdoParam = [':id' => $id];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = ' . $dbName
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 举报管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function userReportGet($param, &$data) {
+        $userId = $param['userId'];
+        $gameId = $param['gameId'];
+        $status = $param['status'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_report';
+
+        $itemArr = [];
+        $pdoParam = [];
+
+        if (!empty($userId)) {
+            $itemArr[] = 'user_id = :user_id';
+            $pdoParam[':user_id'] = $userId;
+        }
+        if ($gameId !== -1) {
+            $itemArr[] = 'type = :type';
+            $pdoParam[':type'] = $gameId;
+        }
+        if ($status !== -1) {
+            $itemArr[] = 'status = :status';
+            $pdoParam[':status'] = $status;
+        }
+
+        if (!empty($itemArr)) {
+            $sql .= ' where ';
+            $sqlWhere = implode(' and ', $itemArr);
+            $sql .= $sqlWhere;
+        }
+
+        $sql .= ' order by id desc limit :limit';
+        $pdoParam[':limit'] = maxQueryNum;
+
+        $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $playRecord = self::getGamePlayRecord($row['type'], $row['table_id'], $row['user_id']);
+                if (!empty($playRecord)) {
+                    $row['play_record'] = $playRecord['play_record'];
+                    $row['jinbi'] = intval($playRecord['user_score_end']) - intval($playRecord['user_score_begin']);
+                }
+            }
+            unset($row);
+
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 举报管理 - 回放
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function userReportPlayback($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 举报管理 - 回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function userReportReply($param, &$data) {
         return ERR_OK;
     }
 
@@ -1989,5 +2161,16 @@ class daoCustomer {
 //        return $rsp->returncode() == EnumResult::enumResultSucc;
 
         return ERR_OK;
+    }
+
+    /**
+     *
+     * @param $gameId - 游戏id
+     * @param $gameNumber - 牌局编号
+     * @param $userId - 用户id
+     * @return array
+     */
+    public static function getGamePlayRecord($gameId, $gameNumber, $userId) {
+        return [];
     }
 }

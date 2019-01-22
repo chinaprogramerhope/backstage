@@ -405,36 +405,144 @@ class svcCustomer {
      * @return int
      */
     public function clientBugBatchClose($param, &$data) {
+        if (!isset($param['idArr']) || empty($param['idArr'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, idArr empty, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsCustomer::clientBugBatchClose($param, $data);
     }
 
     /**
-     * 客户端缺陷工单 - 创建缺陷工单
+     * 客户端缺陷工单 - 单个工单 - 创建
      * @param $param
      * @param $data
      * @return int
      */
-    public function clientBugBatchCreate($param, &$data) {
-        return clsCustomer::clientBugBatchCreate($param, $data);
+    public function clientBugOneCreate($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])
+            || !isset($param['phoneSystem']) || empty($param['phoneSystem'])
+            || !isset($param['networkType']) || empty($param['networkType'])
+            || !isset($param['describe']) || empty($param['describe'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['userId'] = trim($param['userId']);
+        $param['phoneSystem'] = trim($param['phoneSystem']);
+        $param['networkType'] = trim($param['networkType']);
+        $param['describe'] = trim($param['describe']);
+
+        $param['recorder'] = isset($param['recorder']) && !empty($param['recorder']) ? trim($param['recorder']) : '';
+        $param['phoneModel'] = isset($param['phoneModel']) && !empty($param['phoneModel']) ? $param['phoneModel'] : '';
+        $param['address'] = isset($param['address']) && !empty($param['address']) ? trim($param['address']) : '';
+        $param['appSize'] = isset($param['appSize']) && !empty($param['appSize']) ? trim($param['appSize']) : '';
+
+        $param['appSource'] = isset($param['appSource']) && !empty($param['appSource']) ? trim($param['appSource']) : '';
+        $param['bugType'] = isset($param['bugType']) && !empty($param['bugType']) ? intval($param['bugType']) : 1;
+
+        return clsCustomer::clientBugOneCreate($param, $data);
     }
 
     /**
-     * 客户端缺陷工单 - 操作 - 处理
+     * 客户端缺陷工单 - 单个工单 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public function clientBugOperationHandle($param, &$data) {
-        return clsCustomer::clientBugOperationHandle($param, $data);
+    public function clientBugOneGet($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = intval($param['id']);
+        if ($param['id'] < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::clientBugOneGet($param, $data);
     }
 
     /**
-     *  客户端缺陷工单 - 操作 - 查看
+     *  客户端缺陷工单 - 单个工单 - 关闭
      * @param $param
      * @param $data
      * @return int
      */
-    public function clientBugOperationGet($param, &$data) {
-        return clsCustomer::clientBugOperationGet($param, $data);
+    public function clientBugOneUpdate($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = intval($param['id']);
+        if ($param['id'] < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::clientBugOneUpdate($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 单个工单 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function clientBugOneDel($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = intval($param['id']);
+        if ($param['id'] < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::clientBugOneDel($param, $data);
+    }
+
+    /**
+     * 举报管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function userReportGet($param, &$data) {
+        $param['userId'] = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $param['gameId'] = isset($param['gameId']) && !empty($param['gameId']) ? intval($param['gameId']) : -1;
+        $param['status'] = isset($param['status']) && !empty($param['status']) ? intval($param['status']) : -1;
+
+        if ($param['userId'] < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, invalid userId, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::userReportGet($param, $data);
+    }
+
+    /**
+     * 举报管理 - 回放
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function userReportPlayback($param, &$data) {
+        return clsCustomer::userReportPlayback($param, $data);
+    }
+
+    /**
+     * 举报管理 - 回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function userReportReply($param, &$data) {
+        return clsCustomer::userReportReply($param, $data);
     }
 }

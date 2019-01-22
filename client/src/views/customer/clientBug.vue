@@ -167,7 +167,7 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormAddVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleAdd">保 存</el-button>
+        <el-button type="primary" @click="clientBugOneCreate()">保 存</el-button>
       </div>
     </el-dialog>
 
@@ -175,6 +175,13 @@
 </template>
 
 <script>
+import { clientBugGet } from '@/api/customer'
+import { clientBugBatchClose } from '@/api/customer'
+import { clientBugOneCreate } from '@/api/customer'
+import { clientBugOneGet } from '@/api/customer'
+import { clientBugOneUpdate } from '@/api/customer'
+import { clientBugOneDel } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -224,16 +231,7 @@ export default {
   },
 
   created() {
-    const aliPayOrderId = this.form1.aliPayOrderId
-    const aliPayAccount = this.form1.aliPayAccount
-    const userId = this.form1.userId
-    const cardNumber = this.form1.cardNumber
-
-    const cardPassword = this.form1.cardPassword
-    const orderStatus = this.form1.orderStatus
-    const dateTimeRange = this.form1.dateTimeRange
-
-    aliPayTransferCardGet(aliPayOrderId, aliPayAccount, userId, cardNumber, cardPassword, orderStatus, dateTimeRange).then(response => {
+    clientBugGet().then(response => {
       if (response.code === 0) {
         this.tableData = response.data
       } else {
@@ -248,9 +246,28 @@ export default {
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
+    // 获取
+    handleGet() {
+    },
 
+    // 批量处理关闭
+    handleBatchClose() {
+    },
+
+    // 单个工单 - 创建
+    handleOneCreate() {
+    },
+
+    // 单个工单 - 获取
+    handleOneGet() {
+    },
+
+    // 单个工单 - 关闭
+    handleOneUpdate() {
+    },
+
+    // 单个工单 - 删除
+    handleOneDel() {
     }
   }
 }

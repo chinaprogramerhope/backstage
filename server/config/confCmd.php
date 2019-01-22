@@ -197,7 +197,12 @@ const cmdArr = [
 
     522 => ['svc' => 'svcCustomer', 'func' => 'clientBugGet'], // 客户端缺陷工单 - 获取
     523 => ['svc' => 'svcCustomer', 'func' => 'clientBugBatchClose'], // 客户端缺陷工单 - 批量处理关闭
-    524 => ['svc' => 'svcCustomer', 'func' => 'clientBugBatchCreate'], // 客户端缺陷工单 - 创建缺陷工单
-    525 => ['svc' => 'svcCustomer', 'func' => 'clientBugOperationHandle'], // 客户端缺陷工单 - 操作 - 处理
-    526 => ['svc' => 'svcCustomer', 'func' => 'clientBugOperationGet'], // 客户端缺陷工单 - 操作 - 查看
+    524 => ['svc' => 'svcCustomer', 'func' => 'clientBugOneCreate'], // 客户端缺陷工单 - 单个工单 - 创建
+    525 => ['svc' => 'svcCustomer', 'func' => 'clientBugOneGet'], // 客户端缺陷工单 - 单个工单 - 查看
+    526 => ['svc' => 'svcCustomer', 'func' => 'clientBugOneUpdate'], // 客户端缺陷工单 - 单个工单 - 关闭
+    527 => ['svc' => 'svcCustomer', 'func' => 'clientBugOneDel'], // 客户端缺陷工单 - 单个工单 - 删除
+
+    528 => ['svc' => 'svcCustomer', 'func' => 'userReportGet'], // 举报管理 - 获取
+    529 => ['svc' => 'svcCustomer', 'func' => 'userReportPlayback'], // 举报管理 - 回放
+    530 => ['svc' => 'svcCustomer', 'func' => 'userReportReply'], // 举报管理 - 回复
 ];

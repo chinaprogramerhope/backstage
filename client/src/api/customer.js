@@ -401,3 +401,165 @@ export function aliPayTransferCardGet(aliPayOrderId, aliPayAccount, userId, card
 
   return ret
 }
+
+/**
+ * 客户端缺陷工单 - 获取
+ */
+export function clientBugGet() {
+  const data = {
+    cmd: 522,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 客户端缺陷工单 - 批量处理关闭
+ */
+export function clientBugBatchClose() {
+  const data = {
+    cmd: 523,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 客户端缺陷工单 - 单个工单 - 创建
+ */
+export function clientBugOneCreate() {
+  const data = {
+    cmd: 524,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 客户端缺陷工单 - 单个工单 - 查看
+ */
+export function clientBugOneGet() {
+  const data = {
+    cmd: 525,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 客户端缺陷工单 - 单个工单 - 关闭
+ */
+export function clientBugOneUpdate() {
+  const data = {
+    cmd: 526,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 客户端缺陷工单 - 单个工单 - 删除
+ */
+export function clientBugOneDel() {
+  const data = {
+    cmd: 527,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 举报管理 - 获取
+ */
+export function userReportGet() {
+  const data = {
+    cmd: 528,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 举报管理 - 回放
+ */
+export function userReportPlayback() {
+  const data = {
+    cmd: 529,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
+
+/**
+ * 举报管理 - 回复
+ */
+export function userReportReply() {
+  const data = {
+    cmd: 530,
+    param: {
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
