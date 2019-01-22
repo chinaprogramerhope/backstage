@@ -533,6 +533,17 @@ class svcCustomer {
      * @return int
      */
     public function userReportPlayback($param, &$data) {
+        if (!isset($param['gameId']) || empty($param['gameId'])
+            || !isset($param['gameNumber']) || empty($param['gameNumber'])
+            || !isset($param['userId']) || empty($param['userId'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, invalid userId, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['gameId'] = intval($param['gameId']);
+        $param['gameNumber'] = intval($param['gameNumber']);
+        $param['userId'] = intval($param['userId']);
+
         return clsCustomer::userReportPlayback($param, $data);
     }
 
@@ -544,5 +555,277 @@ class svcCustomer {
      */
     public function userReportReply($param, &$data) {
         return clsCustomer::userReportReply($param, $data);
+    }
+
+    /**
+     * 在线客服 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineGet($param, &$data) {
+        return clsCustomer::onlineGet($param, $data);
+    }
+
+    /**
+     * 在线客服 - 添加快捷回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineQuickReplyAdd($param, &$data) {
+        return clsCustomer::onlineQuickReplyAdd($param, $data);
+    }
+
+    /**
+     * 在线客服 - 获取快捷回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineQuickReplyGet($param, &$data) {
+        return clsCustomer::onlineQuickReplyGet($param, $data);
+    }
+
+    /**
+     * 在线客服 - 禁言
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineForbidWord($param, &$data) {
+        return clsCustomer::onlineForbidWord($param, $data);
+    }
+
+    /**
+     * 在线客服 - 关闭并受理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineCloseAndAccept($param, &$data) {
+        return clsCustomer::onlineCloseAndAccept($param, $data);
+    }
+
+    /**
+     * 在线客服 - 回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineReply($param, &$data) {
+        return clsCustomer::onlineReply($param, $data);
+    }
+
+    /**
+     * 在线客服 - 回复并查看下一条
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineReplyAndNext($param, &$data) {
+        return clsCustomer::onlineReplyAndNext($param, $data);
+    }
+
+    /**
+     * 在线客服 - 批量转客服
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineBatchTransfer($param, &$data) {
+        return clsCustomer::onlineBatchTransfer($param, $data);
+    }
+
+    /**
+     * 在线客服 - 设置紧急回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineGetUrgentReplyAdd($param, &$data) {
+        return clsCustomer::onlineGetUrgentReplyAdd($param, $data);
+    }
+
+    /**
+     * 在线客服 - 开启人工充值
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineManualRechargeOpen($param, &$data) {
+        return clsCustomer::onlineManualRechargeOpen($param, $data);
+    }
+
+    /**
+     * 在线客服 - 设置在线
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineSetOnline($param, &$data) {
+        return clsCustomer::onlineSetOnline($param, $data);
+    }
+
+    /**
+     * 在线客服 - 转给其他客服
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineTransfer($param, &$data) {
+        return clsCustomer::onlineTransfer($param, $data);
+    }
+
+    /**
+     * 在线客服 - 客服结束
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineFinish($param, &$data) {
+        return clsCustomer::onlineFinish($param, $data);
+    }
+
+    /**
+     * 在线客服 - 取消禁言
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineCancelForbidWord($param, &$data) {
+        return clsCustomer::onlineCancelForbidWord($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayCashManageGet($param, &$data) {
+        return clsCustomer::aliPayCashManageGet($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 开启总闸
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayCashManageOpen($param, &$data) {
+        return clsCustomer::aliPayCashManageOpen($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 关闭总闸
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayCashManageClose($param, &$data) {
+        return clsCustomer::aliPayCashManageClose($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 添加新支付宝
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayCashManageAddAliPay($param, &$data) {
+        return clsCustomer::aliPayCashManageAddAliPay($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 禁用
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayCashManageForbid($param, &$data) {
+        return clsCustomer::aliPayCashManageForbid($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayCashManageDel($param, &$data) {
+        return clsCustomer::aliPayCashManageDel($param, $data);
+    }
+
+    /**
+     * 客服代理充值注册 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function agentRechargeRegisterGet($param, &$data) {
+        $param['agentNo'] = isset($param['agentNo']) && !empty($param['agentNo']) ? trim($param['agentNo']) : '';
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+        $param['describe'] = isset($param['describe']) && !empty($param['describe']) ? trim($param['describe']) : '';
+
+        return clsCustomer::agentRechargeRegisterGet($param, $data);
+    }
+
+    /**
+     * 客服代理充值注册 - 创建新账户
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function agentRechargeRegisterCreate($param, &$data) {
+        if (!isset($param['agentNo']) || empty($param['agentNo'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['agentNo'] = trim($param['agentNo']);
+        $param['describe'] = isset($param['describe']) && !empty($param['describe']) ? trim($param['describe']) : '';
+        return clsCustomer::agentRechargeRegisterCreate($param, $data);
+    }
+
+    /**
+     * 客服代理充值注册 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function agentRechargeRegisterDel($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = intval($param['id']);
+
+        return clsCustomer::agentRechargeRegisterDel($param, $data);
+    }
+
+    /**
+     * 客服手工充值查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function manualRechargeInfoGet($param, &$data) {
+        $param['userId'] = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $param['dateTimeRange'] = clsUtility::getFormatDateTime($param);
+        $param['customerId'] = isset($param['customerId']) && !empty($param['customerId']) ? intval($param['customerId']) : -1;
+
+        return clsCustomer::manualRechargeInfoGet($param, $data);
+    }
+
+    /**
+     * 客服手工充值 - 人工充值
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function manualRecharge($param, &$data) {
+        return clsCustomer::manualRecharge($param, $data);
     }
 }

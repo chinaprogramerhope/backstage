@@ -294,4 +294,254 @@ class clsCustomer {
     public static function userReportReply($param, &$data) {
         return daoCustomer::userReportReply($param, $data);
     }
+
+    /**
+     * 在线客服 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineGet($param, &$data) {
+        return daoCustomer::onlineGet($param, $data);
+    }
+
+    /**
+     * 在线客服 - 添加快捷回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineQuickReplyAdd($param, &$data) {
+        return daoCustomer::onlineQuickReplyAdd($param, $data);
+    }
+
+    /**
+     * 在线客服 - 获取快捷回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineQuickReplyGet($param, &$data) {
+        return daoCustomer::onlineQuickReplyGet($param, $data);
+    }
+
+    /**
+     * 在线客服 - 禁言
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineForbidWord($param, &$data) {
+        return daoCustomer::onlineForbidWord($param, $data);
+    }
+
+    /**
+     * 在线客服 - 关闭并受理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineCloseAndAccept($param, &$data) {
+        return daoCustomer::onlineCloseAndAccept($param, $data);
+    }
+
+    /**
+     * 在线客服 - 回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineReply($param, &$data) {
+        return daoCustomer::onlineReply($param, $data);
+    }
+
+    /**
+     * 在线客服 - 回复并查看下一条
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineReplyAndNext($param, &$data) {
+        return daoCustomer::onlineReplyAndNext($param, $data);
+    }
+
+    /**
+     * 在线客服 - 批量转客服
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineBatchTransfer($param, &$data) {
+        return daoCustomer::onlineBatchTransfer($param, $data);
+    }
+
+    /**
+     * 在线客服 - 设置紧急回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineGetUrgentReplyAdd($param, &$data) {
+        return daoCustomer::onlineGetUrgentReplyAdd($param, $data);
+    }
+
+    /**
+     * 在线客服 - 开启人工充值
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineManualRechargeOpen($param, &$data) {
+        return daoCustomer::onlineManualRechargeOpen($param, $data);
+    }
+
+    /**
+     * 在线客服 - 设置在线
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineSetOnline($param, &$data) {
+        return daoCustomer::onlineSetOnline($param, $data);
+    }
+
+    /**
+     * 在线客服 - 转给其他客服
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineTransfer($param, &$data) {
+        return daoCustomer::onlineTransfer($param, $data);
+    }
+
+    /**
+     * 在线客服 - 客服结束
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineFinish($param, &$data) {
+        return daoCustomer::onlineFinish($param, $data);
+    }
+
+    /**
+     * 在线客服 - 取消禁言
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineCancelForbidWord($param, &$data) {
+        return daoCustomer::onlineCancelForbidWord($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageGet($param, &$data) {
+        return daoCustomer::aliPayCashManageGet($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 开启总闸
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageOpen($param, &$data) {
+        return daoCustomer::aliPayCashManageOpen($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 关闭总闸
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageClose($param, &$data) {
+        return daoCustomer::aliPayCashManageClose($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 添加新支付宝
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageAddAliPay($param, &$data) {
+        return daoCustomer::aliPayCashManageAddAliPay($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 禁用
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageForbid($param, &$data) {
+        return daoCustomer::aliPayCashManageForbid($param, $data);
+    }
+
+    /**
+     * 提现支付宝管理 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageDel($param, &$data) {
+        return daoCustomer::aliPayCashManageDel($param, $data);
+    }
+
+    /**
+     * 客服代理充值注册 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function agentRechargeRegisterGet($param, &$data) {
+        return daoCustomer::agentRechargeRegisterGet($param, $data);
+    }
+
+    /**
+     * 客服代理充值注册 - 创建新账户
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function agentRechargeRegisterCreate($param, &$data) {
+        return daoCustomer::agentRechargeRegisterCreate($param, $data);
+    }
+
+    /**
+     * 客服代理充值注册 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function agentRechargeRegisterDel($param, &$data) {
+        return daoCustomer::agentRechargeRegisterDel($param, $data);
+    }
+
+    /**
+     * 客服手工充值查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function manualRechargeInfoGet($param, &$data) {
+        return daoCustomer::manualRechargeInfoGet($param, $data);
+    }
+
+    /**
+     * 客服手工充值 - 人工充值
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function manualRecharge($param, &$data) {
+        return daoCustomer::manualRecharge($param, $data);
+    }
 }

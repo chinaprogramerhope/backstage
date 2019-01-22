@@ -1292,6 +1292,16 @@ class daoCustomer {
      * @return int
      */
     public static function userReportPlayback($param, &$data) {
+        $gameId = $param['gameId'];
+        $gameNumber = $param['gameNumber'];
+        $userId = $param['userId'];
+
+        $data = self::getGamePlayRecord($gameId, $gameNumber, $userId);
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', self::getGamePlayRecord return empty, param = '
+                . json_encode($param));
+        }
+
         return ERR_OK;
     }
 
@@ -1302,6 +1312,379 @@ class daoCustomer {
      * @return int
      */
     public static function userReportReply($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 添加快捷回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineQuickReplyAdd($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 获取快捷回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineQuickReplyGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 禁言
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineForbidWord($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 关闭并受理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineCloseAndAccept($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineReply($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 回复并查看下一条
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineReplyAndNext($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 批量转客服
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineBatchTransfer($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 设置紧急回复
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineGetUrgentReplyAdd($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 开启人工充值
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineManualRechargeOpen($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 设置在线
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineSetOnline($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 转给其他客服
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineTransfer($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 客服结束
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineFinish($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 在线客服 - 取消禁言
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineCancelForbidWord($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 提现支付宝管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 提现支付宝管理 - 开启总闸
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageOpen($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 提现支付宝管理 - 关闭总闸
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageClose($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 提现支付宝管理 - 添加新支付宝
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageAddAliPay($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 提现支付宝管理 - 禁用
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageForbid($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 提现支付宝管理 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayCashManageDel($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 客服代理充值注册 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function agentRechargeRegisterGet($param, &$data) {
+        $agentNo = $param['agentNo'];
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+        $describe = $param['describe'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_dailipay_no';
+        $pdoParam = [];
+
+        $sql .= ' where addtime >= :dateBegin and addtime < :dateEnd';
+        $pdoParam[':dateBegin'] = $dateBegin;
+        $pdoParam[':dateEnd'] = $dateEnd;
+
+        if ($agentNo) {
+            $sql .= ' and daili_no = :daili_no';
+            $pdoParam[':daili_no'] = $agentNo;
+        }
+        if ($describe) {
+            $sql .= ' and describe like :describe';
+            $pdoParam[':describe'] = '%' . $describe . '%';
+        }
+
+        $sql .= ' order by id desc limit :limit';
+        $pdoParam[':limit'] = maxQueryNum;
+
+        $data = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客服代理充值注册 - 创建新账户
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function agentRechargeRegisterCreate($param, &$data) {
+        $agentNo = $param['agentNo'];
+        $describe = $param['describe'];
+        $addUser = ''; // todo 当前管理员
+        $timeNow = date('Y-m-d H:i:s');
+
+        $dbName = 'db_smc';
+        $sql = 'insert into smc_dailipay_no (daili_no, adduser, describe, addtime)';
+        $sql .= ' values (:daili_no, :adduser, :describe, :addtime)';
+        $pdoParam = [
+            ':daili_no' => $agentNo,
+            ':adduser' => $addUser,
+            ':describe' => $describe,
+            ':addtime' => $timeNow
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客服代理充值注册 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function agentRechargeRegisterDel($param, &$data) {
+        $id = $param['id'];
+
+        $dbName = 'db_smc';
+        $sql = 'delete from smc_dailipay_no where id = :id';
+        $pdoParam = [
+            ':id' => $id
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客服手工充值查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function manualRechargeInfoGet($param, &$data) {
+        $userId = $param['userId'];
+        $tsBegin = strtotime($param['dateTimeRange']['dateTimeBegin']);
+        $tsEnd = strtotime($param['dateTimeRange']['dateTimeEnd']);
+        $customerId = $param['customerId'];
+
+        $dbName = 'db_smc';
+        $pdoParam = [];
+        $sql = 'select * from smc_order';
+
+        $sql .= ' where add_time >= :tsBegin and add_time <= :tsEnd';
+        $pdoParam[':tsBegin'] = $tsBegin;
+        $pdoParam[':tsEnd'] = $tsEnd;
+
+        if ($userId) {
+            $sql .= ' and user_id = :user_id';
+            $pdoParam[':user_id'] = $userId;
+        }
+        if ($customerId !== -1) {
+            $sql .= ' and refer = :refer';
+            $pdoParam[':refer'] = $customerId;
+        }
+
+        $sql .= ' and pay_platform = 98'; // todo
+
+        $sql .= ' order by id desc limit :limit';
+        $pdoParam[':limit'] = maxQueryNum;
+
+        $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (!empty($rows)) {
+            foreach ($rows as &$row) {
+                $status = intval($row['orderStatus']);
+                switch ($status) {
+                    case 0:
+                        $row['status'] = '未支付';
+                        break;
+                    case 1:
+                        $row['status'] = '支付成功';
+                        break;
+                    default:
+                        $row['status'] = '支付失败';
+                }
+
+                $row['add_time'] = date('Y-m-d H:i:s', $row['add_time']);
+                $row['pay_success_time'] = $row['pay_success_time'] ? date('Y-m-d H:i:s', $row['pay_success_time']) : ' - ';
+                $row['money'] = number_format($row['money'] / 100, 2, '.', ' ');
+                $row['after_chips'] = $status === 1 ? $row['before_chips'] + $row['money'] : '--';
+            }
+            unset($row);
+
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客服手工充值 - 人工充值
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function manualRecharge($param, &$data) {
         return ERR_OK;
     }
 
@@ -2171,6 +2554,49 @@ class daoCustomer {
      * @return array
      */
     public static function getGamePlayRecord($gameId, $gameNumber, $userId) {
-        return [];
+        $finalRet = [];
+
+        $dbDate = date('Ymd', substr($gameNumber, 0, 10));
+
+        $dbName = 'casinogamehisdb';
+        switch ($gameId) {
+            case 1:
+                $tableName = 'casinogamerecord_ddz_' . $dbDate;
+                break;
+            case 2:
+                $tableName = 'casinogamerecord_ddzhuanle_' . $dbDate;
+                break;
+            case 3:
+                $tableName = 'casinogamerecord_laizi_' . $dbDate;
+                break;
+            default:
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid gameId, gameId = ' . $gameId);
+                return [];
+        }
+
+        if (!clsUtility::checkTableExistByName($dbName, $tableName)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', table not exist, dbName = '
+                . $dbName . ', tableName = ' . $tableName);
+            return [];
+        }
+
+        $pdoParam = [];
+        $sql = 'select play_record,user_score_end,user_score_begin';
+        $sql .= ' from ' . $tableName;
+        $sql .= ' where game_number = :game_number';
+        $pdoParam[':game_number'] = $gameNumber;
+        if ($userId) {
+            $sql .= ' and user_id = :user_id';
+            $pdoParam[':user_id'] = $userId;
+        }
+        $sql .= ' limit 1';
+
+        $finalRet = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($finalRet)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $finalRet;
     }
 }

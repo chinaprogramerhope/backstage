@@ -205,4 +205,34 @@ const cmdArr = [
     528 => ['svc' => 'svcCustomer', 'func' => 'userReportGet'], // 举报管理 - 获取
     529 => ['svc' => 'svcCustomer', 'func' => 'userReportPlayback'], // 举报管理 - 回放
     530 => ['svc' => 'svcCustomer', 'func' => 'userReportReply'], // 举报管理 - 回复
+
+    531 => ['svc' => 'svcCustomer', 'func' => 'onlineGet'], // 在线客服 - 获取
+    532 => ['svc' => 'svcCustomer', 'func' => 'onlineQuickReplyAdd'], // 在线客服 - 添加快捷回复
+    533 => ['svc' => 'svcCustomer', 'func' => 'onlineQuickReplyGet'], // 在线客服 - 获取快捷回复
+    534 => ['svc' => 'svcCustomer', 'func' => 'onlineForbidWord'], // 在线客服 - 禁言
+    535 => ['svc' => 'svcCustomer', 'func' => 'onlineCloseAndAccept'], // 在线客服 - 关闭并受理
+    536 => ['svc' => 'svcCustomer', 'func' => 'onlineReply'], // 在线客服 - 回复
+    537 => ['svc' => 'svcCustomer', 'func' => 'onlineReplyAndNext'], // 在线客服 - 回复并查看下一条
+    538 => ['svc' => 'svcCustomer', 'func' => 'onlineBatchTransfer'], // 在线客服 - 批量转客服
+    539 => ['svc' => 'svcCustomer', 'func' => 'onlineGetUrgentReplyAdd'], // 在线客服 - 设置紧急回复
+    540 => ['svc' => 'svcCustomer', 'func' => 'onlineManualRechargeOpen'], // 在线客服 - 开启人工充值
+    541 => ['svc' => 'svcCustomer', 'func' => 'onlineSetOnline'], // 在线客服 - 设置在线
+    542 => ['svc' => 'svcCustomer', 'func' => 'onlineTransfer'], // 在线客服 - 转给其他客服
+    543 => ['svc' => 'svcCustomer', 'func' => 'onlineFinish'], // 在线客服 - 客服结束
+    544 => ['svc' => 'svcCustomer', 'func' => 'onlineCancelForbidWord'], // 在线客服 - 取消禁言
+
+    545 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageGet'], // 提现支付宝管理 - 获取
+    546 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageOpen'], // 提现支付宝管理 - 开启总闸
+    547 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageClose'], // 提现支付宝管理 - 关闭总闸
+    548 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageAddAliPay'], // 提现支付宝管理 - 添加新支付宝 todo admin页面
+    549 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageForbid'], // 提现支付宝管理 - 禁用 todo admin页面
+    550 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageDel'], // 提现支付宝管理 - 删除 todo admin页面
+
+    551 => ['svc' => 'svcCustomer', 'func' => 'agentRechargeRegisterGet'], // 客服代理充值注册 - 获取
+    552 => ['svc' => 'svcCustomer', 'func' => 'agentRechargeRegisterCreate'], // 客服代理充值注册 - 创建新账户
+    553 => ['svc' => 'svcCustomer', 'func' => 'agentRechargeRegisterDel'], // 客服代理充值注册 - 删除
+
+    554 => ['svc' => 'svcCustomer', 'func' => 'manualRechargeInfoGet'], // 客服手工充值查询 - 获取
+
+    555 => ['svc' => 'svcCustomer', 'func' => 'manualRecharge'], // 客服手工充值 - 人工充值
 ];

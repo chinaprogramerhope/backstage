@@ -33,10 +33,4 @@ require_once '../loadConfig.php';
 //$datetime2 = new DateTime('2009-10-15');
 //echo  $datetime1->diff($datetime2)->d;
 
-$a = [];
-//$a[] = 'xx';
-//$a[] = 'x1';
-
-$b = implode(' and ', $a);
-
-echo $b;
+echo '' == 0;

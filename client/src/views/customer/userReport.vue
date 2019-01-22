@@ -65,6 +65,10 @@
 </template>
 
 <script>
+import { userReportGet } from '@/api/customer'
+import { userReportPlayback } from '@/api/customer'
+import { userReportReply } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -91,7 +95,17 @@ export default {
   },
 
   created() {
-
+    userReportGet().then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {
