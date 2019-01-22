@@ -63,20 +63,23 @@
       stripe
       style="width: 100%; margin-bottom: 20px">
       <el-table-column min-width="10%" prop="id" label="id" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="支付宝订单号" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="支付宝账号" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="卡号" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="卡密" align="center"/>
-      <el-table-column min-width="10%" prop="operator" label="金额(元)" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="创建时间" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="使用时间" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="状态" align="center"/>
+      <el-table-column min-width="10%" prop="alipayOrderId" label="支付宝订单号" align="center"/>
+      <el-table-column min-width="10%" prop="alipayAccount" label="支付宝账号" align="center"/>
+      <el-table-column min-width="10%" prop="userId" label="用户id" align="center"/>
+      <el-table-column min-width="10%" prop="cardNum" label="卡号" align="center"/>
+      <el-table-column min-width="10%" prop="cardPass" label="卡密" align="center"/>
+      <el-table-column min-width="10%" prop="money" label="金额(元)" align="center"/>
+      <el-table-column min-width="10%" prop="createTime" label="创建时间" align="center"/>
+      <el-table-column min-width="10%" prop="useTime" label="使用时间" align="center"/>
+      <el-table-column min-width="10%" prop="status" label="状态" align="center"/>
     </el-table>
 
   </div>
 </template>
 
 <script>
+import { aliPayTransferCardGet } from '@/api/customer'
+
 export default {
   data() {
     return {
@@ -95,21 +98,57 @@ export default {
         dateTimeRange: ''
       },
 
-      tableData: [{
-        id: '11'
-      }]
+      tableData: ''
     }
   },
 
   created() {
+    const aliPayOrderId = this.form1.aliPayOrderId
+    const aliPayAccount = this.form1.aliPayAccount
+    const userId = this.form1.userId
+    const cardNumber = this.form1.cardNumber
 
+    const cardPassword = this.form1.cardPassword
+    const orderStatus = this.form1.orderStatus
+    const dateTimeRange = this.form1.dateTimeRange
+
+    aliPayTransferCardGet(aliPayOrderId, aliPayAccount, userId, cardNumber, cardPassword, orderStatus, dateTimeRange).then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {
 
-    // 添加游戏版本
-    handleAdd() {
+    // 查询
+    handleGet() {
+      const aliPayOrderId = this.form1.aliPayOrderId
+      const aliPayAccount = this.form1.aliPayAccount
+      const userId = this.form1.userId
+      const cardNumber = this.form1.cardNumber
 
+      const cardPassword = this.form1.cardPassword
+      const orderStatus = this.form1.orderStatus
+      const dateTimeRange = this.form1.dateTimeRange
+
+      aliPayTransferCardGet(aliPayOrderId, aliPayAccount, userId, cardNumber, cardPassword, orderStatus, dateTimeRange).then(response => {
+        if (response.code === 0) {
+          this.tableData = response.data
+        } else {
+          this.$notify({
+            title: '获取数据失败: ' + response.msg,
+            message: '',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

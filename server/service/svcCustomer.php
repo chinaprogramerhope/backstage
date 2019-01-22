@@ -332,4 +332,109 @@ class svcCustomer {
         return clsCustomer::aliPayTransferCheckClose($param, $data);
     }
 
+    /**
+     * 支付宝转账卡号卡密 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayTransferCardGet($param, &$data) {
+        $aliPayOrderId = isset($param['aliPayOrderId']) && !empty($param['aliPayOrderId']) ? trim($param['aliPayOrderId']) : '';
+        $aliPayAccount = isset($param['aliPayAccount']) && !empty($param['aliPayAccount']) ? trim($param['aliPayAccount']) : '';
+        $userId = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $cardNumber = isset($param['cardNumber']) && !empty($param['cardNumber']) ? trim($param['cardNumber']) : '';
+
+        $cardPassword = isset($param['cardPassword']) && !empty($param['cardPassword']) ? trim($param['cardPassword']) : '';
+        $dateTimeRange = clsUtility::getFormatDateTime($param);
+        $orderStatus = isset($param['orderStatus']) && !empty($param['orderStatus']) ? intval($param['aliPayOrderId']) : -1;
+
+        if ($userId < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, invalid userId, userId = ' . $userId);
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['aliPayOrderId'] = $aliPayOrderId;
+        $param['aliPayAccount'] = $aliPayAccount;
+        $param['userId'] = $userId;
+        $param['cardNumber'] = $cardNumber;
+
+        $param['cardPassword'] = $cardPassword;
+        $param['dateTimeRange'] = $dateTimeRange;
+        $param['orderStatus'] = $orderStatus;
+
+        return clsCustomer::aliPayTransferCardGet($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function clientBugGet($param, &$data) {
+        $id = isset($param['id']) && !empty($param['id']) ? intval($param['id']) : 0;
+        $userId = isset($param['userId']) && !empty($param['userId']) ? trim($param['userId']) : '';
+        $recorder = isset($param['recorder']) && !empty($param['recorder']) ? trim($param['recorder']) : 0;
+        $dateRange = clsUtility::getFormatDate($param);
+
+        $describe = isset($param['describe']) && !empty($param['describe']) ? trim($param['describe']) : 0;
+        $status = isset($param['status']) && !empty($param['status']) ? intval($param['status']) : -1;
+        $bugType = isset($param['bugType']) && !empty($param['bugType']) ? intval($param['bugType']) : -1;
+
+        $param['id'] = $id;
+        $param['userId'] = $userId;
+        $param['recorder'] = $recorder;
+        $param['dateRange'] = $dateRange;
+
+        $param['describe'] = $describe;
+        $param['status'] = $status;
+        $param['bugType'] = $bugType;
+
+        if ($id < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, invalid id, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::clientBugGet($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 批量处理关闭
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function clientBugBatchClose($param, &$data) {
+        return clsCustomer::clientBugBatchClose($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 创建缺陷工单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function clientBugBatchCreate($param, &$data) {
+        return clsCustomer::clientBugBatchCreate($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 操作 - 处理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function clientBugOperationHandle($param, &$data) {
+        return clsCustomer::clientBugOperationHandle($param, $data);
+    }
+
+    /**
+     *  客户端缺陷工单 - 操作 - 查看
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function clientBugOperationGet($param, &$data) {
+        return clsCustomer::clientBugOperationGet($param, $data);
+    }
 }

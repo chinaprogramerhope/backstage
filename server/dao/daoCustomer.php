@@ -860,8 +860,12 @@ class daoCustomer {
             return ERR_ORDER_STATUS_WRONG;
         }
 
-        // 更新 todo
-        self::orderSuccess($order);
+        // 更新
+        $errCode = self::orderSuccess($order);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', self::orderSuccess fail, order = ' . json_encode($order));
+            return $errCode;
+        }
 
         clsLog::info(__METHOD__ . ', ' . __LINE__ . ', order transfer success, orderId = ' . $orderId);
 
@@ -945,11 +949,187 @@ class daoCustomer {
 
         // notice 日志记录管理员id, 名字和订单id
 
-        // 更新 todo
-        self::orderFail($order, $reason);
+        // 更新
+        $errCode = self::orderFail($order, $reason);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', self::orderFail fail, order = ' . json_encode($order)
+                . ', reason = ' . $reason);
+            return $errCode;
+        }
+
+        $redis = clsRedis::getInstance();
+        if ($redis !== null) {
+            $redis->del('al_' . $order['third_order_sn']);
+        } else {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+        }
 
         clsLog::info(__METHOD__ . ', ' . __LINE__ . ', order transfer success, orderId = ' . $orderId);
 
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝转账卡号卡密 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayTransferCardGet($param, &$data) {
+        $aliPayOrderId = $param['aliPayOrderId'];
+        $aliPayAccount = $param['aliPayAccount'];
+        $userId = $param['userId'];
+        $cardNumber = $param['cardNumber'];
+
+        $cardPassword = $param['cardPassword'];
+        $dateTimeBegin = $param['dateTimeRange']['dateTimeBegin'];
+        $dateTimeEnd = $param['dateTimeRange']['dateTimeEnd'];
+        $tsBegin = strtotime($dateTimeBegin);
+        $tsEnd = strtotime($dateTimeEnd);
+        $orderStatus = $param['orderStatus'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_card';
+        $sql .= ' where createTime >= :tsBegin and createTime <= :tsEnd';
+        $pdoParam = [':tsBegin' => $tsBegin, ':tsEnd' => $tsEnd];
+
+        if ($aliPayOrderId) {
+            $sql .= ' and alipayOrderId = :alipayOrderId';
+            $pdoParam[':alipayOrderId'] = $aliPayOrderId;
+        }
+        if ($aliPayAccount) {
+            $sql .= ' and alipayAccount = :alipayAccount';
+            $pdoParam[':alipayAccount'] = $aliPayAccount;
+        }
+        if ($userId) {
+            $sql .= ' and userId = :userId';
+            $pdoParam[':userId'] = $userId;
+        }
+        if ($cardNumber) {
+            $sql .= ' and cardNum = :cardNum';
+            $pdoParam[':cardNum'] = $cardNumber;
+        }
+        if ($cardPassword) {
+            $sql .= ' and cardPass = :cardPass';
+            $pdoParam[':cardPass'] = $cardPassword;
+        }
+        if ($orderStatus) {
+            $sql .= ' and status = :status';
+            $pdoParam[':status'] = $orderStatus;
+        }
+        $sql = ' order by createTime desc limit :limit';
+
+        $data = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客户端缺陷工单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugGet($param, &$data) {
+        $id = $param['id'];
+        $userId = $param['userId'];
+        $recorder = $param['recorder'];
+        $dateBegin = $param['dateRange']['dateBegin'];
+
+        $dateEnd = $param['dateRange']['dateEnd'];
+        $describe = $param['describe'];
+        $status = $param['status'];
+        $bugType = $param['bugType'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_client_bug';
+        $sql .= ' where opertime >= :dateBegin and opertime <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($id) {
+            $sql .= ' and id = :id';
+            $pdoParam[':id'] = $id;
+        }
+        if ($userId) {
+            $sql .= ' and user_id = :user_id';
+            $pdoParam[':user_id'] = $userId;
+        }
+        if ($recorder) {
+            $sql .= ' and operuser = :operuser';
+            $pdoParam[':operuser'] = $recorder;
+        }
+        if ($describe) {
+            $sql .= ' and describe like :describe';
+            $pdoParam[':describe'] = '%' . $describe . '%';
+        }
+        if ($status) {
+            $sql .= ' and status = :status';
+            $pdoParam[':status'] = $status;
+        }
+        if ($bugType) {
+            $sql .= ' and bugtype = :bugtype';
+            $pdoParam[':bugtype'] = $bugType;
+        }
+        $sql .= ' order by id desc limit :limit';
+        $pdoParam[':limit'] = maxQueryNum;
+
+        $data = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (!empty($data)) {
+            foreach ($data as &$row) {
+                $status = 1;
+                $row['status'] = $status === 1 ? '开启' : '关闭';
+                $row['opertime'] = $row['opertime'] ? $row['opertime'] : '-';
+            }
+            unset($row);
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 客户端缺陷工单 - 批量处理关闭
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugBatchClose($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 客户端缺陷工单 - 创建缺陷工单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugBatchCreate($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 客户端缺陷工单 - 操作 - 处理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugOperationHandle($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     *  客户端缺陷工单 - 操作 - 查看
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugOperationGet($param, &$data) {
         return ERR_OK;
     }
 
@@ -1615,7 +1795,94 @@ class daoCustomer {
     }
 
     public static function orderSuccess($order) {
+        $orderId = $order['order_sn'];
+        $orderStatus = intval($order['status']);
+        $tsNow = time();
 
+        $redis = clsRedis::getInstance();
+        if ($redis === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+            return ERR_REDIS_CONNECT_FAIL;
+        }
+
+        if ($orderStatus != orderStatusNew || $redis->incr($orderId) !== 1) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', order status error, orderId = '
+                . $orderId . ', order = ' . json_encode($order));
+            return ERR_ORDER_STATUS_WRONG;
+        }
+
+        $gold = intval($order['money']);
+        $userId = intval($order ['user_id']);
+        if (self::score_operation($userId, $gold) !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', score operation failed, orderId = ' . $orderId
+                . ', gold = ' . $gold);
+            return ERR_SCORE_OPERATION_FAIL;
+        }
+
+        $dbName = 'db_smc';
+        $sql = 'update smc_order set status = :status, pay_success_time = :pay_success_time';
+        $sql .= ' where order_sn = :order_sn';
+        $pdoParam = [
+            ':status' => orderStatusSuccess,
+            ':pay_success_time' => $tsNow,
+            ':order_sn' => $orderId
+        ];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        $indexArr = clsUtility::getUserDBPos($userId);
+        if (!is_array($indexArr) || empty($indexArr)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getUserDBPos, userId = ' . $userId);
+            return ERR_INVALID_USER_ID;
+        }
+        $dbIndex = $indexArr['dbindex'];
+        $tableIndex = $indexArr['tableindex'];
+
+        $dbName = 'casinouserdb_' . $dbIndex;
+        $tableName = 'casinouser_' . $tableIndex;
+        $sql = 'update ' . $tableName . ' set totalBuy = totalBuy + :gold';
+        $sql .= ' where id = :userId';
+        $pdoParam = [
+            ':gold' => $gold,
+            ':userId' => $userId
+        ];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        // 更新总支付金额
+        $redis->incrBy('alipay_tr_total_pay_' . date('Ymd'), intval($order ['money'] / 100));
+
+        if ($redis->exists('euc_' . $order ['user_id'])) {
+            $redis->incrBy('euc_' . $order ['user_id'], intval($order ['money'] / 100));
+        } else {
+            $expireTime = strtotime(date('Ymd')) + daySeconds - $tsNow;
+            $redis->setex('euc_' . $order ['user_id'], $expireTime, intval($order ['money'] / 100));
+        }
+
+        // 需要发一段话
+        $autoReplyData = array();
+        $rechargeMoney = intval($order['money'] / 100);
+        $autoReplyData ['content'] = "您好，您的支付宝转账充值成功，订单号：{$order['third_order_sn']}, 金额：$rechargeMoney";
+        $autoReplyData ['user_id'] = $order['user_id'];
+        $autoReplyData ['add_time'] = $tsNow + 5;
+        // 表示管理员在说话
+        $autoReplyData ['admin_id'] = 1;
+        $autoReplyData ['is_recharge'] = 1;
+        $errCode = self::insertChatMessage($autoReplyData);
+        if ($errCode !== ERR_OK) {
+            clsLog::warn(__METHOD__ . ', ' . __LINE__ . ', self::insertChatMessage fail, autoReplyData = '
+                . json_encode($autoReplyData));
+        }
+
+        return ERR_OK;
     }
 
     public static function orderFail($order, $reason) {
@@ -1624,9 +1891,11 @@ class daoCustomer {
         $timeNow = time();
 
         $sql = 'update smc_order set status = :status, pay_success_time = :pay_success_time';
+        $sql .= ' where order_sn = :order_sn';
         $pdoParam = [
             ':status' => intval($order['status']),
-            ':pay_success_time' => $timeNow
+            ':pay_success_time' => $timeNow,
+            ':order_sn' => $orderId
         ];
         $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
         if ($errCode !== ERR_OK) {
@@ -1643,7 +1912,81 @@ class daoCustomer {
             'admin_id' => 1, // 表示管理员在说话
             'is_recharge' => 1
         ];
-//        $this->Chat_model->insertRMessage($autoReplyData);
+        $errCode = self::insertChatMessage($autoReplyData);
+        if ($errCode !== ERR_OK) {
+            clsLog::warn(__METHOD__ . ', ' . __LINE__ . ', self::insertChatMessage fail, autoReplyData = '
+                . json_encode($autoReplyData) . ', errCode = ' . $errCode);
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * db_smc.smc_chat - 新增
+     * @param $data
+     * @return int
+     */
+    public static function insertChatMessage($data) {
+        $dbName = 'db_smc';
+        $sql = 'insert into smc_chat (content, user_id, admin_id, is_recharge, add_time) values (:content, :user_id, :admin_id, :is_recharge, :add_time)';
+        $errCode = clsUtility::updateData($dbName, $sql, $data);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', smc_chat insert fail, sql = ' . $sql
+                . ', pdoParam = ' . json_encode($data));
+            return $errCode;
+        }
+
+        $sql = 'update smc_chat_session set update_time = :update_time, is_user_reply = :is_user_reply';
+        $sql .= ' where user_id = :user_id and is_recharge = :is_recharge';
+        $pdoParam = [
+            ':update_time' => $data['add_time'],
+            ':is_user_reply' => 1,
+            ':user_id' => $data['user_id'],
+            ':is_recharge' => 1
+        ];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', smc_chat insert fail, sql = ' . $sql
+                . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $errCode;
+    }
+
+    /**
+     * middleServer scoreOperation
+     * @param $uid
+     * @param $chip
+     * @return int
+     */
+    public static function score_operation($uid, $chip) {
+//        $CI = &get_instance();
+//        $db_smc = $CI->load->database('default', true);
+//
+//        $data = array(
+//            'admin_id' => $this->session->userdata('id'),
+//            'user_id' => $uid,
+//            'add_time' => time(),
+//            'action' => '充值' . $chip . '金币',
+//            'chips' => $chip
+//        );
+//        $db_smc->insert('smc_admin_log', $data);
+//        $db_smc->close();
+//
+//        $scoreoper = new GameServerMiddleLayerServerScoreOperation();
+//        $scoreoper->set_userID($uid);
+//        $scoreoper->set_score($chip);
+//        $scoreoper->set_gameCode('999999');
+//        $scoreoper->set_addtype(19);
+//
+//        $buf = $scoreoper->SerializeToString();
+//
+//        $ret = $this->_request_midlayer_res1($buf, 60002, DISPATCH_SERVER_IP, DISPATCH_SERVER_PORT);
+//
+//        $rsp = new GameServerMiddleLayerServerScoreOperationRsp();
+//        $rsp->ParseFromString($ret);
+//
+//        return $rsp->returncode() == EnumResult::enumResultSucc;
 
         return ERR_OK;
     }

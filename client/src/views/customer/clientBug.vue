@@ -86,16 +86,21 @@
         </template>
       </el-table-column>
       <el-table-column min-width="10%" prop="id" label="单号" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="状态" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="记录人" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="记录时间" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="玩家账号" align="center"/>
-      <el-table-column min-width="10%" prop="operator" label="手机系统" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="问题描述" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="问题类型" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="操作" align="center">
-        <template slot-scope="scope2">
-          <el-button size="mini" type="primary">修改</el-button>
+      <el-table-column min-width="10%" prop="status" label="状态" align="center"/>
+      <el-table-column min-width="10%" prop="operuser" label="记录人" align="center"/>
+      <el-table-column min-width="10%" prop="opertime" label="记录时间" align="center"/>
+      <el-table-column min-width="10%" prop="user_id" label="玩家账号" align="center"/>
+      <el-table-column min-width="10%" prop="phonesystem" label="手机系统" align="center"/>
+      <el-table-column min-width="10%" prop="describe" label="问题描述" align="center"/>
+      <el-table-column min-width="10%" prop="bugtype" label="问题类型" align="center"/>
+      <el-table-column min-width="10%" prop="" label="操作" align="center">
+        <template slot-scope="scope">
+          <div v-if="1">
+            <el-button size="mini" type="success" @click="xx">处理</el-button>
+          </div>
+          <div v-else>
+            <el-button size="mini" type="danger" @click="xx">查看</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -219,7 +224,26 @@ export default {
   },
 
   created() {
+    const aliPayOrderId = this.form1.aliPayOrderId
+    const aliPayAccount = this.form1.aliPayAccount
+    const userId = this.form1.userId
+    const cardNumber = this.form1.cardNumber
 
+    const cardPassword = this.form1.cardPassword
+    const orderStatus = this.form1.orderStatus
+    const dateTimeRange = this.form1.dateTimeRange
+
+    aliPayTransferCardGet(aliPayOrderId, aliPayAccount, userId, cardNumber, cardPassword, orderStatus, dateTimeRange).then(response => {
+      if (response.code === 0) {
+        this.tableData = response.data
+      } else {
+        this.$notify({
+          title: '获取数据失败: ' + response.msg,
+          message: '',
+          type: 'error'
+        })
+      }
+    })
   },
 
   methods: {

@@ -2,9 +2,8 @@
     游戏管理 -> todo 游戏服务端自己redis存储游戏状态
     公告管理 -> todo 同客户端对接; 添加公告, 点击走马灯弹出选择时间;
 
-1.19 提升技术!!
+1.22 提升技术!!
     客服管理搞定
-    运营管理搞定
 
 
 
@@ -17,6 +16,10 @@
         查询都去掉用户账号, 用userId; 原后台 玩家金豆变化记录 同时输入userId和account时, 还用account再去middle server查userId, 好蛋疼的设定和操作
         根据account获取userId是, 玩家订单查询在CASINOUSERDB_xx.CASINOUSER_xx表中获取, 玩家金豆变化记录通过middleserver获取, 好乱啊
         完美: 当userId为空, account不为空时, 根据account获取db和table index, 然后获取userId且limit 1, 同服务端确认一个account貌似是对应多个userId;
+
+        middleServer操作的必要性, 比如通过account获取userId, 原始后台就有不通过和通过middleServer获取两种方式, 如果必要, 统一封装处理
+
+        前端传来的订单状态如果有0, svc中判断不能用empty
 
 
 

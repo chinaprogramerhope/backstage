@@ -36,6 +36,7 @@ const ERR_INVALID_USER_ID = 400; // 用户id错误
 // 客服管理 501 - 600
 const ERR_ORDER_NOT_EXIST = 501; // 订单不存在
 const ERR_ORDER_STATUS_WRONG = 502; // 订单状态错误
+const ERR_SCORE_OPERATION_FAIL = 503; // score operation fail
 
 
 
@@ -65,6 +66,7 @@ const errMsg = [
 
     ERR_ORDER_NOT_EXIST => '订单不存在',
     ERR_ORDER_STATUS_WRONG => '订单状态错误',
+    ERR_SCORE_OPERATION_FAIL => 'score operation fail',
 ];
 
 

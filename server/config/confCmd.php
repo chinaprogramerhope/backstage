@@ -192,4 +192,12 @@ const cmdArr = [
     518 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckConfirm'], // 支付宝转账订单审核 - 确认转账成功
     519 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckModify'], // 支付宝转账订单审核 - 修改金额
     520 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCheckClose'], // 支付宝转账订单审核 - 关闭订单
+
+    521 => ['svc' => 'svcCustomer', 'func' => 'aliPayTransferCardGet'], // 支付宝转账卡号卡密 - 获取
+
+    522 => ['svc' => 'svcCustomer', 'func' => 'clientBugGet'], // 客户端缺陷工单 - 获取
+    523 => ['svc' => 'svcCustomer', 'func' => 'clientBugBatchClose'], // 客户端缺陷工单 - 批量处理关闭
+    524 => ['svc' => 'svcCustomer', 'func' => 'clientBugBatchCreate'], // 客户端缺陷工单 - 创建缺陷工单
+    525 => ['svc' => 'svcCustomer', 'func' => 'clientBugOperationHandle'], // 客户端缺陷工单 - 操作 - 处理
+    526 => ['svc' => 'svcCustomer', 'func' => 'clientBugOperationGet'], // 客户端缺陷工单 - 操作 - 查看
 ];

@@ -194,4 +194,64 @@ class clsCustomer {
     public static function aliPayTransferCheckClose($param, &$data) {
         return daoCustomer::aliPayTransferCheckClose($param, $data);
     }
+
+    /**
+     * 支付宝转账卡号卡密 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayTransferCardGet($param, &$data) {
+        return daoCustomer::aliPayTransferCardGet($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugGet($param, &$data) {
+        return daoCustomer::clientBugGet($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 批量处理关闭
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugBatchClose($param, &$data) {
+        return daoCustomer::clientBugBatchClose($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 创建缺陷工单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugBatchCreate($param, &$data) {
+        return daoCustomer::clientBugBatchCreate($param, $data);
+    }
+
+    /**
+     * 客户端缺陷工单 - 操作 - 处理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugOperationHandle($param, &$data) {
+        return daoCustomer::clientBugOperationHandle($param, $data);
+    }
+
+    /**
+     *  客户端缺陷工单 - 操作 - 查看
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function clientBugOperationGet($param, &$data) {
+        return daoCustomer::clientBugOperationGet($param, $data);
+    }
 }

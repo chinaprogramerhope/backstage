@@ -97,9 +97,9 @@
       <el-table-column min-width="10%" prop="status" label="状态" align="center"/>
       <el-table-column min-width="10%" prop="refer" label="来源" align="center"/>
       <el-table-column min-width="10%" prop="pay_type" label="支付方式" align="center"/>
-      <el-if show-platform>
+      <div v-if="show-platform">
         <el-table-column min-width="10%" prop="pay_type" label="支付方式" align="center"/>
-      </el-if>
+      </div>
       <el-table-column min-width="10%" prop="operation" label="备注" align="center"/>
     </el-table>
 

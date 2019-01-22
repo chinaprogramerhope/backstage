@@ -368,3 +368,36 @@ export function aliPayTransferCheckClose(orderId, reason) {
 
   return ret
 }
+
+/**
+ * 支付宝转账卡号卡密 - 获取
+ * @param {*} aliPayOrderId
+ * @param {*} aliPayAccount
+ * @param {*} userId
+ * @param {*} cardNumber
+ * @param {*} cardPassword
+ * @param {*} orderStatus
+ * @param {*} dateTimeRange
+ */
+export function aliPayTransferCardGet(aliPayOrderId, aliPayAccount, userId, cardNumber, cardPassword, orderStatus, dateTimeRange) {
+  const data = {
+    cmd: 521,
+    param: {
+      aliPayOrderId: aliPayOrderId,
+      aliPayAccount: aliPayAccount,
+      userId: userId,
+      cardNumber: cardNumber,
+
+      cardPassword: cardPassword,
+      orderStatus: orderStatus,
+      dateTimeRange: dateTimeRange
+    }
+  }
+
+  var ret = request({
+    method: 'post',
+    data
+  })
+
+  return ret
+}
