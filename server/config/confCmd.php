@@ -235,4 +235,9 @@ const cmdArr = [
     554 => ['svc' => 'svcCustomer', 'func' => 'manualRechargeInfoGet'], // 客服手工充值查询 - 获取
 
     555 => ['svc' => 'svcCustomer', 'func' => 'manualRecharge'], // 客服手工充值 - 人工充值
+
+    556 => ['svc' => 'svcCustomer', 'func' => 'gameAgentGet'], // 游戏代理查询 - 获取
+    557 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchAudit'], // 游戏代理查询 - 批处理为待审核
+    558 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchPass'], // 游戏代理查询 - 批处理为通过
+    559 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchReject'], // 游戏代理查询 - 批处理为驳回
 ];

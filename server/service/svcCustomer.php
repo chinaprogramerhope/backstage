@@ -847,4 +847,44 @@ class svcCustomer {
 
         return clsCustomer::manualRecharge($param, $data);
     }
+
+    /**
+     * 游戏代理查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameAgentGet($param, &$data) {
+        return clsCustomer::gameAgentGet($param, $data);
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为待审核
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameAgentBatchAudit($param, &$data) {
+        return clsCustomer::gameAgentBatchAudit($param, $data);
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为通过
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameAgentBatchPass($param, &$data) {
+        return clsCustomer::gameAgentBatchPass($param, $data);
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为驳回
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameAgentBatchReject($param, &$data) {
+        return clsCustomer::gameAgentBatchReject($param, $data);
+    }
 }

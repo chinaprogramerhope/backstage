@@ -1746,6 +1746,46 @@ class daoCustomer {
         return ERR_OK;
     }
 
+    /**
+     * 游戏代理查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为待审核
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentBatchAudit($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为通过
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentBatchPass($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为驳回
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentBatchReject($param, &$data) {
+        return ERR_OK;
+    }
+
     // ====
 
     /**

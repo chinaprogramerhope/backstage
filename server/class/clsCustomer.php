@@ -544,4 +544,44 @@ class clsCustomer {
     public static function manualRecharge($param, &$data) {
         return daoCustomer::manualRecharge($param, $data);
     }
+
+    /**
+     * 游戏代理查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentGet($param, &$data) {
+        return daoCustomer::gameAgentGet($param, $data);
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为待审核
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentBatchAudit($param, &$data) {
+        return daoCustomer::gameAgentBatchAudit($param, $data);
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为通过
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentBatchPass($param, &$data) {
+        return daoCustomer::gameAgentBatchPass($param, $data);
+    }
+
+    /**
+     * 游戏代理查询 - 批处理为驳回
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameAgentBatchReject($param, &$data) {
+        return daoCustomer::gameAgentBatchReject($param, $data);
+    }
 }
