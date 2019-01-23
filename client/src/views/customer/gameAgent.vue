@@ -15,7 +15,7 @@
         </el-form-item>
 
         <el-form-item label="手机号:">
-          <el-input v-model="form1.mobileNumber" placeholder="手机号" clearable style="width: 150px"/>
+          <el-input v-model="form1.phone" placeholder="手机号" clearable style="width: 150px"/>
         </el-form-item>
 
         <el-form-item label="qq号:">
@@ -67,12 +67,12 @@
           <el-checkbox v-model="checked"/>
         </template>
       </el-table-column>
-      <el-table-column min-width="10%" prop="id" label="姓名" align="center"/>
-      <el-table-column min-width="10%" prop="account" label="手机号" align="center"/>
-      <el-table-column min-width="10%" prop="gold" label="qq" align="center"/>
-      <el-table-column min-width="10%" prop="recordTime" label="微信" align="center"/>
-      <el-table-column min-width="10%" prop="operation" label="ip" align="center"/>
-      <el-table-column min-width="10%" prop="operator" label="审核状态" align="center"/>
+      <el-table-column min-width="10%" prop="name" label="姓名" align="center"/>
+      <el-table-column min-width="10%" prop="telephone" label="手机号" align="center"/>
+      <el-table-column min-width="10%" prop="qq" label="qq" align="center"/>
+      <el-table-column min-width="10%" prop="weixin" label="微信" align="center"/>
+      <el-table-column min-width="10%" prop="ip" label="ip" align="center"/>
+      <el-table-column min-width="10%" prop="" label="审核状态" align="center"/>
     </el-table>
 
   </div>
@@ -90,7 +90,7 @@ export default {
         }],
 
         name: '',
-        mobileNumber: '',
+        phone: '',
         qq: '',
         weChat: '',
         ip: ''

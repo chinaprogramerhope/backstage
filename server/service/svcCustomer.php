@@ -855,36 +855,172 @@ class svcCustomer {
      * @return int
      */
     public function gameAgentGet($param, &$data) {
+        $param['name'] = isset($param['name']) && !empty($param['name']) ? trim($param['name']) : '';
+        $param['phone'] = isset($param['phone']) && !empty($param['phone']) ? trim($param['phone']) : '';
+        $param['qq'] = isset($param['qq']) && !empty($param['qq']) ? trim($param['qq']) : '';
+        $param['weChat'] = isset($param['weChat']) && !empty($param['weChat']) ? trim($param['weChat']) : '';
+
+        $param['ip'] = isset($param['ip']) && !empty($param['ip']) ? trim($param['ip']) : '';
+        $param['status'] = isset($param['status']) ? intval($param['status']) : -1;
+
         return clsCustomer::gameAgentGet($param, $data);
     }
 
     /**
-     * 游戏代理查询 - 批处理为待审核
+     * 游戏代理查询 - 批处理为 待审核|通过|驳回
      * @param $param
      * @param $data
      * @return int
      */
-    public function gameAgentBatchAudit($param, &$data) {
-        return clsCustomer::gameAgentBatchAudit($param, $data);
+    public function gameAgentBatchProcess($param, &$data) {
+        if (!isset($param['status']) || !array_key_exists($param['status'], [0 => 1, 1 => 1, 2 => 1])
+            || !isset($param['idArr']) || empty($param['idArr'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['status'] = intval($param['status']);
+        return clsCustomer::gameAgentBatchProcess($param, $data);
     }
 
     /**
-     * 游戏代理查询 - 批处理为通过
+     * 自动回复设置 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public function gameAgentBatchPass($param, &$data) {
-        return clsCustomer::gameAgentBatchPass($param, $data);
+    public function chatAutoReplyGet($param, &$data) {
+        return clsCustomer::chatAutoReplyGet($param, $data);
     }
 
     /**
-     * 游戏代理查询 - 批处理为驳回
+     * 自动回复设置 - 添加
      * @param $param
      * @param $data
      * @return int
      */
-    public function gameAgentBatchReject($param, &$data) {
-        return clsCustomer::gameAgentBatchReject($param, $data);
+    public function chatAutoReplyAdd($param, &$data) {
+        if (!isset($param['keyword']) || empty($param['keyword'])
+            || !isset($param['reply']) || empty($param['reply'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['keyword'] = trim($param['keyword']);
+        $param['reply'] = trim($param['reply']);
+
+        return clsCustomer::chatAutoReplyAdd($param, $data);
+    }
+
+    /**
+     * 自动回复设置 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function chatAutoReplyModify($param, &$data) {
+        if (!isset($param['keyword']) || empty($param['keyword'])
+            || !isset($param['reply']) || empty($param['reply'])
+            || !isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $id = intval($param['id']);
+        if ($id <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = $id;
+        $param['keyword'] = trim($param['keyword']);
+        $param['reply'] = trim($param['reply']);
+        return clsCustomer::chatAutoReplyModify($param, $data);
+    }
+
+    /**
+     * 自动回复设置 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function chatAutoReplyDel($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $id = intval($param['id']);
+        if ($id <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = $id;
+        return clsCustomer::chatAutoReplyDel($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayBlacklistGet($param, &$data) {
+        $param['aliPayAccount'] = isset($param['aliPayAccount']) && !empty($param['aliPayAccount']) ? trim($param['aliPayAccount']) : '';
+        $param['aliPayRealName'] = isset($param['aliPayRealName']) && !empty($param['aliPayRealName']) ? trim($param['aliPayRealName']) : '';
+
+        return clsCustomer::aliPayBlacklistGet($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayBlacklistAdd($param, &$data) {
+        if (!isset($param['aliPayAccount']) || empty($param['aliPayAccount'])
+            || !isset($param['aliPayRealName']) || empty($param['aliPayRealName'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['aliPayAccount'] = trim($param['aliPayAccount']);
+        $param['aliPayRealName'] = trim($param['aliPayRealName']);
+        $param['describe'] = isset($param['describe']) && !empty($param['describe']) ? trim($param['describe']) : '';
+
+        return clsCustomer::aliPayBlacklistAdd($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayBlacklistDel($param, &$data) {
+        if (!isset($param['id']) || empty($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $id = intval($param['id']);
+        if ($id <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::aliPayBlacklistDel($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 清空
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function aliPayBlacklistDelAll($param, &$data) {
+        return clsCustomer::aliPayBlacklistDelAll($param, $data);
     }
 }

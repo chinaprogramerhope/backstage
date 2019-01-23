@@ -289,12 +289,12 @@ class clsUtility {
 
     /**
      * 获取一个表的数据
-     * @param $dbName - 数据库名
+     * @param $dbName
      * @param $sql
-     * $param $pdoParam
+     * @param array $pdoParam
      * @return array
      */
-    public static function getData($dbName, $sql, $pdoParam) {
+    public static function getData($dbName, $sql, $pdoParam = []) {
         $finalRet = [];
 
         $pdo = clsMysql::getInstance($dbName);

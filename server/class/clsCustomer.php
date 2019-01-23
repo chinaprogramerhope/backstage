@@ -556,32 +556,92 @@ class clsCustomer {
     }
 
     /**
-     * 游戏代理查询 - 批处理为待审核
+     * 游戏代理查询 - 批处理为 待审核|通过|驳回
      * @param $param
      * @param $data
      * @return int
      */
-    public static function gameAgentBatchAudit($param, &$data) {
-        return daoCustomer::gameAgentBatchAudit($param, $data);
+    public static function gameAgentBatchProcess($param, &$data) {
+        return daoCustomer::gameAgentBatchProcess($param, $data);
     }
 
     /**
-     * 游戏代理查询 - 批处理为通过
+     * 自动回复设置 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public static function gameAgentBatchPass($param, &$data) {
-        return daoCustomer::gameAgentBatchPass($param, $data);
+    public static function chatAutoReplyGet($param, &$data) {
+        return daoCustomer::chatAutoReplyGet($param, $data);
     }
 
     /**
-     * 游戏代理查询 - 批处理为驳回
+     * 自动回复设置 - 添加
      * @param $param
      * @param $data
      * @return int
      */
-    public static function gameAgentBatchReject($param, &$data) {
-        return daoCustomer::gameAgentBatchReject($param, $data);
+    public static function chatAutoReplyAdd($param, &$data) {
+        return daoCustomer::chatAutoReplyAdd($param, $data);
+    }
+
+    /**
+     * 自动回复设置 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chatAutoReplyModify($param, &$data) {
+        return daoCustomer::chatAutoReplyModify($param, $data);
+    }
+
+    /**
+     * 自动回复设置 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chatAutoReplyDel($param, &$data) {
+        return daoCustomer::chatAutoReplyDel($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistGet($param, &$data) {
+        return daoCustomer::aliPayBlacklistGet($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistAdd($param, &$data) {
+        return daoCustomer::aliPayBlacklistAdd($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistDel($param, &$data) {
+        return daoCustomer::aliPayBlacklistDel($param, $data);
+    }
+
+    /**
+     * 支付宝黑名单 - 清空
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistDelAll($param, &$data) {
+        return daoCustomer::aliPayBlacklistDelAll($param, $data);
     }
 }

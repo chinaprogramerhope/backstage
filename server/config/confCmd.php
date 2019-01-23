@@ -237,7 +237,15 @@ const cmdArr = [
     555 => ['svc' => 'svcCustomer', 'func' => 'manualRecharge'], // 客服手工充值 - 人工充值
 
     556 => ['svc' => 'svcCustomer', 'func' => 'gameAgentGet'], // 游戏代理查询 - 获取
-    557 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchAudit'], // 游戏代理查询 - 批处理为待审核
-    558 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchPass'], // 游戏代理查询 - 批处理为通过
-    559 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchReject'], // 游戏代理查询 - 批处理为驳回
+    557 => ['svc' => 'svcCustomer', 'func' => 'gameAgentBatchProcess'], // 游戏代理查询 - 批处理为 待审核|通过|驳回
+
+    558 => ['svc' => 'svcCustomer', 'func' => 'chatAutoReplyGet'], // 自动回复设置 - 获取
+    559 => ['svc' => 'svcCustomer', 'func' => 'chatAutoReplyAdd'], // 自动回复设置 - 添加
+    560 => ['svc' => 'svcCustomer', 'func' => 'chatAutoReplyModify'], // 自动回复设置 - 修改
+    561 => ['svc' => 'svcCustomer', 'func' => 'chatAutoReplyDel'], // 自动回复设置 - 删除
+
+    562 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistGet'], // 支付宝黑名单 - 获取
+    563 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistAdd'], // 支付宝黑名单 - 添加
+    564 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistDel'], // 支付宝黑名单 - 删除
+    565 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistDelAll'], // 支付宝黑名单 - 清空
 ];

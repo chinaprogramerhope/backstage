@@ -1753,36 +1753,292 @@ class daoCustomer {
      * @return int
      */
     public static function gameAgentGet($param, &$data) {
+        $name = $param['name'];
+        $phone = $param['phone'];
+        $qq = $param['qq'];
+        $weChat = $param['weChat'];
+
+        $ip = $param['ip'];
+        $status = $param['ip'];
+
+        $dbName = 'db_smc';
+        $item = [];
+        $pdoParam = [];
+        $sql = 'select * from smc_game_agent_apply';
+
+        if ($name) {
+            $item[] = 'name = :name';
+            $pdoParam[':name'] = $name;
+        }
+        if ($phone) {
+            $item[] = 'telephone = :telephone';
+            $pdoParam[':telephone'] = $phone;
+        }
+        if ($qq) {
+            $item[] = 'qq = :qq';
+            $pdoParam[':qq'] = $qq;
+        }
+        if ($weChat) {
+            $item[] = 'weixin = :weixin';
+            $pdoParam[':weixin'] = $weChat;
+        }
+        if ($ip) {
+            $item[] = 'ip = :ip';
+            $pdoParam[':ip'] = $ip;
+        }
+        if ($status === 0 || $status === 1 || $status === 2) {
+            $item[] = 'status = :status';
+            $pdoParam[':status'] = $status;
+        }
+
+        if (!empty($item)) {
+            $sql .= ' where ';
+
+            $sqlCondition = implode(' and ', $item);
+            $sql .= $sqlCondition;
+        }
+
+        $sql .= ' order by id desc limit :limit';
+        $pdoParam[':limit'] = maxQueryNum;
+
+        $rows = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (!empty($rows)) {
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = ' . $dbName
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
         return ERR_OK;
     }
 
     /**
-     * 游戏代理查询 - 批处理为待审核
+     * 游戏代理查询 - 批处理为 待审核|通过|驳回
      * @param $param
      * @param $data
      * @return int
      */
-    public static function gameAgentBatchAudit($param, &$data) {
+    public static function gameAgentBatchProcess($param, &$data) {
+        $status = $param['status'];
+        $idArr = $param['idArr'];
+
+        $dbName = 'db_smc';
+        $sql = 'update smc_game_agent_apply set status = :status';
+        $sql .= ' where id in (' . implode(',', $idArr) . ')';
+        $pdoParam = [':status' => $status];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, errCode = ' . $errCode);
+            return $errCode;
+        }
+
         return ERR_OK;
     }
 
     /**
-     * 游戏代理查询 - 批处理为通过
+     * 自动回复设置 - 获取
      * @param $param
      * @param $data
      * @return int
      */
-    public static function gameAgentBatchPass($param, &$data) {
+    public static function chatAutoReplyGet($param, &$data) {
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_chat_auto_reply order by id desc limit ' . maxQueryNum;
+
+        $data = clsUtility::getData($dbName, $sql);
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql);
+        }
+
         return ERR_OK;
     }
 
     /**
-     * 游戏代理查询 - 批处理为驳回
+     * 自动回复设置 - 添加
      * @param $param
      * @param $data
      * @return int
      */
-    public static function gameAgentBatchReject($param, &$data) {
+    public static function chatAutoReplyAdd($param, &$data) {
+        $keyword = $param['keyword'];
+        $reply = $param['reply'];
+
+        $dbName = 'db_smc';
+        $sql = 'insert into smc_chat_auto_reply(keywords, reply) values (:keywords, :reply)';
+        $pdoParam = [
+            ':keywords' => $keyword,
+            ':reply' => $reply
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 自动回复设置 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chatAutoReplyModify($param, &$data) {
+        $keyword = $param['keyword'];
+        $reply = $param['reply'];
+        $id = $param['id'];
+
+        $dbName = 'db_smc';
+        $sql = 'update smc_chat_auto_reply set keywords = :keywords, reply = :reply where id = :id';
+        $pdoParam = [
+            ':keywords' => $keyword,
+            ':reply' => $reply,
+            ':id' => $id
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+        return ERR_OK;
+    }
+
+    /**
+     * 自动回复设置 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chatAutoReplyDel($param, &$data) {
+        $id = $param['id'];
+
+        $dbName = 'db_smc';
+        $sql = 'delte from smc_chat_auto_reply where id = :id';
+        $pdoParam = [
+            ':id' => $id
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return $errCode;
+        }
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝黑名单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistGet($param, &$data) {
+        $aliPayAccount = $param['aliPayAccount'];
+        $aliPayRealName = $param['aliPayRealName'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_black_alipay_account';
+
+        $item = [];
+        $pdoParam = [];
+
+        if ($aliPayAccount) {
+            $item[] = 'alipay_account = :alipay_account';
+            $pdoParam[':alipay_account'] = $aliPayAccount;
+        }
+        if ($aliPayRealName) {
+            $item[] = 'alipay_real_name = :alipay_real_name';
+            $pdoParam[':alipay_real_name'] = $aliPayRealName;
+        }
+
+        if (!empty($item)) {
+            $sql .= ' where ';
+
+            $sqlCondition = implode(' and ', $item);
+            $sql .= $sqlCondition;
+        }
+
+        $data = clsUtility::getData($dbName, $sql, $pdoParam);
+        if (empty($data)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getData return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        } 
+
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝黑名单 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistAdd($param, &$data) {
+        $aliPayAccount = $param['aliPayAccount'];
+        $aliPayRealName = $param['aliPayRealName'];
+        $describe = $param['describe'];
+        $tsNow = time();
+        $isLock = 1;
+
+        $dbName = 'db_smc';
+        $sql = 'insert into smc_black_alipay_account(alipay_account, alipay_real_name, add_time, discribe, is_lock)';
+        $sql .= ' values (:alipay_account, :alipay_real_name, :add_time, :discribe, :is_lock)';
+        $pdoParam = [
+            ':alipay_account' => $aliPayAccount,
+            ':alipay_real_name' => $aliPayRealName,
+            ':add_time' => $tsNow,
+            ':discribe' => $describe,
+            ':is_lock' => $isLock
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝黑名单 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistDel($param, &$data) {
+        $id = $param['id'];
+
+        $dbName = 'db_smc';
+        $sql = 'delete from smc_black_alipay_account where id = :id';
+        $pdoParam = [
+            ':id' => $id
+        ];
+
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 支付宝黑名单 - 清空
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function aliPayBlacklistDelAll($param, &$data) {
         return ERR_OK;
     }
 
