@@ -1,0 +1,4 @@
+controllers/no3/login.php: 注释掉exit($msg." please call the manager!!! ");
+
+system/core/Config.php: 构造函数中的base_url 改为相应 ip和端口
+
