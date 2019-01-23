@@ -704,27 +704,37 @@ class svcCustomer {
      * @return int
      */
     public function aliPayCashManageGet($param, &$data) {
+        $param['appId'] = isset($param['appId']) && !empty($param['appId']) ? trim($param['appId']) : '';
+        $param['email'] = isset($param['email']) && !empty($param['email']) ? trim($param['email']) : '';
+        $param['operator'] = isset($param['operator']) && !empty($param['operator']) ? trim($param['operator']) : '';
+        $param['ip'] = isset($param['ip']) && !empty($param['ip']) ? trim($param['ip']) : '';
+
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+        $param['status'] = isset($param['status']) && !empty($param['status']) ? trim($param['status']) : '';
+        $param['checkFlag'] = isset($param['checkFlag']) && !empty($param['checkFlag']) ? trim($param['checkFlag']) : '';
+
         return clsCustomer::aliPayCashManageGet($param, $data);
     }
 
     /**
-     * 提现支付宝管理 - 开启总闸
+     * 提现支付宝管理 - 开启/关闭总闸
      * @param $param
      * @param $data
      * @return int
      */
-    public function aliPayCashManageOpen($param, &$data) {
-        return clsCustomer::aliPayCashManageOpen($param, $data);
-    }
+    public function aliPayCashManageSwitch($param, &$data) {
+        if (!isset($param['switchStatus']) || empty($param['switchStatus'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
 
-    /**
-     * 提现支付宝管理 - 关闭总闸
-     * @param $param
-     * @param $data
-     * @return int
-     */
-    public function aliPayCashManageClose($param, &$data) {
-        return clsCustomer::aliPayCashManageClose($param, $data);
+        $param['switchStatus'] = trim($param['switchStatus']);
+        if ($param['switchStatus'] !== 'open' && $param['switchStatus'] !== 'close') {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::aliPayCashManageSwitch($param, $data);
     }
 
     /**
@@ -1020,7 +1030,57 @@ class svcCustomer {
      * @param $data
      * @return int
      */
-    public function aliPayBlacklistDelAll($param, &$data) {
-        return clsCustomer::aliPayBlacklistDelAll($param, $data);
+    public function aliPayBlacklistClear($param, &$data) {
+        return clsCustomer::aliPayBlacklistClear($param, $data);
+    }
+
+    /**
+     * 提现订单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function cashOrderGet($param, &$data) {
+        return clsCustomer::cashOrderGet($param, $data);
+    }
+
+    /**
+     * 提现订单 - 批量处理完成
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function cashOrderBatchFinish($param, &$data) {
+        if (!isset($param['idArr']) || empty($param['idArr'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::cashOrderBatchFinish($param, $data);
+    }
+
+    /**
+     * 提现订单 - 批量重新处理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function cashOrderBatchAgain($param, &$data) {
+        if (!isset($param['idArr']) || empty($param['idArr'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsCustomer::cashOrderBatchAgain($param, $data);
+    }
+
+    /**
+     * 提现订单 - 批量处理成功
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function cashOrderBatchSuccess($param, &$data) {
+        return clsCustomer::cashOrderBatchSuccess($param, $data);
     }
 }

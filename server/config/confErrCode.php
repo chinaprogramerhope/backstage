@@ -40,6 +40,8 @@ const ERR_ORDER_STATUS_WRONG = 502; // 订单状态错误
 const ERR_SCORE_OPERATION_FAIL = 503; // score operation fail
 const ERR_ORDER_ALREADY_EXIST = 504; // 订单已存在
 
+const ERR_PUSH_FAIL = 505; // 推送失败
+
 
 
 // 错误码对应文字

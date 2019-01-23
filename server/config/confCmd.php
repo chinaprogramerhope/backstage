@@ -222,8 +222,7 @@ const cmdArr = [
     544 => ['svc' => 'svcCustomer', 'func' => 'onlineCancelForbidWord'], // 在线客服 - 取消禁言
 
     545 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageGet'], // 提现支付宝管理 - 获取
-    546 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageOpen'], // 提现支付宝管理 - 开启总闸
-    547 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageClose'], // 提现支付宝管理 - 关闭总闸
+    546 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageSwitch'], // 提现支付宝管理 - 开启/关闭总闸
     548 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageAddAliPay'], // 提现支付宝管理 - 添加新支付宝 todo admin页面
     549 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageForbid'], // 提现支付宝管理 - 禁用 todo admin页面
     550 => ['svc' => 'svcCustomer', 'func' => 'aliPayCashManageDel'], // 提现支付宝管理 - 删除 todo admin页面
@@ -247,5 +246,11 @@ const cmdArr = [
     562 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistGet'], // 支付宝黑名单 - 获取
     563 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistAdd'], // 支付宝黑名单 - 添加
     564 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistDel'], // 支付宝黑名单 - 删除
-    565 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistDelAll'], // 支付宝黑名单 - 清空
+    565 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistClear'], // 支付宝黑名单 - 清空
+
+    566 => ['svc' => 'svcCustomer', 'func' => 'cashOrderGet'], // 提现订单 - 获取
+    567 => ['svc' => 'svcCustomer', 'func' => 'cashOrderBatchFinish'], // 提现订单 - 批量处理完成
+    568 => ['svc' => 'svcCustomer', 'func' => 'cashOrderBatchAgain'], // 提现订单 - 批量重新处理
+    569 => ['svc' => 'svcCustomer', 'func' => 'cashOrderBatchSuccess'], // 提现订单 - 批量处理成功
+    570 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistClear'], // 提现订单 - 操作 | 退款, 重新处理, 审核通过, 转账成功; 人工提现 | 查看提现截图, 人工提现
 ];

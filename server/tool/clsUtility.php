@@ -288,13 +288,13 @@ class clsUtility {
     }
 
     /**
-     * 获取一个表的数据
+     * 获取一个表的数据 - 多行
      * @param $dbName
      * @param $sql
      * @param array $pdoParam
      * @return array
      */
-    public static function getData($dbName, $sql, $pdoParam = []) {
+    public static function getRows($dbName, $sql, $pdoParam = []) {
         $finalRet = [];
 
         $pdo = clsMysql::getInstance($dbName);
@@ -337,13 +337,62 @@ class clsUtility {
     }
 
     /**
+     * 获取一个表的数据 - 一行
+     * @param $dbName
+     * @param $sql
+     * @param array $pdoParam
+     * @return array
+     */
+    public static function getRow($dbName, $sql, $pdoParam = []) {
+        $finalRet = [];
+
+        $pdo = clsMysql::getInstance($dbName);
+        if (null === $pdo) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);
+            return [];
+        }
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            if (!empty($pdoParam)) {
+                $ret = $stmt->execute($pdoParam);
+            } else {
+                $ret = $stmt->execute();
+            }
+            if (!$ret) {
+                clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql execute fail, sql = ' . $sql
+                    . ', dbName = ' . $dbName);
+                return [];
+            }
+
+            $row = $stmt->fetch();
+
+            clsLog::debug(__METHOD__ . ', ' . __LINE__ . ', dbName = ' . $dbName . ', rows = ' . json_encode($row)
+                . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+
+            if (empty($row)) {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', mysql select return empty, sql = ' . $sql
+                    . ', dbName = ' . $dbName . ', pdoParam = ' . json_encode($pdoParam));
+                return [];
+            } else {
+                $finalRet = $row;
+                return $finalRet;
+            }
+        } catch (PDOException $e) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage()
+                . ', dbName = ' . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+            return [];
+        }
+    }
+
+    /**
      * 更新/插入/删除 表的数据
      * @param $dbName
      * @param $sql
-     * @param $pdoParam
+     * @param array $pdoParam
      * @return int
      */
-    public static function updateData($dbName, $sql, $pdoParam) {
+    public static function updateData($dbName, $sql, $pdoParam = []) {
         $pdo = clsMysql::getInstance($dbName);
         if (null === $pdo) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql connect fail, dbName = ' . $dbName);

@@ -621,5 +621,161 @@ const messageChannel = [
 ];
 
 /**
- * 用户管理
+ * 客服管理
  */
+
+// push - keyArray
+const keyArray = array (
+    'com.client.doudizhu1' => array (
+        'pem' => 'push_pem/client.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.doudizhu' => array (
+        'pem' => 'push_pem/liuliu1doudizhu.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.bubuzhajinhua' => array (
+        'pem' => 'push_pem/com.liuliugame1.bubuzhajinhua.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.fageqipai1' => array (
+        'pem' => 'push_pem/com.liuliugame1.fageqipai1.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.jileyouxi' => array (
+        'pem' => 'push_pem/com.liuliugame1.jileyouxi.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.vvyouxi' => array (
+        'pem' => 'push_pem/com.liuliugame1.vvyouxi.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.wwdwc' => array (
+        'pem' => 'push_pem/com.liuliugame1.wwdwc.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.zhenzhenyouxi' => array (
+        'pem' => 'push_pem/zz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.kuruiyouxi' => array (
+        'pem' => 'push_pem/kurui.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.dakayouxi' => array (
+        'pem' => 'push_pem/dakayouxi.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.amdp' => array (
+        'pem' => 'push_pem/com.liuliugame1.amdp.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.huoliniuniu' => array (
+        'pem' => 'push_pem/com.liuliugame1.huoliniuniu.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ttzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.ttzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.cjysz' => array (
+        'pem' => 'push_pem/com.liuliugame1.cjysz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.nnzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.nnzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ftqp' => array (
+        'pem' => 'push_pem/com.liuliugame1.ftqp.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.bsddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.bsddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.bzqp' => array (
+        'pem' => 'push_pem/com.liuliugame1.bzqp.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.nnzy' => array (
+        'pem' => 'push_pem/com.liuliugame1.nnzy.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.hlysz' => array (
+        'pem' => 'push_pem/com.liuliugame1.hlysz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.tjly' => array (
+        'pem' => 'push_pem/com.liuliugame1.tjly.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.fkzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.fkzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ljddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.ljddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.thzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.thzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.daddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.daddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ywds' => array (
+        'pem' => 'push_pem/com.liuliugame1.ywds.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.kgzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.kgzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.lkddz2' => array (
+        'pem' => 'push_pem/com.liuliugame1.lkddz2.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ylddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.ylddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.qqddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.qqddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ddzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.ddzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.ffddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.ffddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.jdddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.jdddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.byjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.byjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.tyby' => array (
+        'pem' => 'push_pem/com.liuliugame1.tyby.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.zrzjh' => array (
+        'pem' => 'push_pem/com.liuliugame1.zrzjh.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.qmfkddz' => array (
+        'pem' => 'push_pem/com.liuliugame1.qmfkddz.pem',
+        'pass' => 'dilsjhhd'
+    ),
+    'com.liuliugame1.nnsj' => array (
+        'pem' => 'push_pem/com.liuliugame1.nnsj.pem',
+        'pass' => 'dilsjhhd'
+    )
+);

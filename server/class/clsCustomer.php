@@ -446,23 +446,13 @@ class clsCustomer {
     }
 
     /**
-     * 提现支付宝管理 - 开启总闸
+     * 提现支付宝管理 - 开启/关闭总闸
      * @param $param
      * @param $data
      * @return int
      */
-    public static function aliPayCashManageOpen($param, &$data) {
-        return daoCustomer::aliPayCashManageOpen($param, $data);
-    }
-
-    /**
-     * 提现支付宝管理 - 关闭总闸
-     * @param $param
-     * @param $data
-     * @return int
-     */
-    public static function aliPayCashManageClose($param, &$data) {
-        return daoCustomer::aliPayCashManageClose($param, $data);
+    public static function aliPayCashManageSwitch($param, &$data) {
+        return daoCustomer::aliPayCashManageSwitch($param, $data);
     }
 
     /**
@@ -641,7 +631,47 @@ class clsCustomer {
      * @param $data
      * @return int
      */
-    public static function aliPayBlacklistDelAll($param, &$data) {
-        return daoCustomer::aliPayBlacklistDelAll($param, $data);
+    public static function aliPayBlacklistClear($param, &$data) {
+        return daoCustomer::aliPayBlacklistClear($param, $data);
+    }
+
+    /**
+     * 提现订单 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function cashOrderGet($param, &$data) {
+        return daoCustomer::cashOrderGet($param, $data);
+    }
+
+    /**
+     * 提现订单 - 批量处理完成
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function cashOrderBatchFinish($param, &$data) {
+        return daoCustomer::cashOrderBatchFinish($param, $data);
+    }
+
+    /**
+     * 提现订单 - 批量重新处理
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function cashOrderBatchAgain($param, &$data) {
+        return daoCustomer::cashOrderBatchAgain($param, $data);
+    }
+
+    /**
+     * 提现订单 - 批量处理成功
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function cashOrderBatchSuccess($param, &$data) {
+        return daoCustomer::cashOrderBatchSuccess($param, $data);
     }
 }
