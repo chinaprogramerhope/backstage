@@ -146,7 +146,13 @@ const cmdArr = [
 
     353 => ['svc' => 'svcOperation', 'func' => 'systemProfitGet'], // 系统利润 - 获取
 
-    354 => ['svc' => 'svcOperation', 'func' => 'systemMaintenance'], // 系统维护 - 提交
+    354 => ['svc' => 'svcOperation', 'func' => 'systemMaintenanceSwitch'], // 系统维护 - 游戏开关
+
+    355 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeGetGameList'], // 整包升级服务器管理 - 获取游戏包列表
+    356 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeGet'], // 整包升级服务器管理 - 获取
+    357 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeAdd'], // 整包升级服务器管理 - 添加游戏版本
+    358 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeRefresh'], // 整包升级服务器管理 - 刷新redis
+    359 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeDel'], // 整包升级服务器管理 - 删除
 
 
     // 活动管理 401 - 450

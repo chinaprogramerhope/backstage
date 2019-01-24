@@ -472,9 +472,9 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'packaeUpgrade',
-        component: () => import('@/views/operation/packaeUpgrade'),
-        name: 'packaeUpgrade',
+        path: 'packageUpgrade',
+        component: () => import('@/views/operation/packageUpgrade'),
+        name: 'packageUpgrade',
         meta: {
           title: '整包升级服务器管理'
         }
