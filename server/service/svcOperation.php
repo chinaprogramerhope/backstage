@@ -630,6 +630,15 @@ class svcOperation {
      * @return int
      */
     public function payLimitBlackAdd($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])
+            || !isset($param['describe']) || empty($param['describe'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['userId'] = trim($param['userId']);
+        $param['describe'] = trim($param['describe']);
+
         return clsOperation::payLimitBlackAdd($param, $data);
     }
 
@@ -650,6 +659,13 @@ class svcOperation {
      * @return int
      */
     public function payLimitDel($param, &$data) {
+        if (!isset($param['userId']) || empty($param['userId'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['userId'] = trim($param['userId']);
+
         return clsOperation::payLimitDel($param, $data);
     }
 
@@ -670,6 +686,12 @@ class svcOperation {
      * @return int
      */
     public function chongLingSwitchEditPay($param, &$data) {
+        $param['close'] = isset($param['close']) && !empty($param['close']) ? intval($param['close']) : 0;
+        if ($param['close'] !== 1 && $param['close'] !== 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsOperation::chongLingSwitchEditPay($param, $data);
     }
 
@@ -680,6 +702,12 @@ class svcOperation {
      * @return int
      */
     public function chongLingSwitchEditTake($param, &$data) {
+        $param['close'] = isset($param['close']) && !empty($param['close']) ? intval($param['close']) : 0;
+        if ($param['close'] !== 1 && $param['close'] !== 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsOperation::chongLingSwitchEditTake($param, $data);
     }
 

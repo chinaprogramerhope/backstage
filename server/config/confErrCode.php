@@ -48,6 +48,7 @@ const ERR_ALI_PAY_ACCOUNT_ALREADY_CLOSE = 602; // 该支付宝账号当前已关
 const ERR_ALI_PAY_ACCOUNT_ALREADY_OPEN = 603; // 该支付宝账号当前已打开
 const ERR_ACCOUNT_ALREADY_EXIST = 604; // 账号已存在
 const ERR_PASSWORD_WRONG = 605; // 密码错误
+const ERR_LIMIT_TARGET_ALREADY_EXIST = 606; // 该玩家已在充值黑名单中
 
 
 
@@ -85,6 +86,7 @@ const errMsg = [
     ERR_ALI_PAY_ACCOUNT_ALREADY_OPEN => '该支付宝账号当前已打开',
     ERR_ACCOUNT_ALREADY_EXIST => '账号已存在',
     ERR_PASSWORD_WRONG => '密码错误',
+    ERR_LIMIT_TARGET_ALREADY_EXIST => '该玩家已在充值黑名单中',
 ];
 
 

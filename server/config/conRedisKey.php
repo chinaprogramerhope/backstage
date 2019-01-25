@@ -38,4 +38,7 @@ const cfConfig = 'cfCfg'; // 支付管理 - 配置支付渠道参数 - 聚宝云
 
 const ipList = 'ip_list_'; // Proxy IP管理
 
+const closeTransferPay = 'closeTransferPay'; // 充领开关 - 充
+const closeTransferTake = 'closeTransferTake'; // 充领开关 - 领
+
 

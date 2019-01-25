@@ -1411,6 +1411,42 @@ class daoOperation {
      * @return int
      */
     public static function payLimitBlackAdd($param, &$data) {
+        $userId = $param['userId'];
+        $describe = $param['describe'];
+        $timeNow = date('Y-m-d H:i:s');
+        $operator = ''; // todo 当前管理员
+
+        // 检测是否已存在
+        $dbName = 'db_smc';
+        $sql = 'select id from smc_pay_limit where limit_target = :limit_target';
+        $pdoParam = [':limit_target' => $userId];
+        $row = clsUtility::getRow($dbName, $sql, $pdoParam);
+        if (!empty($row)) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', userId already exist, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . $pdoParam);
+            return ERR_LIMIT_TARGET_ALREADY_EXIST;
+        }
+
+        // 添加到mysql
+        $sql = 'insert into smc_pay_limit (limit_target, optuser, add_time, discribe)';
+        $sql .= ' values (:limit_target, :optuser, :add_time, :discribe)';
+        $pdoParam = [
+            ':limit_target' => $userId,
+            ':optuser' => $operator,
+            ':add_time' => $timeNow,
+            ':discribe' => $describe
+        ];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam) . ', errCode = ' . $errCode);
+            return $errCode;
+        }
+
+        // 添加到redis  todo now
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
+
         return ERR_OK;
     }
 
@@ -1431,6 +1467,29 @@ class daoOperation {
      * @return int
      */
     public static function payLimitDel($param, &$data) {
+        $userId = $param['userId'];
+
+        // mysql删除
+        $dbName = 'db_smc';
+        $sql = 'delete from smc_pay_limit where limit_target = :limit_target';
+        $pdoParam = [':limit_target' => $userId];
+        $errCode = clsUtility::updateData($dbName, $sql, $pdoParam);
+        if ($errCode !== ERR_OK) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', clsUtility::updateData fail, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam) . ', errCode = ' . $errCode);
+            return $errCode;
+        }
+
+        // redis删除  todo now
+        $redis = clsRedis::getInstance();
+        if ($redis === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+            return ERR_REDIS_CONNECT_FAIL;
+        }
+
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
+
         return ERR_OK;
     }
 
@@ -1445,22 +1504,46 @@ class daoOperation {
     }
 
     /**
-     * 充领开关 - 修改充 todo
+     * 充领开关 - 修改充
      * @param $param
      * @param $data
      * @return int
      */
     public static function chongLingSwitchEditPay($param, &$data) {
+        $close = $param['close'];
+
+        $redis = clsRedis::getInstance();
+        if ($redis === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+            return ERR_REDIS_CONNECT_FAIL;
+        }
+
+        $redis->set(closeTransferPay, $close);
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
+
         return ERR_OK;
     }
 
     /**
-     * 充领开关 - 修改领 todo
+     * 充领开关 - 修改领
      * @param $param
      * @param $data
      * @return int
      */
     public static function chongLingSwitchEditTake($param, &$data) {
+        $close = $param['close'];
+
+        $redis = clsRedis::getInstance();
+        if ($redis === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+            return ERR_REDIS_CONNECT_FAIL;
+        }
+
+        $redis->set(closeTransferTake, $close);
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
+
         return ERR_OK;
     }
 
