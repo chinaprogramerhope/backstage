@@ -1373,12 +1373,94 @@ class daoOperation {
     }
 
     /**
-     * 绑定手机记录 - 获取
+     * 绑定手机记录 - 获取  todo
      * @param $param
      * @param $data
      * @return int
      */
     public static function bindPhoneLogGet($param, &$data) {
+
+        return ERR_OK;
+    }
+
+    /**
+     * 绑定支付宝记录 - 获取  todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function bindAliPayLogGet($param, &$data) {
+
+        return ERR_OK;
+    }
+
+    /**
+     * 禁止支付管理 - 获取 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 禁止支付管理 - 添加充值黑名单 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitBlackAdd($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 禁止支付管理 - 同步黑名单到redis todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitBlackRedisSync($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 禁止支付管理 - 删除 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitDel($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 账号及充值查询 - 获取 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function rechargeLogGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 充领开关 - 修改充 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chongLingSwitchEditPay($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 充领开关 - 修改领 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chongLingSwitchEditTake($param, &$data) {
         return ERR_OK;
     }
 
@@ -1457,5 +1539,19 @@ class daoOperation {
 //        $rrt = array ();
 //        $ret = $this->_request_midlayer_res1 ( $buf, 20300, SANGONG_SERVER_IP, SANGONG_SERVER_PORT );
         return ERR_OK;
+    }
+
+    public static function getBindPhoneLogTables() {
+        $finalRet = [];
+
+        $dbName = 'db_smc';
+        $tablePrefix = 'CASINOBINDMOBILERECORD';
+        $sql = "SELECT DISTINCT TABLE_NAME from information_schema.`COLUMNS` where TABLE_NAME LIKE '".$tablePrefix."%' ORDER BY TABLE_NAME desc";
+        $rows = clsUtility::getRows($dbName, $sql);
+        if (!empty($rows)) {
+            foreach ($rows as $k => $v) {
+
+            }
+        }
     }
 }

@@ -189,6 +189,18 @@ const cmdArr = [
 
     385 => ['svc' => 'svcOperation', 'func' => 'bindPhoneLogGet'], // 绑定手机记录 - 获取
 
+    386 => ['svc' => 'svcOperation', 'func' => 'bindAliPayLogGet'], // 绑定支付宝记录 - 获取
+
+    387 => ['svc' => 'svcOperation', 'func' => 'payLimitGet'], // 禁止支付管理 - 获取
+    388 => ['svc' => 'svcOperation', 'func' => 'payLimitBlackAdd'], // 禁止支付管理 - 添加充值黑名单
+    389 => ['svc' => 'svcOperation', 'func' => 'payLimitBlackRedisSync'], // 禁止支付管理 - 同步黑名单到redis
+    390 => ['svc' => 'svcOperation', 'func' => 'payLimitDel'], // 禁止支付管理 - 删除
+
+    391 => ['svc' => 'svcOperation', 'func' => 'rechargeLogGet'], // 账号及充值查询 - 获取
+
+    392 => ['svc' => 'svcOperation', 'func' => 'chongLingSwitchEditPay'], // 充领开关 - 修改充
+    393 => ['svc' => 'svcOperation', 'func' => 'chongLingSwitchEditTake'], // 充领开关 - 修改领
+
 
     // 活动管理 401 - 450
     401 => ['svc' => 'svcActivity', 'func' => 'activityReportGet'], // 活动报表 - 获取

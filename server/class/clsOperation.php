@@ -356,4 +356,84 @@ class clsOperation {
     public static function bindPhoneLogGet($param, &$data) {
         return daoOperation::bindPhoneLogGet($param, $data);
     }
+
+    /**
+     * 绑定支付宝记录 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function bindAliPayLogGet($param, &$data) {
+        return daoOperation::bindAliPayLogGet($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitGet($param, &$data) {
+        return daoOperation::payLimitGet($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 添加充值黑名单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitBlackAdd($param, &$data) {
+        return daoOperation::payLimitBlackAdd($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 同步黑名单到redis
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitBlackRedisSync($param, &$data) {
+        return daoOperation::payLimitBlackRedisSync($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function payLimitDel($param, &$data) {
+        return daoOperation::payLimitDel($param, $data);
+    }
+
+    /**
+     * 账号及充值查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function rechargeLogGet($param, &$data) {
+        return daoOperation::rechargeLogGet($param, $data);
+    }
+
+    /**
+     * 充领开关 - 修改充
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chongLingSwitchEditPay($param, &$data) {
+        return daoOperation::chongLingSwitchEditPay($param, $data);
+    }
+
+    /**
+     * 充领开关 - 修改领
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chongLingSwitchEditTake($param, &$data) {
+        return daoOperation::chongLingSwitchEditTake($param, $data);
+    }
 }

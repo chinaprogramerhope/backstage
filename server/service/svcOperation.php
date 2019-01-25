@@ -583,16 +583,104 @@ class svcOperation {
      * @return int
      */
     public function bindPhoneLogGet($param, &$data) {
-        $param['userId'] = isset($param['minGold']) && !empty($param['minGold']) ? intval($param['minGold']) : 0;
-        $param['mobile'] = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $param['userId'] = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $param['mobile'] = isset($param['mobile']) && !empty($param['mobile']) ? intval($param['mobile']) : '';
         $param['dateRange'] = clsUtility::getFormatDate($param);
-        $param['bind'] = isset($param['adminId']) && !empty($param['adminId']) ? intval($param['adminId']) : -1;
+        $param['bindStatus'] = isset($param['bindStatus']) && !empty($param['bindStatus']) ? intval($param['bindStatus']) : -1;
 
         if ($param['userId'] <= 0) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             return ERR_INVALID_PARAM;
         }
         return clsOperation::bindPhoneLogGet($param, $data);
+    }
+
+    /**
+     * 绑定支付宝记录 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function bindAliPayLogGet($param, &$data) {
+        $param['userId'] = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $param['aliPayAccount'] = isset($param['aliPayAccount']) && !empty($param['aliPayAccount']) ? intval($param['aliPayAccount']) : '';
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+
+        if ($param['userId'] <= 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+        return clsOperation::bindAliPayLogGet($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payLimitGet($param, &$data) {
+        return clsOperation::payLimitGet($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 添加充值黑名单
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payLimitBlackAdd($param, &$data) {
+        return clsOperation::payLimitBlackAdd($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 同步黑名单到redis
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payLimitBlackRedisSync($param, &$data) {
+        return clsOperation::payLimitBlackRedisSync($param, $data);
+    }
+
+    /**
+     * 禁止支付管理 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function payLimitDel($param, &$data) {
+        return clsOperation::payLimitDel($param, $data);
+    }
+
+    /**
+     * 账号及充值查询 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function rechargeLogGet($param, &$data) {
+        return clsOperation::rechargeLogGet($param, $data);
+    }
+
+    /**
+     * 充领开关 - 修改充
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function chongLingSwitchEditPay($param, &$data) {
+        return clsOperation::chongLingSwitchEditPay($param, $data);
+    }
+
+    /**
+     * 充领开关 - 修改领
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function chongLingSwitchEditTake($param, &$data) {
+        return clsOperation::chongLingSwitchEditTake($param, $data);
     }
 
 }
