@@ -779,3 +779,12 @@ const keyArray = array (
         'pass' => 'dilsjhhd'
     )
 );
+
+/**
+ * 运营管理
+ */
+// 转账支付宝管理 - 所有账户
+const aliPayTransferAccount = [
+    ['id' => 1, 'account' => 'aaaaaa@163.com', 'qrcode' => '', 'url' => 'https://qr.alipay.com/aaaaaaaaaaaaaa'],
+    ['id' => 2, 'account' => 'bbbbbb@163.com', 'qrcode' => '', 'url' => 'https://qr.alipay.com/bbbbbbbbbbbbbb'],
+];

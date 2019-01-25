@@ -42,6 +42,13 @@ const ERR_ORDER_ALREADY_EXIST = 504; // 订单已存在
 
 const ERR_PUSH_FAIL = 505; // 推送失败
 
+// 运营管理
+const ERR_ALI_PAY_ACCOUNT_NOT_EXIST = 601; // 支付宝账号不存在
+const ERR_ALI_PAY_ACCOUNT_ALREADY_CLOSE = 602; // 该支付宝账号当前已关闭
+const ERR_ALI_PAY_ACCOUNT_ALREADY_OPEN = 603; // 该支付宝账号当前已打开
+const ERR_ACCOUNT_ALREADY_EXIST = 604; // 账号已存在
+const ERR_PASSWORD_WRONG = 605; // 密码错误
+
 
 
 // 错误码对应文字
@@ -72,6 +79,12 @@ const errMsg = [
     ERR_ORDER_NOT_EXIST => '订单不存在',
     ERR_ORDER_STATUS_WRONG => '订单状态错误',
     ERR_SCORE_OPERATION_FAIL => 'score operation fail',
+
+    ERR_ALI_PAY_ACCOUNT_NOT_EXIST => '支付宝账号不存在',
+    ERR_ALI_PAY_ACCOUNT_ALREADY_CLOSE => '该支付宝账号当前已是不可用状态',
+    ERR_ALI_PAY_ACCOUNT_ALREADY_OPEN => '该支付宝账号当前已打开',
+    ERR_ACCOUNT_ALREADY_EXIST => '账号已存在',
+    ERR_PASSWORD_WRONG => '密码错误',
 ];
 
 

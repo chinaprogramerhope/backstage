@@ -2221,7 +2221,7 @@ class daoCustomer {
             }
         }
 
-        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success');
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
 
         return ERR_OK;
     }

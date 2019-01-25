@@ -481,7 +481,7 @@ export const constantRouterMap = [
       },
       {
         path: 'moduleUpgarde',
-        component: () => import('@/views/operation/moduleUpgarde'),
+        component: () => import('@/views/operation/moduleUpgrade'),
         name: 'moduleUpgarde',
         meta: {
           title: '模块升级服务器管理'

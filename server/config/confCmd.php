@@ -153,6 +153,41 @@ const cmdArr = [
     357 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeAdd'], // 整包升级服务器管理 - 添加游戏版本
     358 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeRefresh'], // 整包升级服务器管理 - 刷新redis
     359 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeDel'], // 整包升级服务器管理 - 删除
+    360 => ['svc' => 'svcOperation', 'func' => 'packageUpgradeChangeStatus'], // 整包升级服务器管理 - 上线/下线
+
+    361 => ['svc' => 'svcOperation', 'func' => 'moduleUpgradeGet'], // 模块升级服务器管理 - 获取
+    362 => ['svc' => 'svcOperation', 'func' => 'moduleUpgradeModify'], // 模块升级服务器管理 - 修改
+
+    363 => ['svc' => 'svcOperation', 'func' => 'gameSwitchGet'], // 游戏开关管理 - 获取
+    364 => ['svc' => 'svcOperation', 'func' => 'gameSwitchEdit'], // 游戏开关管理 - 编辑
+
+    365 => ['svc' => 'svcOperation', 'func' => 'aliPayTransferGet'], // 转账支付宝管理 - 获取
+    366 => ['svc' => 'svcOperation', 'func' => 'aliPayTransferModifyTime'], // 转账支付宝管理 - 修改开关时间
+    367 => ['svc' => 'svcOperation', 'func' => 'aliPayTransferModifyStatus'], // 转账支付宝管理 - 打开/关闭账号
+
+    368 => ['svc' => 'svcOperation', 'func' => 'paymentSwitch'], // 支付管理 - 支付总开关
+    369 => ['svc' => 'svcOperation', 'func' => 'paymentAliPayThird'], // 支付管理 - 支付宝第三方
+    370 => ['svc' => 'svcOperation', 'func' => 'paymentAliPayOfficial'], // 支付管理 - 支付宝官方
+    371 => ['svc' => 'svcOperation', 'func' => 'paymentWeChatThird'], // 支付管理 - 微信第三方
+    372 => ['svc' => 'svcOperation', 'func' => 'paymentQqThird'], // 支付管理 - qq第三方
+    373 => ['svc' => 'svcOperation', 'func' => 'paymentJdThird'], // 支付管理 - 京东钱包第三方
+    374 => ['svc' => 'svcOperation', 'func' => 'paymentYlThird'], // 支付管理 - 银联快捷支付
+    375 => ['svc' => 'svcOperation', 'func' => 'paymentConfig'], // 支付管理 - 配置支付渠道参数
+
+    376 => ['svc' => 'svcOperation', 'func' => 'proxyIpGet'], // Proxy Ip管理 - 获取
+    377 => ['svc' => 'svcOperation', 'func' => 'proxyIpSave'], // Proxy Ip管理 - 保存
+    378 => ['svc' => 'svcOperation', 'func' => 'proxyIpRedisSync'], // Proxy Ip管理 - 同步到redis
+
+    379 => ['svc' => 'svcOperation', 'func' => 'agentAccountGet'], // 代理账号管理 - 获取
+    380 => ['svc' => 'svcOperation', 'func' => 'agentAccountAdd'], // 代理账号管理 - 添加
+    381 => ['svc' => 'svcOperation', 'func' => 'agentAccountEdit'], // 代理账号管理 - 修改
+    382 => ['svc' => 'svcOperation', 'func' => 'agentAccountDel'], // 代理账号管理 - 删除
+
+    383 => ['svc' => 'svcOperation', 'func' => 'stopServer'], // 紧急停服
+
+    384 => ['svc' => 'svcOperation', 'func' => 'goldAddLogGet'], // 增加金币记录 - 获取
+
+    385 => ['svc' => 'svcOperation', 'func' => 'bindPhoneLogGet'], // 绑定手机记录 - 获取
 
 
     // 活动管理 401 - 450
