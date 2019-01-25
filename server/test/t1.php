@@ -24,13 +24,5 @@ require_once '../loadConfig.php';
 //clsLog::error(__METHOD__ . ', ' . __LINE__ . ', mysql exception, exception = ' . $e->getMessage());
 //return ERR_MYSQL_EXCEPTION;
 
-//$pass = '111111';
-//$salt = '888';
-//$pass1 = crypt($pass, $salt);
-//echo $pass1; // 88.h3CWSFO.yw
-
-//$datetime1 = new DateTime('2009-10-11');
-//$datetime2 = new DateTime('2009-10-15');
-//echo  $datetime1->diff($datetime2)->d;
-
-echo '' == 0;
+$ret = 'https://widget.paytrust88.com/widget/open/1c6be92897fdf3b0c8aeebf49356ae4a?bank=9';
+header('location: ' . $ret);
