@@ -1373,39 +1373,193 @@ class daoOperation {
     }
 
     /**
-     * 绑定手机记录 - 获取  todo
+     * 绑定手机记录 - 获取
      * @param $param
      * @param $data
      * @return int
      */
     public static function bindPhoneLogGet($param, &$data) {
+        $userId = $param['userId'];
+        $mobile = $param['mobile'];
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $tsBegin = strtotime($dateBegin);
+        $tsEnd = strtotime($dateEnd);
+        $bindStatus = $param['bindStatus'];
+
+
+        $tableArr = self::getBindPhoneLogTables();
+        if (!empty($tableArr)) {
+            $dbName = 'casinogamehisdb';
+            $sql = '';
+            $pdoParam = [];
+
+            foreach ($tableArr as $k => $tableName) {
+                $tsTmp = strtotime($k);
+                if ($tsTmp >= $tsBegin && $tsTmp <= $tsEnd) { // todo 这个开始结束时间怎么在表名和查询内容中都用到
+                    if (!$sql !== '') {
+                        $sql .= ' union all ';
+                    }
+                    $sql .= 'select * from ' . $tableName;
+
+                    $item = [];
+                    if ($userId) {
+                        $item[] = 'userid = :userid';
+                        $pdoParam[':userid'] = $userId;
+                    }
+                    if ($mobile) {
+                        $item[] = 'mobile = :mobile';
+                        $pdoParam[':mobile'] = $mobile;
+                    }
+                    if ($bindStatus !== -1) {
+                        $item[] = 'bind = :bind';
+                        $pdoParam[':bind'] = $bindStatus;
+                    }
+                    if (!empty($dateBegin)) {
+                        $item[] = 'recordtime >= :dateBein';
+                        $pdoParam[':dateBein'] = $dateBegin;
+                    }
+                    if (!empty($dateEnd)) {
+                        $item[] = 'recordtime <= :dateEnd';
+                        $pdoParam[':dateEnd'] = $dateEnd;
+                    }
+
+                    if (!empty($item)) {
+                        $sql .= ' where ';
+
+                        $sqlTmp = implode(' and ', $item);
+                        $sql .= $sqlTmp;
+                    }
+                }
+            }
+
+            $rows = clsUtility::getRows($dbName, $sql, $pdoParam);
+            if (!empty($rows)) {
+                $data = $rows;
+            } else {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', dbName = ' . $dbName . ', sql = ' . $sql
+                    . ', pdoParam = ' . json_encode($pdoParam));
+            }
+        }
 
         return ERR_OK;
     }
 
     /**
-     * 绑定支付宝记录 - 获取  todo
+     * 绑定支付宝记录 - 获取
      * @param $param
      * @param $data
      * @return int
      */
     public static function bindAliPayLogGet($param, &$data) {
+        $userId = $param['userId'];
+        $aliPayAccount = $param['aliPayAccount'];
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $tsBegin = strtotime($dateBegin);
+        $tsEnd = strtotime($dateEnd);
+
+        $tableArr = self::getBindAliAccountLogTables();
+        if (!empty($tableArr)) {
+            $dbName = 'casinogamehisdb';
+            $sql = '';
+            $pdoParam = [];
+
+            foreach ($tableArr as $k => $tableName) {
+                $tsTmp = strtotime($k);
+                if ($tsTmp >= $tsBegin && $tsTmp <= $tsEnd) { // todo 这个开始结束时间怎么在表名和查询内容中都用到
+                    if (!$sql !== '') {
+                        $sql .= ' union all ';
+                    }
+                    $sql .= 'select * from ' . $tableName;
+
+                    $item = [];
+                    if ($userId) {
+                        $item[] = 'userid = :userid';
+                        $pdoParam[':userid'] = $userId;
+                    }
+                    if ($aliPayAccount) {
+                        $item[] = 'alipay_account = :alipay_account';
+                        $pdoParam[':alipay_account'] = $aliPayAccount;
+                    }
+                    if (!empty($dateBegin)) {
+                        $item[] = 'recordtime >= :dateBein';
+                        $pdoParam[':dateBein'] = $dateBegin;
+                    }
+                    if (!empty($dateEnd)) {
+                        $item[] = 'recordtime <= :dateEnd';
+                        $pdoParam[':dateEnd'] = $dateEnd;
+                    }
+
+                    if (!empty($item)) {
+                        $sql .= ' where ';
+
+                        $sqlTmp = implode(' and ', $item);
+                        $sql .= $sqlTmp;
+                    }
+                }
+            }
+
+            $rows = clsUtility::getRows($dbName, $sql, $pdoParam);
+            if (!empty($rows)) {
+                $data = $rows;
+            } else {
+                clsLog::info(__METHOD__ . ', ' . __LINE__ . ', dbName = ' . $dbName . ', sql = ' . $sql
+                    . ', pdoParam = ' . json_encode($pdoParam));
+            }
+        }
 
         return ERR_OK;
     }
 
     /**
-     * 禁止支付管理 - 获取 todo
+     * 禁止支付管理 - 获取
      * @param $param
      * @param $data
      * @return int
      */
     public static function payLimitGet($param, &$data) {
+        $userId = $param['userId'];
+        $describe = $param['describe'];
+        $operator = $param['operator'];
+        $dateBegin = $param['dateRange']['dateBegin'];
+
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $dbName = 'db_smc';
+        $sql = 'select * from smc_pay_limit';
+        $sql .= ' where add_time >= :dateBegin and add_time <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($userId) {
+            $sql .= ' and limit_target = :limit_target';
+            $pdoParam[':limit_target'] = $userId;
+        }
+        if ($describe) {
+            $sql .= ' and discribe like :discribe';
+            $pdoParam[':discribe'] = '%' . $describe . '%';
+        }
+        if ($operator !== -1) {
+            $sql .= ' and optuser = :optuser';
+            $pdoParam[':optuser'] = $operator;
+        }
+        $sql .= ' order by id desc limit ' . maxQueryNum;
+
+        $rows = clsUtility::getRows($dbName, $sql, $pdoParam);
+        if (!empty($rows)) {
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
         return ERR_OK;
     }
 
     /**
-     * 禁止支付管理 - 添加充值黑名单 todo
+     * 禁止支付管理 - 添加充值黑名单
      * @param $param
      * @param $data
      * @return int
@@ -1443,7 +1597,13 @@ class daoOperation {
             return $errCode;
         }
 
-        // 添加到redis  todo now
+        // 添加到redis
+        $redis = clsRedis::getInstance();
+        if ($redis === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+            return ERR_INVALID_PARAM;
+        }
+        $redis->sAdd(payLimit, $userId);
 
         clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
 
@@ -1451,17 +1611,45 @@ class daoOperation {
     }
 
     /**
-     * 禁止支付管理 - 同步黑名单到redis todo
+     * 禁止支付管理 - 同步黑名单到redis
      * @param $param
      * @param $data
      * @return int
      */
     public static function payLimitBlackRedisSync($param, &$data) {
+        // 从mysql获取
+        $dbName = 'db_smc';
+        $sql = 'select id, limit_target from smc_pay_limit limit ' . maxQueryNum;
+        $rows = clsUtility::getRows($dbName, $sql);
+        if (empty($rows)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql);
+            return ERR_OK;
+        }
+        $retArr = [];
+        foreach ($rows as $row) {
+            $retArr[$row['id']] = $row['limit_target'];
+        }
+
+        // 保存到redis
+        $redis = clsRedis::getInstance();
+        if ($redis === null) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
+            return ERR_REDIS_CONNECT_FAIL;
+        }
+        $redis->del(payLimit);
+        foreach ($retArr as $v) {
+            $redis->sAdd(payLimit, $v);
+        }
+        $redis->sAdd(payLimit, -1); // 每次同步, 需要确保键值对存在
+
+        clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
+
         return ERR_OK;
     }
 
     /**
-     * 禁止支付管理 - 删除 todo
+     * 禁止支付管理 - 删除
      * @param $param
      * @param $data
      * @return int
@@ -1480,13 +1668,14 @@ class daoOperation {
             return $errCode;
         }
 
-        // redis删除  todo now
+        // redis删除
         $redis = clsRedis::getInstance();
         if ($redis === null) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', redis connect fail');
             return ERR_REDIS_CONNECT_FAIL;
         }
-
+        $redis->sRem(payLimit, $userId);
+        $redis->sAdd(payLimit, -1); // 确保键值存在
 
         clsLog::info(__METHOD__ . ', ' . __LINE__ . ', success, param = ' . json_encode($param));
 
@@ -1494,12 +1683,36 @@ class daoOperation {
     }
 
     /**
-     * 账号及充值查询 - 获取 todo
+     * 账号及充值查询 - 获取
      * @param $param
      * @param $data
      * @return int
      */
     public static function rechargeLogGet($param, &$data) {
+        $dbName = 'db_smc';
+
+        // 获取表名
+        $fix = date('Ymd', time());
+        $strTime0 = date('Y-m-d H:i:s', time());
+        $strTime1 = date('Y-m-d', time()) . " 05:30:00";
+        $flag = strtotime($strTime0) < strtotime($strTime1);
+        if ($flag) {
+            $fix = date('Ymd', strtotime("-1 day", time()));
+        }
+        $tableName = "ALL_CASINOUSER" . $fix . ' ';
+        $sql = 'select * from ' . $tableName;
+
+        // 组装sql
+        $sql .= self::contructSqlStr($param);
+        $sql .= ' order by id desc limit ' . maxQueryNum;
+        $rows = clsUtility::getRows($dbName, $sql);
+        if (!empty($rows)) {
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql);
+        }
+
         return ERR_OK;
     }
 
@@ -1624,17 +1837,213 @@ class daoOperation {
         return ERR_OK;
     }
 
+    /**
+     * 绑定手机记录 - 获取表名
+     * @return array
+     */
     public static function getBindPhoneLogTables() {
         $finalRet = [];
 
-        $dbName = 'db_smc';
+        $dbName = 'casinogamehisdb';
         $tablePrefix = 'CASINOBINDMOBILERECORD';
-        $sql = "SELECT DISTINCT TABLE_NAME from information_schema.`COLUMNS` where TABLE_NAME LIKE '".$tablePrefix."%' ORDER BY TABLE_NAME desc";
+        $sql = "SELECT DISTINCT TABLE_NAME from information_schema.`COLUMNS` where TABLE_NAME LIKE '" . $tablePrefix . "%' ORDER BY TABLE_NAME desc";
         $rows = clsUtility::getRows($dbName, $sql);
         if (!empty($rows)) {
             foreach ($rows as $k => $v) {
-
+                $index = str_replace($tablePrefix, '', $v['TABLE_NAME']);
+                $finalRet[$index] = $v['TABLE_NAME'];
             }
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * 绑定支付宝记录 - 获取表名
+     * @return array
+     */
+    public static function getBindAliAccountLogTables() {
+        $finalRet = [];
+
+        $dbName = 'casinogamehisdb';
+        $tablePrefix = 'CASINOBINDALIPAYACCOUNT';
+        $sql = "SELECT DISTINCT TABLE_NAME from information_schema.`COLUMNS` where TABLE_NAME LIKE '" . $tablePrefix . "%' ORDER BY TABLE_NAME desc";
+        $rows = clsUtility::getRows($dbName, $sql);
+        if (!empty($rows)) {
+            foreach ($rows as $k => $v) {
+                $index = str_replace($tablePrefix, '', $v['TABLE_NAME']);
+                $finalRet[$index] = $v['TABLE_NAME'];
+            }
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * 账号及充值查询 - 生成sql
+     * @param $query
+     * @return string
+     */
+    private static function contructSqlStr($query) {
+        $whereSql = "";
+        $keyTypeArr = self::getColumnTypeArr();
+        foreach ($keyTypeArr as $columnName => $columnType) {
+            $val = self::getVal($query, $columnName); //$query[$columnName];
+            $val_extra = self::getVal($query, "extra_" . $columnName); //$query["extra_".$columnName];
+            if ($columnName && strlen("" . $val) > 0) {
+                $connStr = self::getConnStr($columnType);
+                $oper = $query["operation_" . $columnName];
+                $columnSql = self::createColumnSql($val, $connStr, $oper, $columnName);
+                if ($val_extra) {
+                    $oper_extra = $query["operation_extra_" . $columnName];
+                    $columnSql .= " and " . self::createColumnSql($val_extra, $connStr, $oper_extra, $columnName);;
+                }
+                if (strlen($whereSql) > 0) {
+                    $whereSql .= " and ";
+                }
+                $whereSql .= " (" . $columnSql . ") ";
+            }
+
+        }
+        if (strlen($whereSql) > 0) {
+            $whereSql = " where " . $whereSql;
+        }
+        return " " . $whereSql . " ";
+    }
+
+    private static function getColumnTypeArr() {
+        $resArr = array();
+        $resArr['id'] = "bigint";
+        $resArr['nickname'] = "varchar";
+        $resArr['password'] = "varchar";
+        $resArr['registertime'] = "timestamp";
+        $resArr['user_email'] = "varchar";
+        $resArr['user_device_id'] = "varchar";
+        $resArr['user_chips'] = "bigint";
+        $resArr['ip'] = "varchar";
+        $resArr['mac'] = "varchar";
+        $resArr['win_game'] = "int";
+        $resArr['lose_game'] = "int";
+        $resArr['draw_game'] = "int";
+        $resArr['channel_id'] = "varchar";
+        $resArr['totalBuy'] = "int";
+        $resArr['lastLoginIp'] = "varchar";
+        $resArr['lastLoginMac'] = "varchar";
+        $resArr['alipay_real_name'] = "varchar";
+        $resArr['alipay_account'] = "varchar";
+        $resArr['total_total_money'] = "bigint";
+        $resArr['boundmobilenumber'] = "varchar";
+        $resArr['last_login_time'] = "bigint";
+        $resArr['sum_game'] = "int";
+        return $resArr;
+    }
+
+    private static function getVal($query, $columnName) {
+        $res = $query[$columnName];
+        if ("last_login_time" == $columnName || "extra_last_login_time" == $columnName) {
+            return strtotime($res);
+        }
+        return $res;
+    }
+
+    private static function getConnStr($columnType) {
+        if ($columnType) {
+            $columnType = strtolower($columnType);
+        }
+        if ($columnType === 'tinyint' || $columnType === 'smallint' || $columnType === 'mediumint' || $columnType === 'int' || $columnType === 'bigint') {
+            return "";
+        } else {
+            return "'";
+        }
+    }
+
+    private static function createColumnSql($val, $connStr, $oper, $columnName) {
+        if ($val) {
+            $columnSql = "";
+            if ("6" == "" . $oper)//部分匹配
+            {
+                $columnSql = "instr(" . $columnName . ",'" . $val . "')> 0";
+                return $columnSql;
+            } else if ("7" == "" . $oper)//后缀匹配
+            {
+                $columnSql = "reverse(" . $columnName . ") like reverse('%" . $val . "')";
+                return $columnSql;
+            } else if ("8" == "" . $oper)//后缀匹配
+            {
+                $columnSql = $columnName . " like '" . $val . "%'";
+                return $columnSql;
+            } else {
+                $val_real = self::transColumnVal($val, $connStr, $oper);
+                $oper_real = self::getRealOperStr($oper);
+                $columnSql = $columnName . " " . $oper_real . " " . $val_real;
+                return $columnSql;
+            }
+        }
+
+        return "";
+    }
+
+    private static function transColumnVal($val, $connStr, $oper) {
+        $res = $val;
+        if ("'" === $connStr || "\\'" === $connStr) {
+            /**
+             * <option value="0">等于</option>
+             * <option value="1">不等于</option>
+             * <option value="2">大于</option>
+             * <option value="3">小于</option>
+             * <option value="4">大于等于</option>
+             * <option value="5">小于等于</option>
+             * <option value="6">部分匹配</option>
+             * <option value="7">前缀匹配</option>
+             * <option value="8">后缀匹配</option>
+             *
+             * **/
+            if ("6" === $oper) {
+
+                $res = "%" . $res . "%";
+            } else if ("7" === $oper) {
+                $res = "%" . $res;
+            } else if ("8" === $oper) {
+                $res = $res . "%";
+            }
+            $res = $connStr . $res . $connStr;
+            return $res;
+        } else {
+            return $res;
+        }
+    }
+
+    private static function getRealOperStr($oper) {
+        /**
+         * <option value="0">等于</option>
+         * <option value="1">不等于</option>
+         * <option value="2">大于</option>
+         * <option value="3">小于</option>
+         * <option value="4">大于等于</option>
+         * <option value="5">小于等于</option>
+         * <option value="6">部分匹配</option>
+         * <option value="7">前缀匹配</option>
+         * <option value="8">后缀匹配</option>
+         **/
+        switch ($oper) {
+            case '1':
+                return "<>";
+            case '2':
+                return ">";
+            case '3':
+                return "<";
+            case '4':
+                return ">=";
+            case '5':
+                return "<=";
+            case '6':
+                return "like";
+            case '7':
+                return "like";
+            case '8':
+                return "like";
+            default:
+                return "=";
         }
     }
 }

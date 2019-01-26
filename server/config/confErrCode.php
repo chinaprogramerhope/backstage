@@ -29,6 +29,9 @@ const ERR_ADMIN_PASSWORD_EMPTY = 302; // 账号和密码不能为空
 const ERR_ADMIN_NOT_ACTIVE = 303; // 账号不可用
 const ERR_ADMIN_REGISTER_VERIFY_CODE_WRONG = 304; // 注册 - 验证码错误
 const ERR_ADMIN_REGISTER_REPEAT_USERNAME = 305; // 注册 - 该账号已被注册
+const ERR_ADMIN_ALREADY_EXIST = 306; // 管理员已存在
+const ERR_ADMIN_ROLE_NAME_ALREADY_EXIST = 307; // 角色名已存在
+const ERR_ADMIN_ROLE_NAME_NOT_EXIST = 308; // 角色名不存在
 
 // 会员管理 400 - 500
 const ERR_INVALID_USER_ID = 400; // 用户id错误
@@ -73,6 +76,7 @@ const errMsg = [
     ERR_ADMIN_NOT_ACTIVE => '账号不可用',
     ERR_ADMIN_REGISTER_VERIFY_CODE_WRONG => '注册 - 验证码错误',
     ERR_ADMIN_REGISTER_REPEAT_USERNAME => '注册 - 该账号已被注册',
+    ERR_ADMIN_ALREADY_EXIST => '管理员已存在',
 
     ERR_INVALID_USER_ID => '用户id错误',
     ERR_USER_NOT_EXIST => '用户不存在',

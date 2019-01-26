@@ -306,4 +306,16 @@ const cmdArr = [
     568 => ['svc' => 'svcCustomer', 'func' => 'cashOrderBatchAgain'], // 提现订单 - 批量重新处理
     569 => ['svc' => 'svcCustomer', 'func' => 'cashOrderBatchSuccess'], // 提现订单 - 批量处理成功
     570 => ['svc' => 'svcCustomer', 'func' => 'aliPayBlacklistClear'], // 提现订单 - 操作 | 退款, 重新处理, 审核通过, 转账成功; 人工提现 | 查看提现截图, 人工提现
+
+    // 运维管理 601 - 650
+    601 => ['svc' => 'svcAdmin', 'func' => 'adminListGet'], // 管理员列表 - 获取
+    602 => ['svc' => 'svcAdmin', 'func' => 'adminListAdd'], // 管理员列表 - 添加
+    603 => ['svc' => 'svcAdmin', 'func' => 'adminListEdit'], // 管理员列表 - 修改
+    604 => ['svc' => 'svcAdmin', 'func' => 'adminListDel'], // 管理员列表 - 删除
+
+    605 => ['svc' => 'svcAdmin', 'func' => 'roleListGet'], // 角色列表 - 获取
+    606 => ['svc' => 'svcAdmin', 'func' => 'roleListAdd'], // 角色列表 - 添加
+    607 => ['svc' => 'svcAdmin', 'func' => 'roleListEdit'], // 角色列表 - 修改
+
+    608 => ['svc' => 'svcAdmin', 'func' => 'adminLoginLogGet'], // 管理员登录日志 - 获取
 ];

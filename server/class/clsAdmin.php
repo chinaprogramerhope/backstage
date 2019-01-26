@@ -129,6 +129,88 @@ class clsAdmin {
     }
 
     /**
+     * 管理员列表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function adminListGet($param, &$data) {
+        return daoAdmin::adminListGet($param, $data);
+    }
+
+    /**
+     * 管理员列表 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function adminListAdd($param, &$data) {
+        return daoAdmin::adminListAdd($param, $data);
+    }
+
+    /**
+     * 管理员列表 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function adminListEdit($param, &$data) {
+        return daoAdmin::adminListEdit($param, $data);
+    }
+
+    /**
+     * 管理员列表 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function adminListDel($param, &$data) {
+        return daoAdmin::adminListDel($param, $data);
+    }
+
+    /**
+     * 角色列表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function roleListGet($param, &$data) {
+        return daoAdmin::roleListGet($param, $data);
+    }
+
+    /**
+     * 角色列表 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function roleListAdd($param, &$data) {
+        return daoAdmin::roleListAdd($param, $data);
+    }
+
+    /**
+     * 角色列表 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function roleListEdit($param, &$data) {
+        return daoAdmin::roleListEdit($param, $data);
+    }
+
+    /**
+     * 管理员登录日志 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function adminLoginLogGet($param, &$data) {
+        return daoAdmin::adminLoginLogGet($param, $data);
+    }
+
+    // ====
+
+    /**
      * 获取客户端ip
      * @return string
      */

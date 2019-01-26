@@ -1,11 +1,11 @@
 <?php
+
 /**
  * User: hanxiaolong
  * Date: 18-10-8
  *
  * 管理员
  */
-
 class svcAdmin {
     /**
      * 创建验证码
@@ -27,7 +27,8 @@ class svcAdmin {
         if (!isset($param['userName']) || empty($param['userName'])
             || !isset($param['pass']) || empty($param['pass'])
             || !isset($param['passRepeat']) || empty($param['passRepeat'])
-            || !isset($param['verifyCode']) || empty($param['verifyCode'])) {
+            || !isset($param['verifyCode']) || empty($param['verifyCode'])
+        ) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             $data['msg'] = '请填写完整';
             return ERR_INVALID_PARAM;
@@ -76,7 +77,8 @@ class svcAdmin {
      */
     public function login($param, &$data) {
         if (!isset($param['userName']) || !isset($param['pass'])
-            || empty($param['userName']) || empty($param['pass'])) {
+            || empty($param['userName']) || empty($param['pass'])
+        ) {
             clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
             return ERR_ADMIN_PASSWORD_EMPTY;
         }
@@ -115,5 +117,169 @@ class svcAdmin {
      */
     public function logout($param, &$data) {
         return clsAdmin::logout($data);
+    }
+
+    /**
+     * 管理员列表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function adminListGet($param, &$data) {
+        return clsAdmin::adminListGet($param, $data);
+    }
+
+    /**
+     * 管理员列表 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function adminListAdd($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])
+            || !isset($param['pass']) || empty($param['pass'])
+            || !isset($param['passAgain']) || empty($param['passAgain'])
+            || !isset($param['roleId']) || empty($param['roleId']) || !is_numeric($param['roleId'])
+            || !isset($param['status'])
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['name'] = trim($param['name']);
+        $param['pass'] = trim($param['pass']);
+        $param['passAgain'] = trim($param['passAgain']);
+        $param['roleId'] = intval($param['roleId']);
+
+        $param['status'] = intval($param['status']);
+
+        // todo 账号和密码长度限制
+
+        if ($param['pass'] !== $param['passAgain']
+            || ($param['status'] !== 1 && $param['status'] !== 0)
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsAdmin::adminListAdd($param, $data);
+    }
+
+    /**
+     * 管理员列表 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function adminListEdit($param, &$data) {
+        if (!isset($param['name']) || empty($param['name'])
+            || !isset($param['pass']) || empty($param['pass'])
+            || !isset($param['passAgain']) || empty($param['passAgain'])
+            || !isset($param['roleId']) || empty($param['roleId']) || !is_numeric($param['roleId'])
+            || !isset($param['status'])
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['name'] = trim($param['name']);
+        $param['pass'] = trim($param['pass']);
+        $param['passAgain'] = trim($param['passAgain']);
+        $param['roleId'] = intval($param['roleId']);
+
+        $param['status'] = intval($param['status']);
+
+        // todo 账号和密码长度限制
+
+        if ($param['pass'] !== $param['passAgain']
+            || ($param['status'] !== 1 && $param['status'] !== 0)
+        ) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        return clsAdmin::adminListEdit($param, $data);
+    }
+
+    /**
+     * 管理员列表 - 删除
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function adminListDel($param, &$data) {
+        if (!isset($param['id']) || !is_numeric($param['id'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['id'] = intval($param['id']);
+
+        return clsAdmin::adminListDel($param, $data);
+    }
+
+    /**
+     * 角色列表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function roleListGet($param, &$data) {
+        return clsAdmin::roleListGet($param, $data);
+    }
+
+    /**
+     * 角色列表 - 添加
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function roleListAdd($param, &$data) {
+        if (!isset($param['roleName']) || empty($param['roleName'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['roleName'] = trim($param['roleName']);
+        $param['priv'] = isset($param['priv']) && !empty($param['priv']) ? $param['priv'] : [];
+        $param['priv'] = json_encode($param['priv']);
+
+        return clsAdmin::roleListAdd($param, $data);
+    }
+
+    /**
+     * 角色列表 - 修改
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function roleListEdit($param, &$data) {
+        if (!isset($param['roleName']) || empty($param['roleName'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['roleName'] = trim($param['roleName']);
+        $param['priv'] = isset($param['priv']) && !empty($param['priv']) ? $param['priv'] : [];
+        if ($param['priv'] === 'all') {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, priv is all, cannot edit, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['priv'] = json_encode($param['priv']);
+
+        return clsAdmin::roleListEdit($param, $data);
+    }
+
+    /**
+     * 管理员登录日志 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function adminLoginLogGet($param, &$data) {
+        $dateRange = clsUtility::getFormatDate($param);
+
+        return clsAdmin::adminLoginLogGet($param, $data);
     }
 }

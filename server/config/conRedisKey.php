@@ -41,4 +41,6 @@ const ipList = 'ip_list_'; // Proxy IP管理
 const closeTransferPay = 'closeTransferPay'; // 充领开关 - 充
 const closeTransferTake = 'closeTransferTake'; // 充领开关 - 领
 
+const payLimit = 'paylimit_uid'; // 禁止支付管理
+
 

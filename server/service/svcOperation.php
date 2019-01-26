@@ -620,6 +620,16 @@ class svcOperation {
      * @return int
      */
     public function payLimitGet($param, &$data) {
+        $param['userId'] = isset($param['userId']) && !empty($param['userId']) ? intval($param['userId']) : 0;
+        $param['operator'] = isset($param['operator']) && !empty($param['operator']) ? trim($param['operator']) : -1;
+        $param['describe'] = isset($param['describe']) && !empty($param['describe']) ? trim($param['describe']) : '';
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+
+        if ($param['userId'] < 0) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
         return clsOperation::payLimitGet($param, $data);
     }
 
@@ -676,7 +686,21 @@ class svcOperation {
      * @return int
      */
     public function rechargeLogGet($param, &$data) {
-        return clsOperation::rechargeLogGet($param, $data);
+        $keyArr = ["id", "nickname", "registertime", "ip", "mac", "alipay_account", "totalBuy", "lastLoginIp", "user_chips", "total_total_money", "boundmobilenumber", "last_login_time", "win_game", "lose_game", "draw_game", "sum_game"];
+
+        $query = [];
+        foreach ($keyArr as $columnName) {
+            $query[$columnName] = isset($param[$columnName]) && !empty($param[$columnName]) ? $param[$columnName] : '';
+            $query['operation_' . $columnName] = isset($param['operation_' . $columnName]) && !empty($param['operation_' . $columnName]) ? $param['operation_' . $columnName] : '>=';
+            $query['extra_' . $columnName] = isset($param['extra_' . $columnName]) && !empty($param['extra_' . $columnName]) ? $param['extra_' . $columnName] : '';
+            $query['operation_extra_' . $columnName] = isset($param['operation_extra_' . $columnName]) && !empty($param['operation_extra_' . $columnName]) ? $param['operation_extra_' . $columnName] : '<=';
+        }
+        if (!$query['last_login_time']) {
+            $query['last_login_time'] = date('Y-m-d H:i:s', strtotime('-7 day'));
+            $query['operation_last_login_time'] = '>=';
+        }
+
+        return clsOperation::rechargeLogGet($query, $data);
     }
 
     /**
