@@ -282,4 +282,57 @@ class svcAdmin {
 
         return clsAdmin::adminLoginLogGet($param, $data);
     }
+
+    /**
+     * 运营数据总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function masterGet($param, &$data) {
+        return clsAdmin::masterGet($param, $data);
+    }
+
+    /**
+     * 管理员登录日志 - 导出excel
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function masterExport($param, &$data) {
+        return clsAdmin::masterExport($param, $data);
+    }
+
+    /**
+     * 充提抽水曲线 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function chongTiChouShuiCurveGet($param, &$data) {
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+        return clsAdmin::chongTiChouShuiCurveGet($param, $data);
+    }
+
+    /**
+     * 渠道统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function channelStatisticsGet($param, &$data) {
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+        return clsAdmin::channelStatisticsGet($param, $data);
+    }
+
+    /**
+     * 捕鱼运营总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function fishMasterGet($param, &$data) {
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+        return clsAdmin::fishMasterGet($param, $data);
+    }
 }

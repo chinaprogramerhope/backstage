@@ -208,6 +208,56 @@ class clsAdmin {
         return daoAdmin::adminLoginLogGet($param, $data);
     }
 
+    /**
+     * 运营数据总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function masterGet($param, &$data) {
+        return daoAdmin::masterGet($param, $data);
+    }
+
+    /**
+     * 管理员登录日志 - 导出excel
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function masterExport($param, &$data) {
+        return daoAdmin::masterExport($param, $data);
+    }
+
+    /**
+     * 充提抽水曲线 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chongTiChouShuiCurveGet($param, &$data) {
+        return daoAdmin::chongTiChouShuiCurveGet($param, $data);
+    }
+
+    /**
+     * 渠道统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function channelStatisticsGet($param, &$data) {
+        return daoAdmin::channelStatisticsGet($param, $data);
+    }
+
+    /**
+     * 捕鱼运营总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function fishMasterGet($param, &$data) {
+        return daoAdmin::fishMasterGet($param, $data);
+    }
+
     // ====
 
     /**

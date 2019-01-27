@@ -318,4 +318,14 @@ const cmdArr = [
     607 => ['svc' => 'svcAdmin', 'func' => 'roleListEdit'], // 角色列表 - 修改
 
     608 => ['svc' => 'svcAdmin', 'func' => 'adminLoginLogGet'], // 管理员登录日志 - 获取
+
+    // 运营报表 701 - 800
+    701 => ['svc' => 'svcOperationReport', 'func' => 'masterGet'], // 运营数据总表 - 获取 todo
+    702 => ['svc' => 'svcOperationReport', 'func' => 'masterExport'], // 运营数据总表 - 导出excel todo
+
+    703 => ['svc' => 'svcOperationReport', 'func' => 'chongTiChouShuiCurveGet'], // 充提抽水曲线 - 获取
+
+    704 => ['svc' => 'svcOperationReport', 'func' => 'channelStatisticsGet'], // 渠道统计 - 获取
+
+    705 => ['svc' => 'svcOperationReport', 'func' => 'fishMasterGet'], // 捕鱼运营总表 - 获取
 ];

@@ -415,4 +415,360 @@ class daoAdmin {
 
         return ERR_OK;
     }
+
+    /**
+     * 运营数据总表 - 获取 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function masterGet($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 管理员登录日志 - 导出excel todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function masterExport($param, &$data) {
+        return ERR_OK;
+    }
+
+    /**
+     * 充提抽水曲线 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function chongTiChouShuiCurveGet($param, &$data) {
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $dbName = 'casinostatdb';
+        $sql = "SELECT
+					statistics_date,
+					sum(pay_total_money) / 100 AS sum_total_pay,
+					sum(cash_money+cash_money1) / 100 AS sum_total_cash,
+					sum(ddz_choushui+huanle_ddz_choushui+laizi_ddz_choushui+zjh_choushui+niuniu_choushui+qiangzhuang_niuniu_choushui+buyu_choushui+fruit_money+bao_money+fruit_compare_money+zjh_bairen_choushui + lhp_choushui + malai_niuniu_choushui + sangong_choushui + hongheidz_choushui)/100 as sum_total_choushui,
+					0 as sum_total_pcc
+				FROM
+					CASINOBUSINESSSTATISTICS t
+				WHERE
+					statistics_date >= '$dateBegin'
+				AND statistics_date <= '$dateEnd'
+				GROUP BY
+					statistics_date";
+        $rows = clsUtility::getRows($dbName, $sql);
+
+        $retPay = [];
+        $retCash = [];
+        $retChoushui = [];
+        $retPcc = [];
+
+        if (!empty($rows)) {
+            foreach ($rows as $row) {
+                $retPay[] = ["tm" => $row['statistics_date'], "ct" => intval($row['sum_total_pay'])];
+                $retCash[] = ["tm" => $row['statistics_date'], "ct" => intval($row['sum_total_cash'])];
+                $retChoushui[] = ["tm" => $row['statistics_date'], "ct" => intval($row['sum_total_choushui'])];
+                $retPcc[] = ["tm" => $row['statistics_date'], "ct" => (intval($row['sum_total_pay']) - intval($row['sum_total_cash']) - intval($row['sum_total_choushui']))];
+            }
+        }
+        $data = [
+            'sumTotalPay' => $retPay,
+            'sumTotalCash' => $retCash,
+            'sumTotalChoushui' => $retChoushui,
+            'sumTotalPcc' => $retPcc,
+            'minTime' => strtotime($dateBegin),
+            'maxTime' => strtotime($dateEnd)
+        ];
+
+        return ERR_OK;
+    }
+
+    /**
+     * 渠道统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function channelStatisticsGet($param, &$data) {
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $noChannelList = noChannelList;
+        $channelList = channelList;
+
+        $data[] = [
+            'name' => '全部',
+            'newRegist' => self::getTotalNewRegistration(-1, $dateBegin, $dateEnd),
+            'totalPay' => self::getTotalPay(-1, $dateBegin, $dateEnd),
+            'totalCash' => self::getTotalCash(-1, $dateBegin, $dateEnd),
+            'totalCashChoushui' => self::getTotalCashChoushui(-1, $dateBegin, $dateEnd),
+            'totalChoushui' => self::getTotalChoushui(-1, $dateBegin, $dateEnd)
+        ];
+
+        $data[] = [
+            'name' => '集集棋牌',
+            'newRegist' => self::getTotalNewRegistration(0, $dateBegin, $dateEnd),
+            'totalPay' => self::getTotalPay(0, $dateBegin, $dateEnd),
+            'totalCash' => self::getTotalCash(0, $dateBegin, $dateEnd),
+            'totalCashChoushui' => self::getTotalCashChoushui(0, $dateBegin, $dateEnd),
+            'totalChoushui' => self::getTotalChoushui(0, $dateBegin, $dateEnd)
+        ];
+
+        foreach ($channelList as $k => $v) {
+            if (isset($noChannelList[$k])) {
+                continue;
+            }
+
+            $data[] = [
+                'name' => '集集棋牌',
+                'newRegist' => self::getTotalNewRegistration($k, $dateBegin, $dateEnd),
+                'totalPay' => self::getTotalPay($k, $dateBegin, $dateEnd),
+                'totalCash' => self::getTotalCash($k, $dateBegin, $dateEnd),
+                'totalCashChoushui' => self::getTotalCashChoushui($k, $dateBegin, $dateEnd),
+                'totalChoushui' => self::getTotalChoushui($k, $dateBegin, $dateEnd)
+            ];
+        }
+
+        // 进行排序
+        usort($data, ['daoAdmin', 'sortByNewRegist']);
+
+        return ERR_OK;
+    }
+
+    /**
+     * 捕鱼运营总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function fishMasterGet($param, &$data) {
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $dbName = 'casinostatdb';
+        $sql = 'select * from CASINOFISHSTAT where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $sql .= ' limit ' . maxQueryNum;
+        $pdoParam = [
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd
+        ];
+        $rows = clsUtility::getRows($dbName, $sql, $pdoParam);
+        if (!empty($rows)) {
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    // ====
+
+    /**
+     * @param $channelId
+     * @param $dateBegin
+     * @param $dateEnd
+     * @return int
+     */
+    public static function getTotalNewRegistration($channelId, $dateBegin, $dateEnd) {
+        $finalRet = 0;
+
+        $noChannelList = noChannelList;
+
+        $dbName = 'casinostatdb';
+        $sql = 'select sum(new_device_count) as xx from casinobusinessstatistics';
+        $sql .= ' where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($channelId >= 0) {
+            $sql .= ' and channelid = :channelid';
+            $pdoParam[':channelid'] = $channelId;
+        } else {
+            if (!empty($noChannelList)) {
+                foreach ($noChannelList as $k => $v) {
+                    $sql .= ' and channelid != ' . $k;
+                }
+            }
+        }
+
+        $row = clsUtility::getRow($dbName, $sql, $pdoParam);
+        if (!empty($row)) {
+            $finalRet = intval($row['xx']);
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRow return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * @param $channelId
+     * @param $dateBegin
+     * @param $dateEnd
+     * @return string
+     */
+    public static function getTotalPay($channelId, $dateBegin, $dateEnd) {
+        $finalRet = '0.00';
+
+        $noChannelList = noChannelList;
+
+        $dbName = 'casinostatdb';
+        $sql = 'select sum(pay_total_money) as xx from casinobusinessstatistics';
+        $sql .= ' where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($channelId >= 0) {
+            $sql .= ' and channelid = :channelid';
+            $pdoParam[':channelid'] = $channelId;
+        } else {
+            if (!empty($noChannelList)) {
+                foreach ($noChannelList as $k => $v) {
+                    $sql .= ' and channelid != ' . $k;
+                }
+            }
+        }
+
+        $row = clsUtility::getRow($dbName, $sql, $pdoParam);
+        if (!empty($row)) {
+            $finalRet = number_format($row['xx'] / 100, 2, '.', ' ');
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRow return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * @param $channelId
+     * @param $dateBegin
+     * @param $dateEnd
+     * @return string
+     */
+    public static function getTotalCash($channelId, $dateBegin, $dateEnd) {
+        $finalRet = '0.00';
+
+        $noChannelList = noChannelList;
+
+        $dbName = 'casinostatdb';
+        $sql = 'select sum(cash_money+cash_money1) as xx from casinobusinessstatistics';
+        $sql .= ' where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($channelId >= 0) {
+            $sql .= ' and channelid = :channelid';
+            $pdoParam[':channelid'] = $channelId;
+        } else {
+            if (!empty($noChannelList)) {
+                foreach ($noChannelList as $k => $v) {
+                    $sql .= ' and channelid != ' . $k;
+                }
+            }
+        }
+
+        $row = clsUtility::getRow($dbName, $sql, $pdoParam);
+        if (!empty($row)) {
+            $finalRet = number_format($row['xx'] / 100, 2, '.', ' ');
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRow return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * @param $channelId
+     * @param $dateBegin
+     * @param $dateEnd
+     * @return string
+     */
+    public static function getTotalCashChoushui($channelId, $dateBegin, $dateEnd) {
+        $finalRet = '0.00';
+
+        $noChannelList = noChannelList;
+
+        $dbName = 'casinostatdb';
+        $sql = 'select sum(choushui_money+choushui_money1) as xx from casinobusinessstatistics';
+        $sql .= ' where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($channelId >= 0) {
+            $sql .= ' and channelid = :channelid';
+            $pdoParam[':channelid'] = $channelId;
+        } else {
+            if (!empty($noChannelList)) {
+                foreach ($noChannelList as $k => $v) {
+                    $sql .= ' and channelid != ' . $k;
+                }
+            }
+        }
+
+        $row = clsUtility::getRow($dbName, $sql, $pdoParam);
+        if (!empty($row)) {
+            $finalRet = number_format($row['xx'] / 100, 2, '.', ' ');
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRow return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * @param $channelId
+     * @param $dateBegin
+     * @param $dateEnd
+     * @return string
+     */
+    public static function getTotalChoushui($channelId, $dateBegin, $dateEnd) {
+        $finalRet = '0.00';
+
+        $noChannelList = noChannelList;
+
+        $dbName = 'casinostatdb';
+        $sql = 'sum(ddz_choushui+huanle_ddz_choushui+laizi_ddz_choushui+zjh_choushui+niuniu_choushui+qiangzhuang_niuniu_choushui+buyu_choushui+fruit_money+bao_money+fruit_compare_money+zjh_bairen_choushui+lhp_choushui+malai_niuniu_choushui+sangong_choushui+hongheidz_choushui) as xx';
+        $sql .= ' where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+
+        if ($channelId >= 0) {
+            $sql .= ' and channelid = :channelid';
+            $pdoParam[':channelid'] = $channelId;
+        } else {
+            if (!empty($noChannelList)) {
+                foreach ($noChannelList as $k => $v) {
+                    $sql .= ' and channelid != ' . $k;
+                }
+            }
+        }
+
+        $row = clsUtility::getRow($dbName, $sql, $pdoParam);
+        if (!empty($row)) {
+            $finalRet = number_format($row['xx'] / 100, 2, '.', ' ');
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRow return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return $finalRet;
+    }
+
+    /**
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    public static function sortByNewRegist($a, $b) {
+        if ($a['new_regist'] == $b['new_regist']) {
+            return 0;
+        }
+
+        return $a['new_regist'] > $b['new_regist'] ? -1 : 1;
+    }
 }
