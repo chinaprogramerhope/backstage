@@ -16,6 +16,7 @@ const maxQueryNumTest = 3; // 最大查询数量 测试, 目前没分页, 数据
  * 公共常量
  */
 const daySeconds = 86400; // 1天秒数
+const weekSeconds = 604800; // 1周秒数
 const monthSeconds = 2592000; // 30天秒数
 
 /**

@@ -258,6 +258,66 @@ class clsAdmin {
         return daoAdmin::fishMasterGet($param, $data);
     }
 
+    /**
+     * 电玩城运营总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameCityMasterGet($param, &$data) {
+        return daoAdmin::gameCityMasterGet($param, $data);
+    }
+
+    /**
+     * 当前在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineNumCurrentGet($param, &$data) {
+        return daoAdmin::onlineNumCurrentGet($param, $data);
+    }
+
+    /**
+     * 历史在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineNumHistoryGet($param, &$data) {
+        return daoAdmin::onlineNumHistoryGet($param, $data);
+    }
+
+    /**
+     * 捕鱼历史在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function fishOnlineNumHistoryGet($param, &$data) {
+        return daoAdmin::fishOnlineNumHistoryGet($param, $data);
+    }
+
+    /**
+     * 金豆和宝箱变化表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function goldAndSafeBoxGet($param, &$data) {
+        return daoAdmin::goldAndSafeBoxGet($param, $data);
+    }
+
+    /**
+     * 充值数据统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function rechargeStatisticsGet($param, &$data) {
+        return daoAdmin::rechargeStatisticsGet($param, $data);
+    }
+
     // ====
 
     /**

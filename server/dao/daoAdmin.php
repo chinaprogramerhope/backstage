@@ -550,7 +550,7 @@ class daoAdmin {
         $dateEnd = $param['dateRange']['dateEnd'];
 
         $dbName = 'casinostatdb';
-        $sql = 'select * from CASINOFISHSTAT where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
+        $sql = 'select * from casinofishstat where statistics_date >= :dateBegin and statistics_date <= :dateEnd';
         $sql .= ' limit ' . maxQueryNum;
         $pdoParam = [
             ':dateBegin' => $dateBegin,
@@ -563,6 +563,412 @@ class daoAdmin {
             clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
                 . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
         }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 电玩城运营总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function gameCityMasterGet($param, &$data) {
+        $dateBegin = $param['dateRange']['dateBegin'];
+        $dateEnd = $param['dateRange']['dateEnd'];
+
+        $dbName = 'casinostatdb';
+        $sql = 'select * from casinovideoarcadestat where statistics_date >= :dateBegin and statistics_date<= :dateEnd';
+        $sql .= ' limit ' . maxQueryNum;
+        $pdoParam = [':dateBegin' => $dateBegin, ':dateEnd' => $dateEnd];
+        $rows = clsUtility::getRows($dbName, $sql, $pdoParam);
+        if (!empty($rows)) {
+            $data = $rows;
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam = ' . json_encode($pdoParam));
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 当前在线人数 - 获取 todo
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineNumCurrentGet($param, &$data) {
+        $gameId = $param['gameId'];
+
+        if (in_array($gameId, [
+            '0',    // 全部
+            '1',
+            '5',
+            '17',    // 牛牛
+            "18",
+            "20",    // 看牌抢庄牛牛
+            "21",    // 百人牛牛
+            "49",    // 三张牌
+            "52",    // 百人三张
+            "54",    // 红黑大战
+            "99",
+            "145",
+            "146",
+            "148",
+            "149",
+            "177",
+            "178",
+            "289",    // 电玩城
+            "322",    // 连环炮
+            '23',
+            '24'
+        ])) {
+            $data = self::getOnlineMsg1($gameId);
+        }
+
+        if (in_array($gameId, [
+            "97",    // 普通斗地主
+            "98",    // 欢乐斗地主
+            "101"    // 癞子斗地主
+        ])) {
+            $data = self::getOnlineMsg4($gameId);
+        }
+        if (in_array($gameId, [
+            '257'
+        ])) {
+
+            $data = self::getOnlineMsg3($gameId);
+        }
+
+        if (in_array($gameId, [
+            '193' // 捕鱼
+        ])) {
+            $data = self::getOnlineMsg5($gameId);
+        }
+        if (in_array($gameId, [
+            '100'
+        ])) {
+            $data = self::getOnlineMsg2($gameId);
+        }
+
+        if (in_array($gameId, [
+            '289'    // 电玩城
+        ])) {
+            $data = self::getOnlineMsg20($gameId);
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 历史在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function onlineNumHistoryGet($param, &$data) {
+        $gameId = $param['gameId'];
+        $selectDate = $param['selectDate'];
+        $selectTs = strtotime($selectDate);
+
+        if (in_array($gameId, ['0', '1', '5', '17', "18", "20", "21", "23", "24", "49", "51", "52", "54", "97", "98", "101", "145", "146", "148", "149", "177", "178", "193", "257", "289"])) {
+            $tableName = 'casinodetailonlinestatistics';
+            $data = self::getHisMsg($gameId, $selectTs, $tableName);
+        }
+
+        if (in_array($gameId, ['100'])) {
+            $tableName = 'casinoonlinetournamentgamestatistics';
+            $data = self::getHisMsg($gameId, $selectTs, $tableName);
+        }
+
+        return ERR_OK;
+    }
+
+    /**
+     * 捕鱼历史在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function fishOnlineNumHistoryGet($param, &$data) {
+        $gameId = $param['gameId'];
+        $selectDate = $param['selectDate'];
+
+        $dateBegin = $selectDate;
+        $dateEnd = date($selectDate, strtotime($selectDate) + daySeconds);
+
+        $dbName = 'casinoglobalinfo';
+
+        $sql = 'select substr(statistics_time,12,5) as tm ,sum(roomusercount) as ct from casinodetailonlinestatistics';
+        $sql .= ' where statistics_time >= :dateBegin and statistics_time < :dateEnd';
+        $sql .= ' and roomid = :roomId and gametype = :gameId';
+        $pdoParam1TimesRoom = [
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd,
+            ':roomId' => 1,
+            ':gameId' => 193
+        ];
+
+        $pdoParam30TimesRoom = [
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd,
+            ':roomId' => 2,
+            ':gameId' => 193
+        ];
+
+        $pdoParam80TimesRoom = [
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd,
+            ':roomId' => 3,
+            ':gameId' => 193
+        ];
+
+        $pdoParam300TimesRoom = [
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd,
+            ':roomId' => 4,
+            ':gameId' => 193
+        ];
+
+        $gameServerIp['193'] = '';
+
+        if ($gameId !== -1) {
+            $sql .= ' and gameserverip = :gameServerIp';
+            $pdoParam1TimesRoom[':gameServerIp'] = $gameServerIp['193'];
+            $pdoParam30TimesRoom[':gameServerIp'] = $gameServerIp['193'];
+            $pdoParam80TimesRoom[':gameServerIp'] = $gameServerIp['193'];
+            $pdoParam300TimesRoom[':gameServerIp'] = $gameServerIp['193'];
+        }
+
+        $sql .= ' group by statistics_time limit ' . maxQueryNum;
+
+        $rows1TimesRoom = clsUtility::getRows($dbName, $sql, $pdoParam1TimesRoom);
+        if (empty($rows1TimesRoom)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam1TimesRoom = ' . json_encode($pdoParam1TimesRoom));
+        }
+
+        $rows30TimesRoom = clsUtility::getRows($dbName, $sql, $pdoParam30TimesRoom);
+        if (empty($rows1TimesRoom)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam30TimesRoom = ' . json_encode($pdoParam30TimesRoom));
+        }
+
+        $rows80TimesRoom = clsUtility::getRows($dbName, $sql, $pdoParam80TimesRoom);
+        if (empty($rows1TimesRoom)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam80TimesRoom = ' . json_encode($pdoParam80TimesRoom));
+        }
+
+        $rows300TimesRoom = clsUtility::getRows($dbName, $sql, $pdoParam300TimesRoom);
+        if (empty($rows300TimesRoom)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoParam300TimesRoom = ' . json_encode($pdoParam300TimesRoom));
+        }
+
+        $data = [
+            '1TimesRoom' => $rows1TimesRoom,
+            '30TimesRoom' => $rows30TimesRoom,
+            '80TimesRoom' => $rows80TimesRoom,
+            '300TimesRoom' => $rows300TimesRoom
+        ];
+
+        return ERR_OK;
+    }
+
+    /**
+     * 金豆和宝箱变化表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function goldAndSafeBoxGet($param, &$data) {
+        $gameId = $param['gameId'];
+        $selectTs = strtotime($param['selectDate']);
+
+        $dbName = 'casinostatdb';
+
+        // 今天
+        $dateTodayBegin = date('Y-m-d', $selectTs);
+        $dateTodayEnd = date('Y-m-d', $selectTs + daySeconds);
+
+        // 昨天
+        $dateYesterdayBegin = date('Y-m-d', $selectTs - daySeconds);
+        $dateYesterdayEnd = date('Y-m-d', $selectTs);
+
+        // 上周的今天
+        $dateWeekBegin = date('Y-m-d', $selectTs - weekSeconds);
+        $dateWeekEnd = date('Y-m-d', $selectTs - weekSeconds + daySeconds);
+
+        // 上月的今天
+        $dateMonthBegin = date('Y-m-d', $selectTs - monthSeconds);
+        $dateMonthEnd = date('Y-m-d', $selectTs - monthSeconds + daySeconds);
+
+        $sql = 'select substr(stattime,12,5) as tm ,sumchips/100 as sumchips,sumcofferchips/100 as sumcofferchips from casinosumchiphistory';
+        $sql .= ' where statistics_time >= :dateBegin and statistics_time < :dateEnd';
+        $sql .= ' limit ' . maxQueryNum;
+
+        $pdoToday = [
+            ':dateBegin' => $dateTodayBegin,
+            ':dateEnd' => $dateTodayEnd
+        ];
+
+        $pdoYesterday = [
+            ':dateBegin' => $dateYesterdayBegin,
+            ':dateEnd' => $dateYesterdayEnd
+        ];
+
+        $pdoWeek = [
+            ':dateBegin' => $dateWeekBegin,
+            ':dateEnd' => $dateWeekEnd
+        ];
+
+        $pdoMonth = [
+            ':dateBegin' => $dateMonthBegin,
+            ':dateEnd' => $dateMonthEnd
+        ];
+
+        if ($gameId !== -1) {
+            $sql .= ' and gametype = :gameId';
+
+            $pdoToday[':gameId'] = $gameId;
+            $pdoYesterday[':gameId'] = $gameId;
+            $pdoWeek[':gameId'] = $gameId;
+            $pdoMonth[':gameId'] = $gameId;
+        }
+
+        $rowsToday = clsUtility::getRows($dbName, $sql, $pdoToday);
+        if (empty($rowsToday)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoToday = ' . json_encode($pdoToday));
+        }
+
+        $rowsYesterday = clsUtility::getRows($dbName, $sql, $pdoYesterday);
+        if (empty($rowsYesterday)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoYesterday = ' . json_encode($pdoYesterday));
+        }
+
+        $rowsWeek = clsUtility::getRows($dbName, $sql, $pdoWeek);
+        if (empty($rowsWeek)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoWeek = ' . json_encode($pdoWeek));
+        }
+
+        $rowsMonth = clsUtility::getRows($dbName, $sql, $pdoMonth);
+        if (empty($rowsMonth)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoMonth = ' . json_encode($pdoMonth));
+        }
+
+        $data = [
+            'today' => $rowsToday,
+            'yesterday' => $rowsYesterday,
+            'week' => $rowsWeek,
+            'month' => $rowsMonth
+        ];
+
+        return ERR_OK;
+    }
+
+    /**
+     * 充值数据统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public static function rechargeStatisticsGet($param, &$data) {
+        $channelId = $param['channelId'];
+        $selectDate = $param['selectDate'];
+
+        $dbName = 'db_smc';
+
+        $data = [
+            'pay_total_num' => [
+                'labels' => [],
+                'datasets' => [
+                    [
+                        'label' => '今日充值',
+                        'data' => [],
+                        'pointStrokeColor' => '#fff',
+                        'fill' => false,
+                        'borderColor' => 'green',
+                        'spanGaps' => true,
+                        'lineTension' => 0.1
+                    ],
+                    [
+                        'label' => '昨日充值',
+                        'data' => [],
+                        'pointStrokeColor' => '#fff',
+                        'fill' => false,
+                        'borderColor' => 'red',
+                        'spanGaps' => true,
+                        'lineTension' => 0.1
+                    ],
+                    [
+                        'label' => '前日充值',
+                        'data' => [],
+                        'pointStrokeColor' => '#fff',
+                        'fill' => false,
+                        'borderColor' => 'blue',
+                        'spanGaps' => true,
+                        'lineTension' => 0.1
+                    ],
+                    [
+                        'label' => '上周充值',
+                        'data' => [],
+                        'pointStrokeColor' => '#fff',
+                        'fill' => false,
+                        'borderColor' => 'yellow',
+                        'spanGaps' => true,
+                        'lineTension' => 0.1
+                    ]
+                ]
+            ]
+        ];
+
+        $sql = 'select date, pay_total_num from smc_log_order';
+        $sql .= ' where channel_id = :channel_id and date1 = :date1';
+        $sql .= ' order by date limit ' . maxQueryNum;
+
+        // 昨日
+        $yesterdayTotalMoney = 0;
+        $pdoYesterday = [
+            ':channel_id' => $channelId,
+            ':date1' => date('Ymd', strtotime($selectDate) - daySeconds)
+        ];
+        $rows = clsUtility::getRows($dbName, $sql, $pdoYesterday);
+        if (!empty($rows)) {
+
+        } else {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sql = ' . $sql . ', pdoYesterday = ' . json_encode($pdoYesterday));
+        }
+
+        // 今日
+        $todayTotalMoney = 0;
+        $pdoToday = [
+            ':channel_id' => $channelId,
+            ':date1' => $selectDate
+        ];
+        $rows = clsUtility::getRows($dbName, $sql, $pdoToday);
+
+        // 前日
+        $dayBeforeYesterdayTotalMoney = 0;
+        $pdoDayBeforeYesterday = [
+            ':channel_id' => $channelId,
+            ':date1' => date('Ymd', strtotime($selectDate) - daySeconds * 2)
+        ];
+        $rows = clsUtility::getRows($dbName, $sql, $pdoDayBeforeYesterday);
+
+        // 上周
+        $lastWeekTotalMoney = 0;
+        $pdoLastWeek = [
+            ':channel_id' => $channelId,
+            ':date1' => date('Ymd', strtotime($selectDate) - weekSeconds)
+        ];
+        $rows = clsUtility::getRows($dbName, $sql, $pdoLastWeek);
 
         return ERR_OK;
     }
@@ -770,5 +1176,149 @@ class daoAdmin {
         }
 
         return $a['new_regist'] > $b['new_regist'] ? -1 : 1;
+    }
+
+    public static function getOnlineMsg1($gameId) {
+
+    }
+
+    public static function getOnlineMsg2($gameId) {
+
+    }
+
+    public static function getOnlineMsg3($gameId) {
+
+    }
+
+    public static function getOnlineMsg4($gameId) {
+
+    }
+
+    public static function getOnlineMsg5($gameId) {
+
+    }
+
+    public static function getOnlineMsg20($gameId) {
+
+    }
+
+    /**
+     * @param $gameId
+     * @param $selectTs
+     * @param $tableName
+     * @return array
+     */
+    public static function getHisMsg($gameId, $selectTs, $tableName) {
+        $dbName = 'casinoglobalinfo';
+
+        // 今天
+        $dateTodayBegin = date('Y-m-d', $selectTs);
+        $dateTodayEnd = date('Y-m-d', $selectTs + daySeconds);
+
+        // 昨天
+        $dateYesterdayBegin = date('Y-m-d', $selectTs - daySeconds);
+        $dateYesterdayEnd = date('Y-m-d', $selectTs);
+
+        // 上周的今天
+        $dateWeekBegin = date('Y-m-d', $selectTs - weekSeconds);
+        $dateWeekEnd = date('Y-m-d', $selectTs - weekSeconds + daySeconds);
+
+        // 上月的今天
+        $dateMonthBegin = date('Y-m-d', $selectTs - monthSeconds);
+        $dateMonthEnd = date('Y-m-d', $selectTs - monthSeconds + daySeconds);
+
+        $sql = 'select substr(statistics_time,12,5) as tm ,sum(roomusercount) as ct from ' . $tableName;
+
+        $sqlToday = $sql . ' where statistics_time >= :dateTodayBegin and statistics_time < :dateTodayEnd';
+        $pdoToday = [
+            ':dateTodayBegin' => $dateTodayBegin,
+            ':dateTodayEnd' => $dateTodayEnd
+        ];
+
+        $sqlYesterday = $sql . ' where statistics_time >= :dateYesterdayBegin and statistics_time < :dateYesterdayEnd';
+        $pdoYesterday = [
+            ':dateYesterdayBegin' => $dateYesterdayBegin,
+            ':dateYesterdayEnd' => $dateYesterdayEnd
+        ];
+
+        $sqlWeek = $sql . ' where statistics_time >= :dateWeekBegin and statistics_time < :dateWeekEnd';
+        $pdoWeek = [
+            ':dateWeekBegin' => $dateWeekBegin,
+            ':dateWeekEnd' => $dateWeekEnd
+        ];
+
+        $sqlMonth = $sql . ' where statistics_time >= :dateMonthBegin and statistics_time < :dateMonthEnd';
+        $pdoMonth = [
+            ':dateMonthBegin' => $dateMonthBegin,
+            ':dateMonthEnd' => $dateMonthEnd
+        ];
+
+        if ($gameId !== -1) {
+            $sqlToday .= ' and gametype = :gameId';
+            $pdoToday[':gameId'] = $gameId;
+
+            $sqlYesterday .= ' and gametype = :gameId';
+            $pdoYesterday[':gameId'] = $gameId;
+
+            $sqlWeek .= ' and gametype = :gameId';
+            $pdoWeek[':gameId'] = $gameId;
+
+            $sqlMonth .= ' and gametype = :gameId';
+            $pdoMonth[':gameId'] = $gameId;
+        }
+
+        $sqlToday .= ' group by statistics_time limit ' . maxQueryNum;
+        $sqlYesterday .= ' group by statistics_time limit ' . maxQueryNum;
+        $sqlWeek .= ' group by statistics_time limit ' . maxQueryNum;
+        $sqlMonth .= ' group by statistics_time limit ' . maxQueryNum;
+
+        $rowsToday = clsUtility::getRows($dbName, $sqlToday, $pdoToday);
+        if (empty($rowsToday)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sqlToday = ' . $sqlToday . ', pdoToday = ' . json_encode($pdoToday));
+        }
+
+        $rowsYesterday = clsUtility::getRows($dbName, $sqlYesterday, $pdoYesterday);
+        if (empty($rowsYesterday)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sqlYesterday = ' . $sqlToday . ', pdoYesterday = ' . json_encode($pdoYesterday));
+        }
+
+        $rowsWeek = clsUtility::getRows($dbName, $sqlWeek, $pdoWeek);
+        if (empty($rowsWeek)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sqlWeek = ' . $sqlWeek . ', pdoWeek = ' . json_encode($pdoWeek));
+        }
+
+        $rowsMonth = clsUtility::getRows($dbName, $sqlMonth, $pdoMonth);
+        if (empty($rowsMonth)) {
+            clsLog::info(__METHOD__ . ', ' . __LINE__ . ', clsUtility::getRows return empty, dbName = '
+                . $dbName . ', sqlMonth = ' . $sqlMonth . ', pdoMonth = ' . json_encode($pdoMonth));
+        }
+
+        return [
+            'today' => $rowsToday,
+            'yesterday' => $rowsYesterday,
+            'week' => $rowsWeek,
+            'month' => $rowsMonth
+        ];
+    }
+
+    /**
+     * 处理当某一天的某个小时没有收入时的状况，手动插入一条数据
+     * @param array $queryArr
+     */
+    private static function dealWithDateTotalIncome(&$queryArr) {
+        $lastDateTime = 0;
+        for ($i = 0; $i < count($queryArr); $i++) {
+            $dateTime = strtotime($queryArr[$i] ['date'] . '0000');
+            if ($lastDateTime != 0 && $lastDateTime != $dateTime - 3600) {
+                // 缺少这个记录，手动插入一条
+                $dateTime = $lastDateTime + 3600;
+                array_splice($queryArr, $i, 0, array(array('date' => date('YmdH', $dateTime), 'pay_total_num' => 0)));
+            }
+
+            $lastDateTime = $dateTime;
+        }
     }
 }

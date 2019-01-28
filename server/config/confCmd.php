@@ -328,4 +328,16 @@ const cmdArr = [
     704 => ['svc' => 'svcOperationReport', 'func' => 'channelStatisticsGet'], // 渠道统计 - 获取
 
     705 => ['svc' => 'svcOperationReport', 'func' => 'fishMasterGet'], // 捕鱼运营总表 - 获取
+
+    706 => ['svc' => 'svcOperationReport', 'func' => 'gameCityMasterGet'], // 电玩城运营总表 - 获取
+
+    707 => ['svc' => 'svcOperationReport', 'func' => 'onlineNumCurrentGet'], // 当前在线人数 - 获取
+
+    708 => ['svc' => 'svcOperationReport', 'func' => 'onlineNumHistoryGet'], // 历史在线人数 - 获取
+
+    709 => ['svc' => 'svcOperationReport', 'func' => 'fishOnlineNumHistoryGet'], // 捕鱼历史在线人数 - 获取
+
+    710 => ['svc' => 'svcOperationReport', 'func' => 'goldAndSafeBoxGet'], // 金豆和宝箱变化表 - 获取
+
+    711 => ['svc' => 'svcOperationReport', 'func' => 'rechargeStatisticsGet'], // 充值数据统计 - 获取
 ];

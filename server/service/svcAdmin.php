@@ -335,4 +335,104 @@ class svcAdmin {
         $param['dateRange'] = clsUtility::getFormatDate($param);
         return clsAdmin::fishMasterGet($param, $data);
     }
+
+    /**
+     * 电玩城运营总表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function gameCityMasterGet($param, &$data) {
+        $param['dateRange'] = clsUtility::getFormatDate($param);
+        return clsAdmin::gameCityMasterGet($param, $data);
+    }
+
+    /**
+     * 当前在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineNumCurrentGet($param, &$data) {
+        if (!isset($param['gameId']) || is_numeric($param['gameId'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['gameId'] = intval($param['gameId']);
+
+        return clsAdmin::onlineNumCurrentGet($param, $data);
+    }
+
+    /**
+     * 历史在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function onlineNumHistoryGet($param, &$data) {
+        if (!isset($param['gameId']) || is_numeric($param['gameId'])
+            || !isset($param['selectDate']) || empty($param['selectDate'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['gameId'] = intval($param['gameId']);
+
+        return clsAdmin::onlineNumHistoryGet($param, $data);
+    }
+
+    /**
+     * 捕鱼历史在线人数 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function fishOnlineNumHistoryGet($param, &$data) {
+        if (!isset($param['gameId']) || is_numeric($param['gameId'])
+            || !isset($param['selectDate']) || empty($param['selectDate'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['gameId'] = intval($param['gameId']);
+
+        return clsAdmin::fishOnlineNumHistoryGet($param, $data);
+    }
+
+    /**
+     * 金豆和宝箱变化表 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function goldAndSafeBoxGet($param, &$data) {
+        if (!isset($param['gameId']) || is_numeric($param['gameId'])
+            || !isset($param['selectDate']) || empty($param['selectDate'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['gameId'] = intval($param['gameId']);
+
+        return clsAdmin::goldAndSafeBoxGet($param, $data);
+    }
+
+    /**
+     * 充值数据统计 - 获取
+     * @param $param
+     * @param $data
+     * @return int
+     */
+    public function rechargeStatisticsGet($param, &$data) {
+        if (!isset($param['channelId']) || is_numeric($param['channelId'])
+            || !isset($param['selectDate']) || empty($param['selectDate'])) {
+            clsLog::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, param = ' . json_encode($param));
+            return ERR_INVALID_PARAM;
+        }
+
+        $param['channelId'] = intval($param['channelId']);
+
+        return clsAdmin::rechargeStatisticsGet($param, $data);
+    }
 }
